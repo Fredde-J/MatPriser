@@ -5,6 +5,7 @@ module.exports = class WillysScrubber extends Scrubber {
 
   static translateSchema = {
     name: x => x.name,
+    articleNumber: x => x.code,
     brand: x => x.manufacturer,
     imageUrl: x => x.image && x.image.url,
     unitPrice: x => x.priceValue,
