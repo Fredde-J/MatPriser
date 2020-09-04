@@ -23,3 +23,18 @@ app.get('/test', (req, res) => {
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })
+
+var mysql = require("mysql");
+
+var con = mysql.createConnection({
+  host: "localhost",
+  user: "root",
+  password: "",
+  database: "mat_pris",
+});
+
+con.connect((err) => {
+  if (err) throw err;
+  console.log("Connected!");
+});
+
