@@ -1,13 +1,17 @@
 const fs = require("fs");
 const WillysHarvester = require("./WillysHarvester");
 const WillysScrubber = require("./WillysScrubber");
+const CoopHarvester = require("./CoopHarvester");
+const CoopScrubber = require("./CoopScrubber");
 
 module.exports = class TestHarvesting {
   static async test() {
     // write to file for now (goal: write to DB instead)
-/*     function writeToFile(fileName, data) {
+    /*
+    function writeToFile(fileName, data) {
       fs.writeFileSync(fileName, JSON.stringify(data, null, "  "), "utf-8");
-    } */
+    } 
+    */
 
     let categories = await WillysHarvester.getCategories();
     let frystFagel = await WillysHarvester.getProducts(
@@ -16,16 +20,17 @@ module.exports = class TestHarvesting {
       // 'Kott-chark-och-fagel'
     );
     
+    let coopBanan = await CoopHarvester.getProducts(32490);
 
-/*     writeToFile("willys-categories.json", categories);
-    writeToFile("willys-fryst-fagel.json", frystFagel);
+    //writeToFile("categories.json", categories, 'utf-8');
+    //writeToFile("coop.json", coopBanan, 'utf-8');
 
     // Test of scrubber
-    writeToFile(
+    /*writeToFile(
       "willys-fryst-fagel-scrubbed.json",
       await WillysScrubber.scrubAll(frystFagel)
     ); */
-
-    return await WillysScrubber.scrubAll(frystFagel);
+    //return await WillysScrubber.scrubAll(frystFagel);
+    return await CoopScrubber.scrubAll(coopBanan);
   }
 };
