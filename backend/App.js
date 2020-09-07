@@ -49,6 +49,28 @@ app.get("/rest/products", async (req, res) => {
 
 });
 
+app.get("/rest/categories", async (req, res) => {
+  con.query("SELECT * FROM category", (err, rows, fields) => {
+    if (!err) {
+      res.send(rows);
+    } else {
+      console.log(err);
+    }
+  
+  });
+});
+
+app.get("/rest/stores", async (req, res) => {
+  con.query("SELECT * FROM store", (err, rows, fields) => {
+    if (!err) {
+      res.send(rows);
+    } else {
+      console.log(err);
+    }
+  });
+});
+
+
 app.post("/rest/products", async (req, res) => {
   console.log(req.body);
   const values = {
