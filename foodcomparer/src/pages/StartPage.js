@@ -5,22 +5,45 @@ import {
     CardTitle, CardSubtitle
   } from 'reactstrap';
 
+  import milk from '../images/milk.png';
+  import '../css/StartPage.css'
+
 
 const StartPage = ()=>{
     return (
         <>
-         <Card>
+
+        <h3>Populära kategorier</h3>
+<div className="row">
+        <Card className="col-6">
         <CardBody>
-          <CardTitle>Card title</CardTitle>
-          <CardSubtitle>Card subtitle</CardSubtitle>
+          <CardTitle>Mjölk</CardTitle>
         </CardBody>
-        <img width="100%" src="/assets/318x180.svg" alt="Card image cap" />
-        <CardBody>
-          <CardText>Some quick example text to build on the card title and make up the bulk of the card's content.</CardText>
-          <CardLink href="#">Card Link</CardLink>
-          <CardLink href="#">Another Link</CardLink>
-        </CardBody>
+        <img height="150vh" width="150vw" src={milk} alt="Card image cap" />
       </Card>
+
+      <Card className="col-6">
+        <CardBody>
+          <CardTitle>Mjölk</CardTitle>
+        </CardBody>
+        <img height="150vh" width="150vw" src={milk} alt="Card image cap" />
+      </Card>
+    
+
+      <Card className="col-6">
+        <CardBody>
+          <CardTitle>Mjölk</CardTitle>
+        </CardBody>
+        <img height="150vh" width="150vw" src={milk} alt="Card image cap" />
+      </Card>
+
+      <Card className="col-6">
+        <CardBody>
+          <CardTitle>Mjölk</CardTitle>
+        </CardBody>
+        <img height="150vh" width="150vw" src={milk} alt="Card image cap" />
+      </Card>
+      </div>
         </>
         )
 }
