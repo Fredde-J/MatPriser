@@ -1,0 +1,22 @@
+.App {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+.App::before{
+  content: "";
+  background-image: url("background.jpg");
+  background-size: cover;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  opacity: 0.5;
+}
+h1 {
+  position: relative;
+  color: #ffffff;  
+  line-height: 0.9;
+  text-align: center;
+}
