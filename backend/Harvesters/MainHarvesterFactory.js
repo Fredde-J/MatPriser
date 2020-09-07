@@ -2,30 +2,46 @@ const fs = require("fs");
 const WillysHarvester = require("./WillysHarvester");
 const WillysScrubber = require("./WillysScrubber");
 
-module.exports = class TestHarvesting {
-  static async test() {
-    // write to file for now (goal: write to DB instead)
-/*     function writeToFile(fileName, data) {
-      fs.writeFileSync(fileName, JSON.stringify(data, null, "  "), "utf-8");
-    } */
+module.exports = class HarvesterFactory {
+  static async createProducts(storeId, categoryURL) {
+    let products;
+    let scrubbedProducts;
 
-    let categories = await WillysHarvester.getCategories();
-    let frystFagel = await WillysHarvester.getProducts(
-      "Kott-chark-och-fagel/Fagel/Fryst-fagel"
-      // note we can also fetch all Kott-chark-och-fagel at ONCE!
-      // 'Kott-chark-och-fagel'
-    );
-    
+    switch (storeId) {
+      case 0:
+        products = await WillysHarvester.getProducts(categoryURL);
+        scrubbedProducts = await WillysScrubber.scrubAll(products);
+        break;
+      case 1:
+        break;
+      case 2:
+        break;
+      default:
+        console.error(
+          "Out of bounds! Expected storeId between 0-2, recieved ",
+          storeId
+        );
+    }
 
-/*     writeToFile("willys-categories.json", categories);
-    writeToFile("willys-fryst-fagel.json", frystFagel);
-
-    // Test of scrubber
-    writeToFile(
-      "willys-fryst-fagel-scrubbed.json",
-      await WillysScrubber.scrubAll(frystFagel)
-    ); */
-
-    return await WillysScrubber.scrubAll(frystFagel);
+    return scrubbedProducts;
   }
+
+  static async createCategories(store) {
+    let categories;
+
+    switch (store.id) {
+      case 0:
+        break;
+      case 1:
+        break;
+      case 2:
+        break;
+      default:
+        console.error(
+          "Out of bounds! Expected storeId between o-2, recieved",
+          store.id
+        );
+    }
+  }
+  //mockup
 };
