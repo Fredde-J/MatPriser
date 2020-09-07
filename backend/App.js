@@ -39,7 +39,6 @@ con.connect((err) => {
 });
 
 app.get("/rest/products", async (req, res) => {
-    console.log("get works!");
     con.query("SELECT * FROM product", (err, rows, fields) => {
       if (!err) {
         res.send(rows);
