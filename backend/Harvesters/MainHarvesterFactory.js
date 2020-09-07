@@ -21,6 +21,8 @@ module.exports = class TestHarvesting {
     );
     
     let coopBanan = await CoopHarvester.getProducts(32490);
+    let coopApple = await CoopHarvester.getProducts(32486);
+    let coopFisk = await CoopHarvester.getProducts(14754);
 
     //writeToFile("categories.json", categories, 'utf-8');
     //writeToFile("coop.json", coopBanan, 'utf-8');
@@ -31,6 +33,6 @@ module.exports = class TestHarvesting {
       await WillysScrubber.scrubAll(frystFagel)
     ); */
     //return await WillysScrubber.scrubAll(frystFagel);
-    return await CoopScrubber.scrubAll(coopBanan);
+    return await CoopScrubber.scrubAll(coopApple);
   }
 };
