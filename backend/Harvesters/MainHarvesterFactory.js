@@ -1,6 +1,8 @@
 const fs = require("fs");
 const WillysHarvester = require("./WillysHarvester");
 const WillysScrubber = require("./WillysScrubber");
+const CoopHarvester = require("./CoopHarvester");
+const CoopScrubber = require("./CoopScrubber");
 
 module.exports = class HarvesterFactory {
   static async createProducts(storeId, categoryURL) {
@@ -8,11 +10,14 @@ module.exports = class HarvesterFactory {
     let scrubbedProducts;
 
     switch (storeId) {
+      // 0 - willys, 1 - coop, 2 - mathem
       case 0:
         products = await WillysHarvester.getProducts(categoryURL);
         scrubbedProducts = await WillysScrubber.scrubAll(products);
         break;
       case 1:
+        products = await CoopHarvester.getProducts(categoryURL);
+        scrubbedProducts = await CoopScrubber.scrubAll(products);
         break;
       case 2:
         break;
@@ -22,6 +27,8 @@ module.exports = class HarvesterFactory {
           storeId
         );
     }
+    /* let coopBanan = await CoopHarvester.getProducts(32490);
+    let coopFisk = await CoopHarvester.getProducts(14754); */
 
     return scrubbedProducts;
   }

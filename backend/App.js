@@ -18,7 +18,8 @@ app.get("/test:store", (req, res) => {
 });
 
 app.get("/getproducts/:store", (req, res) => {
-  //example http://localhost:3000/getproducts/0?category=Kott-chark-och-fagel/Fagel/Fryst-fagel
+  //example http://localhost:3000/getproducts/0?category=Kott-chark-och-fagel/Fagel/Fryst-fagel - willys
+  //example http://localhost:3000/getproducts/1?category=32486 - coop
   //store must be a number
   if (!/^[0-2]{1}$/.test(req.params.store)) {
     //change [0-2] if you want to have more stores
