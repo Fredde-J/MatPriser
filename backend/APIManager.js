@@ -1,10 +1,10 @@
-
+const { Router } = require("express");
 
 module.exports = class APIManager {
   static connectToDb() {
     var mysql = require("mysql");
 
-    var con = mysql.createConnection({
+    global.con = mysql.createConnection({
       host: "localhost",
       user: "root",
       password: "",
@@ -57,16 +57,17 @@ module.exports = class APIManager {
   }
 
   static getCategories() {
-
-    app.get("/rest/categories", async (req, res) => {
-      con.query("SELECT * FROM category", (err, rows, fields) => {
+   app.get("/rest/categories", async (req, res) => {
+       con.query("SELECT * FROM category", (err, rows, fields) => {
         if (!err) {
           res.send(rows);
         } else {
           console.log(err);
         }
+        return res.send(rows);
   
       });
+      
     });
   }
   static getStores() {
@@ -81,4 +82,5 @@ module.exports = class APIManager {
     });
 
   }
+  
 }
