@@ -37,7 +37,7 @@ CREATE TABLE `category` (
 
 LOCK TABLES `category` WRITE;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
-INSERT INTO `category` VALUES (1,'Standardmjölk',1,NULL),(2,'Mellanmjölk',0,NULL),(3,'Lättmjölk',0,NULL),(4,'Banan',1,NULL),(5,'Äpple',0,NULL),(6,'Apelsin',0,NULL),(7,'Tomat',1,NULL),(8,'Paprika',1,NULL),(9,'Citron',0,NULL),(10,'Apelsinjuice',0,NULL),(11,'Ägg',1,NULL),(12,'Tofu',0,NULL),(13,'Snabbkaffe',0,NULL),(14,'Knäckebröd',1,NULL),(15,'Färsk fisk',0,NULL),(16,'Handdiskmedel',0,NULL);
+INSERT INTO `category` VALUES (1,'Standardmjölk',1,NULL),(2,'Mellanmjölk',0,NULL),(3,'Lättmjölk',0,NULL),(4,'Banan',1,NULL),(5,'Äpple',0,NULL),(6,'Druvor',0,NULL),(7,'Tomat',1,NULL),(8,'Paprika',1,NULL),(9,'Melon',0,NULL),(10,'Apelsinjuice',0,NULL),(11,'Ägg',1,NULL),(12,'Tofu',0,NULL),(13,'Snabbkaffe',0,NULL),(14,'Knäckebröd',1,NULL),(15,'Färsk fisk',0,NULL),(16,'Handdiskmedel',0,NULL);
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -50,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-09-08 11:12:20
+-- Dump completed on 2020-09-08 12:59:56
