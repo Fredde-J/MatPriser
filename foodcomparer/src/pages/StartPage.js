@@ -1,49 +1,34 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
-import {
-    Card, CardText, CardBody, CardLink,
-    CardTitle, CardSubtitle
-  } from 'reactstrap';
-
-  import milk from '../images/milk.png';
+import { InputGroup, InputGroupAddon, Button, Input,Row,Col} from 'reactstrap';
+  import CatagoryCard from '../components/CatagoryCard'
+  import searchIcon from '../images/searchIcon.svg'
   import '../css/StartPage.css'
 
 
 const StartPage = ()=>{
+  let catagorys = ["Lätt mjölk",]
     return (
         <>
+        <br></br>
+        <Row>
+        <Col>
+        <InputGroup className="d-flex justify-content-center" >
+          <InputGroupAddon addonType="append">
+          <Input placeholder="sök" />
+          </InputGroupAddon>
+          <Button>
+           <img src={searchIcon}></img>
+          </Button>
+       </InputGroup>
+        </Col>
+        </Row>
+       
+        
 
-        <h3>Populära kategorier</h3>
-<div className="row">
-        <Card className="col-6">
-        <CardBody>
-          <CardTitle>Mjölk</CardTitle>
-        </CardBody>
-        <img height="150vh" width="150vw" src={milk} alt="Card image cap" />
-      </Card>
-
-      <Card className="col-6">
-        <CardBody>
-          <CardTitle>Mjölk</CardTitle>
-        </CardBody>
-        <img height="150vh" width="150vw" src={milk} alt="Card image cap" />
-      </Card>
-    
-
-      <Card className="col-6">
-        <CardBody>
-          <CardTitle>Mjölk</CardTitle>
-        </CardBody>
-        <img height="150vh" width="150vw" src={milk} alt="Card image cap" />
-      </Card>
-
-      <Card className="col-6">
-        <CardBody>
-          <CardTitle>Mjölk</CardTitle>
-        </CardBody>
-        <img height="150vh" width="150vw" src={milk} alt="Card image cap" />
-      </Card>
-      </div>
+        <h3 className="d-flex justify-content-center">Populära kategorier</h3>
+          <CatagoryCard></CatagoryCard>
+        <h3 className="d-flex justify-content-center">Alla kategorier</h3>
         </>
         )
 }

@@ -24,3 +24,7 @@ h1 {
   text-align: center;
   font-family: 'Pacifico', cursive;
 }
+h3{
+  position: relative; 
+  line-height: 0.9; 
+}
