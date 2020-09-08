@@ -3,6 +3,8 @@ const WillysHarvester = require("./WillysHarvester");
 const WillysScrubber = require("./WillysScrubber");
 const CoopHarvester = require("./CoopHarvester");
 const CoopScrubber = require("./CoopScrubber");
+const HemkopHarvester = require("./HemkopHarvester");
+const HemkopScrubber = require("./HemkopScrubber");
 
 module.exports = class HarvesterFactory {
   static async createProducts(storeId, categoryURL) {
@@ -10,7 +12,7 @@ module.exports = class HarvesterFactory {
     let scrubbedProducts;
 
     switch (storeId) {
-      // 0 - willys, 1 - coop, 2 - mathem
+      // 0 - willys, 1 - coop, 2 - mathem/hemkop
       case 0:
         products = await WillysHarvester.getProducts(categoryURL);
         scrubbedProducts = await WillysScrubber.scrubAll(products);
@@ -20,6 +22,8 @@ module.exports = class HarvesterFactory {
         scrubbedProducts = await CoopScrubber.scrubAll(products);
         break;
       case 2:
+        products = await HemkopHarvester.getProducts(categoryURL);
+        scrubbedProducts = await HemkopScrubber.scrubAll(products);
         break;
       default:
         console.error(
