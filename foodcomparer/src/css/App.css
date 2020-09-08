@@ -1,4 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+*{
+  box-sizing: border-box;
+}
 .App {
   display: flex;
   min-height: 100vh;
@@ -13,7 +16,7 @@
   right: 0px;
   bottom: 0px;
   left: 0px;
-  opacity: 0.5;
+  opacity: 0.4;
 }
 h1 {
   position: relative; 
