@@ -54,12 +54,6 @@ module.exports = class APIManager {
         res.json({ message: "failed" });
       }
     });
-  
-
-
-  
-  
-  
   }
 
   static getCategories() {
@@ -74,14 +68,8 @@ module.exports = class APIManager {
   
       });
     });
-
-
   }
-
-
   static getStores() {
-  
-
     app.get("/rest/stores", async (req, res) => {
       con.query("SELECT * FROM store", (err, rows, fields) => {
         if (!err) {
