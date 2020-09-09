@@ -13,7 +13,7 @@ const CatagoryCard = ()=>{
         <>
         <Card className="col-5 ml-4 mb-3 ">
         <CardBody>
-          <h2>Lätt Mjölk</h2>
+          <h3>Lätt Mjölk</h3>
         </CardBody>
         <img height="160vh" width="160vw" src={milk} alt="Card image cap" />
       </Card>

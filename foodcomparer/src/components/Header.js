@@ -10,7 +10,7 @@ return(
   <Col className="px-0">
   <h1 style={{fontSize:50}} >SnålKöp</h1>
   </Col>
-  <Col className="col-1">
+  <Col className="col-1 px-0">
   <img src={listIcon} className="rounded float-right" style={{width:70 }}></img>
   </Col>
  </Row>

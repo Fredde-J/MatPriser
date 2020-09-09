@@ -6,6 +6,9 @@
   display: flex;
   min-height: 100vh;
   flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
 }
 body {
   background-attachment: fixed;
@@ -14,14 +17,12 @@ body {
   background-size: cover;
 }
 
-h1,h2 {
-  position: relative; 
-  line-height: 0.9;
+h1,h3 {
   text-align: center;
   font-family: 'Pacifico', cursive;
 }
-
-h3{
-  position: relative; 
-  line-height: 0.9; 
+main {
+  flex: 1;
 }
+
+
