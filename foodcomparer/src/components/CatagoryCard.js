@@ -11,11 +11,11 @@ import {
 const CatagoryCard = ()=>{
     return (
         <>
-        <Card className="col-6">
+        <Card className="col-5 ml-4 mb-3 ">
         <CardBody>
-          <CardTitle>Mjölk</CardTitle>
+          <h2>Lätt Mjölk</h2>
         </CardBody>
-        <img height="150vh" width="150vw" src={milk} alt="Card image cap" />
+        <img height="160vh" width="160vw" src={milk} alt="Card image cap" />
       </Card>
         </>
         )

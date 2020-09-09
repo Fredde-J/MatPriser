@@ -6,7 +6,7 @@ import { Row, Col } from 'reactstrap';
 const Header = ()=>{
 return(
 <>
- <Row className="bg-secondary text-danger" >
+ <Row className="" style={{backgroundColor: "rgb(250, 246, 184)"}}>
   <Col className="px-0">
   <h1 style={{fontSize:50}} >SnålKöp</h1>
   </Col>
