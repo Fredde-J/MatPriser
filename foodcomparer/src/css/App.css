@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+*{
+  box-sizing: border-box;
+}
+.App {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+.App::before{
+  content: "";
+  background-image: url("../images/background.jpg");
+  background-size: cover;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  opacity: 0.4;
+}
+h1 {
+  position: relative; 
+  line-height: 0.9;
+  text-align: center;
+  font-family: 'Pacifico', cursive;
+}
+h3{
+  position: relative; 
+  line-height: 0.9; 
+}

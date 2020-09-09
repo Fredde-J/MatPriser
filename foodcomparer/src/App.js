@@ -1,10 +1,23 @@
 import React from 'react';
-import './App.css';
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import './css/App.css';
+import StartPage from './pages/StartPage'
+import Header from './components/Header'
+
 
 function App() {
   return (
     <div className="App">
-      <h1>Hello World from App</h1>
+    
+      <BrowserRouter>
+      <main className="container">
+      <Header/>
+        <Switch>
+          <Route exact path="/" component={StartPage} />
+        </Switch>
+
+      </main>
+      </BrowserRouter>
     </div>
   );
 }
