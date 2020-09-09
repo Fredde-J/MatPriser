@@ -4,11 +4,7 @@
 }
 .App {
   display: flex;
-  min-height: 100vh;
   flex-direction: column;
-  width: 100vw;
-  height: 100vh;
-  position: absolute;
 }
 body {
   background-attachment: fixed;
@@ -17,10 +13,11 @@ body {
   background-size: cover;
 }
 
-h1,h3 {
+h1 {
   text-align: center;
   font-family: 'Pacifico', cursive;
 }
+h3{font-family: 'Pacifico', cursive;}
 main {
   flex: 1;
 }
