@@ -9,6 +9,7 @@ app.get("/", (req, res) => {
 
 const APIManager = require("./APIManager")
 const HarvesterFactory = require("./Harvesters/MainHarvesterFactory");
+var scrubbedData;
 
 app.get("/test:store", (req, res) => {
   res.json({
@@ -20,8 +21,8 @@ app.get("/test:store", (req, res) => {
 APIManager.connectToDb();
 
 app.get("/harvest/getproducts/:store", (req, res) => {
-  //example http://localhost:3000/getproducts/0?category=Kott-chark-och-fagel/Fagel/Fryst-fagel - willys
-  //example http://localhost:3000/getproducts/1?category=32486 - coop
+  //example http://localhost:3000/harvest/getproducts/0?category=Kott-chark-och-fagel/Fagel/Fryst-fagel - willys
+  //example http://localhost:3000/harvest/getproducts/1?category=32486 - coop
   //store must be a number
   if (!/^[0-2]{1}$/.test(req.params.store)) {
     //change [0-2] if you want to have more stores
@@ -39,6 +40,7 @@ app.get("/harvest/getproducts/:store", (req, res) => {
   HarvesterFactory.createProducts(storeId, categoryURL)
     .then((result) => {
       res.status(300).json(result);
+      scrubbedData = result; 
     })
     .then(console.log("Printing products to backend using factory"))
     .catch((err) => {
@@ -70,35 +72,26 @@ app.listen(port, () => {
 
 
 //Move to APIManager
-app.post("/rest/products", async (req, res) => {
-      console.log(req.body);
-      const values = {
-        id: req.body.id,
-        name: req.body.name,
-        storeId: req.body.storeId,
-        category: req.body.category,
-        brand: req.body.brand,
-        photoUrl: req.body.photoUrl,
-        isEco: req.body.isEco,
-        unit: req.body.unit,
-        pricePerUnit: req.body.pricePerUnit,
-        pricePerItem: req.body.pricePerItem,
-        country: req.body.country,
-        url: req.body.url,
-        modifyDate: req.body.modifyDate,
-      };
-      try {
-        await con.query("INSERT INTO product SET ?", values);
-        res.json({ message: "success!" });
-      } catch (e) {
-        res.json({ message: "failed" });
-      }
-    });
+app.post("/harvest/getproducts/:store", async (req, res) => {
+  var jsonArray = scrubbedData.map((el) => Object.values(el));
+  var mysqlQuery =
+    "INSERT INTO `product`(name, storeId, categoryId, brand, photoUrl, isEco, unit, pricePerUnit, pricePerItem, country, url, modifyDate ) VALUES ?";
+  
+  console.log("jsonArray: ", jsonArray)
+   
+    await con.query(mysqlQuery, [jsonArray], (err, results, fields) => {
+  if (err) {
+    return console.error(err.message);
+  }else
+  console.log('succes!')
+   });
+});
 
      app.get("/rest/products", async (req, res) => {
-       con.query("SELECT * FROM product", (err, rows, fields) => {
+         con.query("SELECT * FROM product", (err, rows, fields) => {
          if (!err) {
            res.send(rows);
+           console.log('success!')
          } else {
            console.log(err);
          }

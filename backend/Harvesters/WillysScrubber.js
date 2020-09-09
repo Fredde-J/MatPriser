@@ -4,18 +4,16 @@ const Scrubber = require("./Scrubber");
 module.exports = class WillysScrubber extends Scrubber {
   static translateSchema = {
     name: (x) => x.name,
+    storeId: (x) => 3, // testvärde!
+    categoryId: (x) => 2, // testvärde!
     brand: (x) => x.manufacturer,
-    imageUrl: (x) => x.image && x.image.url,
-    unitPrice: (x) => x.priceValue,
-    unitVolume: (x) => parseFloat(x.displayVolume.replace(/,/, ".")),
-    unitMeasurement: (x) => x.displayVolume.replace(/[0-9\.]/g, ""),
-    comparePrice: (x) => parseFloat(x.comparePrice.replace(/,/, ".")),
-    compareMeasurement: (x) => x.comparePriceUnit,
-    inStock: (x) => !x.outOfStock,
-    frozen: (x) => x.labels.includes("frozen"),
-    ecological: (x) => x.labels.includes("ecological"),
-    Swedish: (x) => x.labels.includes("swedish_flag"),
-    countryOfOrigin: async (x) => {
+    photoUrl: (x) => x.image && x.image.url,
+    isEco: (x) => 0,                        
+    //x.labels.includes("ecological"),
+    unit: (x) => x.comparePriceUnit,
+    pricePerUnit: (x) => parseFloat(x.comparePrice.replace(/,/, ".")),
+    pricePerItem: (x) => x.priceValue,
+    country: async (x) => {
       // Seems we need detailed product info for this...
       // (one fetch per product - lots of extra time :( )
       // maybe ask productOwner if Swedish/non Swedish enough?
@@ -25,5 +23,7 @@ module.exports = class WillysScrubber extends Scrubber {
       let data = await rawData.json();
       return data.originCountry || data.tradeItemCountryOfOrigin;
     },
+    url: (x) => "-", //testvärde!
+    modifyDate: (x) => '2020-01-01 00:00:01 '
   };
 };
