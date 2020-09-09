@@ -1,5 +1,3 @@
-
-
 module.exports = class APIManager {
   static connectToDb() {
     var mysql = require("mysql");
@@ -17,16 +15,7 @@ module.exports = class APIManager {
     });
   }
   static getProducts() {
-    app.get("/rest/products", async (req, res) => {
-      console.log("get works!")
-      con.query("SELECT * FROM product", (err, rows, fields) => {
-        if (!err) {
-          res.send(rows)
-        } else {
-          console.log(err)
-        }
-      })
-    });
+    
   }
 
   static setProducts() {
@@ -54,16 +43,9 @@ module.exports = class APIManager {
         res.json({ message: "failed" });
       }
     });
-  
-
-
-  
-  
-  
   }
 
   static getCategories() {
-
     app.get("/rest/categories", async (req, res) => {
       con.query("SELECT * FROM category", (err, rows, fields) => {
         if (!err) {
@@ -71,17 +53,11 @@ module.exports = class APIManager {
         } else {
           console.log(err);
         }
-  
       });
     });
-
-
   }
 
-
   static getStores() {
-  
-
     app.get("/rest/stores", async (req, res) => {
       con.query("SELECT * FROM store", (err, rows, fields) => {
         if (!err) {
@@ -91,6 +67,5 @@ module.exports = class APIManager {
         }
       });
     });
-
   }
-}
+};
