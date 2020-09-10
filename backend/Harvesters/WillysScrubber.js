@@ -6,6 +6,7 @@ module.exports = class WillysScrubber extends Scrubber {
     name: (x) => x.name,
     storeId: (x) => 3, // testvärde!
     categoryId: (x) => 2, // testvärde!
+    articleNumber: (x) => x.code,
     brand: (x) => x.manufacturer,
     photoUrl: (x) => x.image && x.image.url,
     isEco: (x) => 0,                        
