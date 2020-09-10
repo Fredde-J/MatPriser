@@ -8,8 +8,9 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-      <Header />
+      
         <main className="container">
+        <Header />
           <Switch>
             <Route exact path="/" component={StartPage} />
           </Switch>

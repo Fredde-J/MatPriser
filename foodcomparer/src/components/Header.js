@@ -7,10 +7,10 @@ const Header = ()=>{
 return(
 <>
  <Row className="" style={{backgroundColor: "rgb(250, 246, 184)"}}>
-  <Col className="px-0">
-  <h1 style={{fontSize:50}} >SnålKöp</h1>
+  <Col className="col-11 ">
+  <h1 style={{fontSize:"3em"}} >SnålKöp</h1>
   </Col>
-  <Col className="col-1 px-0">
+  <Col className="col-1">
   <img src={listIcon} className="rounded float-right" style={{width:70 }}></img>
   </Col>
  </Row>
