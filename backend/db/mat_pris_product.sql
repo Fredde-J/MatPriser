@@ -1,6 +1,6 @@
 -- MariaDB dump 10.17  Distrib 10.4.11-MariaDB, for Win64 (AMD64)
 --
--- Host: 127.0.0.1    Database: matpris
+-- Host: 127.0.0.1    Database: mat_pris
 -- ------------------------------------------------------
 -- Server version	10.4.11-MariaDB
 
@@ -63,4 +63,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-09-08 11:12:20
+-- Dump completed on 2020-09-10 11:40:31
