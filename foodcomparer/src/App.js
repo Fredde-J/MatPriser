@@ -3,13 +3,14 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import './css/App.css';
 import StartPage from './pages/StartPage'
 import Header from './components/Header'
+import CategorysContextProvider from './ContextProviders/CategoryContextProvider'
 
 
 function App() {
   return (
+    <BrowserRouter>
     <div className="App">
-    
-      <BrowserRouter>
+    <CategorysContextProvider>
       <main className="container">
       <Header/>
         <Switch>
@@ -17,8 +18,9 @@ function App() {
         </Switch>
 
       </main>
-      </BrowserRouter>
+      </CategorysContextProvider>
     </div>
+    </BrowserRouter>
   );
 }
 

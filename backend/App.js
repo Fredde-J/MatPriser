@@ -20,6 +20,7 @@ let mysql = require("mysql");
 let con = mysql.createConnection({
   host: "localhost",
   user: "root",
+  port: 3308,
   password: "",
   database: "mat_pris",
 });
