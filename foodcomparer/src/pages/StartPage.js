@@ -37,11 +37,21 @@ const StartPage = () => {
           </InputGroup>
         </Col>
       </Row>
-      <h3 onClick={printCategories}>visa alla categorier</h3>
 
-      <h3 className="d-flex justify-content-center">Populära kategorier</h3>
-      <CatagoryCard name="mjölk"></CatagoryCard>
-      <h3 className="d-flex justify-content-center">Alla kategorier</h3>
+      <h2 className="d-flex justify-content-center">Populära kategorier</h2>
+      <Row>
+        {categories.categories.map((category, index) => {
+          if (category.isPopular == 1) {
+            return (
+              <CatagoryCard
+                key={category + index}
+                name={category.name}
+              ></CatagoryCard>
+            );
+          }
+        })}
+      </Row>
+      
       {!showAllCatagorys ? (
         <h2
           className="d-flex justify-content-center"
@@ -58,10 +68,16 @@ const StartPage = () => {
           >
             Mindre kategorier
           </h2>
-          <h3>
-            I AM MORE CATEGORIES FEAR ME <br></br>
-            GET IN TO THE CHOPPAAAA
-          </h3>
+          <Row>
+            {categories.categories.map((category, index) => {
+              return (
+                <CatagoryCard
+                  key={category + index}
+                  name={category.name}
+                ></CatagoryCard>
+              );
+            })}
+          </Row>
         </>
       )}
     </>
