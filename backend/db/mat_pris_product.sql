@@ -1,6 +1,6 @@
 -- MariaDB dump 10.17  Distrib 10.4.11-MariaDB, for Win64 (AMD64)
 --
--- Host: 127.0.0.1    Database: matpris
+-- Host: 127.0.0.1    Database: mat_pris
 -- ------------------------------------------------------
 -- Server version	10.4.11-MariaDB
 
@@ -16,29 +16,42 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `category`
+-- Table structure for table `product`
 --
 
-DROP TABLE IF EXISTS `category`;
+DROP TABLE IF EXISTS `product`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `category` (
+CREATE TABLE `product` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
-  `isPopular` tinyint(1) DEFAULT 0 COMMENT '1- true, 0-false',
-  `picURL` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+  `storeId` int(11) NOT NULL,
+  `categoryId` int(11) NOT NULL,
+  `brand` varchar(45) DEFAULT NULL,
+  `photoUrl` varchar(2000) DEFAULT NULL,
+  `isEco` tinyint(1) DEFAULT 1,
+  `unit` varchar(45) NOT NULL,
+  `pricePerUnit` double NOT NULL,
+  `pricePerItem` double NOT NULL,
+  `country` varchar(45) DEFAULT NULL,
+  `url` varchar(2000) DEFAULT NULL,
+  `modifyDate` timestamp(6) NOT NULL DEFAULT current_timestamp(6),
+  `articleNumber` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_ProductCategory` (`categoryId`),
+  KEY `FK_ProductStore` (`storeId`),
+  CONSTRAINT `FK_ProductCategory` FOREIGN KEY (`categoryId`) REFERENCES `category` (`id`),
+  CONSTRAINT `FK_ProductStore` FOREIGN KEY (`storeId`) REFERENCES `store` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `category`
+-- Dumping data for table `product`
 --
 
-LOCK TABLES `category` WRITE;
-/*!40000 ALTER TABLE `category` DISABLE KEYS */;
-INSERT INTO `category` VALUES (1,'Standardmjölk',1,NULL),(2,'Mellanmjölk',0,NULL),(3,'Lättmjölk',0,NULL),(4,'Banan',1,NULL),(5,'Äpple',0,NULL),(6,'Apelsin',0,NULL),(7,'Tomat',1,NULL),(8,'Paprika',1,NULL),(9,'Citron',0,NULL),(10,'Apelsinjuice',0,NULL),(11,'Ägg',1,NULL),(12,'Tofu',0,NULL),(13,'Kaffe',0,NULL),(14,'Knäckebröd',1,NULL);
-/*!40000 ALTER TABLE `category` ENABLE KEYS */;
+LOCK TABLES `product` WRITE;
+/*!40000 ALTER TABLE `product` DISABLE KEYS */;
+/*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -50,4 +63,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-09-02 15:12:04
+-- Dump completed on 2020-09-10 11:40:31

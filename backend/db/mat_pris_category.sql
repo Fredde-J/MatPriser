@@ -1,6 +1,6 @@
 -- MariaDB dump 10.17  Distrib 10.4.11-MariaDB, for Win64 (AMD64)
 --
--- Host: 127.0.0.1    Database: matpris
+-- Host: 127.0.0.1    Database: mat_pris
 -- ------------------------------------------------------
 -- Server version	10.4.11-MariaDB
 
@@ -16,28 +16,29 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `store`
+-- Table structure for table `category`
 --
 
-DROP TABLE IF EXISTS `store`;
+DROP TABLE IF EXISTS `category`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `store` (
+CREATE TABLE `category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
-  `baseURL` varchar(100) NOT NULL,
+  `isPopular` tinyint(1) DEFAULT 0 COMMENT '1- true, 0-false',
+  `picURL` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `store`
+-- Dumping data for table `category`
 --
 
-LOCK TABLES `store` WRITE;
-/*!40000 ALTER TABLE `store` DISABLE KEYS */;
-INSERT INTO `store` VALUES (1,'Coop','https://www.coop.se/ws/v2/coop/users/anonymous/products/'),(2,'Mathem','https://api.mathem.io/product-search/noauth/search/products/'),(3,'Willys','https://www.willys.se/c/');
-/*!40000 ALTER TABLE `store` ENABLE KEYS */;
+LOCK TABLES `category` WRITE;
+/*!40000 ALTER TABLE `category` DISABLE KEYS */;
+INSERT INTO `category` VALUES (1,'Standardmjölk',1,NULL),(2,'Mellanmjölk',0,NULL),(3,'Lättmjölk',0,NULL),(4,'Banan',1,NULL),(5,'Äpple',0,NULL),(6,'Druvor',0,NULL),(7,'Tomat',1,NULL),(8,'Paprika',1,NULL),(9,'Melon',0,NULL),(10,'Apelsinjuice',0,NULL),(11,'Ägg',1,NULL),(12,'Tofu',0,NULL),(13,'Snabbkaffe',0,NULL),(14,'Knäckebröd',1,NULL),(15,'Färsk fisk',0,NULL),(16,'Handdiskmedel',0,NULL);
+/*!40000 ALTER TABLE `category` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -49,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-09-02 15:12:04
+-- Dump completed on 2020-09-10 11:40:30
