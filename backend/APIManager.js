@@ -1,4 +1,4 @@
-const { Router } = require("express");
+const HarvesterFactory = require("./Harvesters/MainHarvesterFactory");
 
 module.exports = class APIManager {
   static connectToDb() {
@@ -16,71 +16,78 @@ module.exports = class APIManager {
       console.log("Connected!");
     });
   }
-  static getProducts() {
-    app.get("/rest/products", async (req, res) => {
-      console.log("get works!")
-      con.query("SELECT * FROM product", (err, rows, fields) => {
-        if (!err) {
-          res.send(rows)
-        } else {
-          console.log(err)
-        }
-      })
+  static getProductsFromDb(res) {
+    con.query("SELECT * FROM product", (err, rows, fields) => {
+      if (!err) {
+        res.send(rows);
+      } else {
+        console.log(err);
+      }
     });
   }
-
-  static setProducts() {
-    app.post("/rest/products", async (req, res) => {
-      console.log(req.body);
-      const values = {
-        id: req.body.id,
-        name: req.body.name,
-        storeId: req.body.storeId,
-        category: req.body.category,
-        brand: req.body.brand,
-        photoUrl: req.body.photoUrl,
-        isEco: req.body.isEco,
-        unit: req.body.unit,
-        pricePerUnit: req.body.pricePerUnit,
-        pricePerItem: req.body.pricePerItem,
-        country: req.body.country,
-        url: req.body.url,
-        modifyDate: req.body.modifyDate,
-      };
-      try {
-        await con.query("INSERT INTO product SET ?", values);
-        res.json({ message: "success!" });
-      } catch (e) {
-        res.json({ message: "failed" });
+  static getCategories(res) {
+    con.query("SELECT * FROM category", (err, rows, fields) => {
+      if (!err) {
+        res.send(rows);
+      } else {
+        console.log(err);
+      }
+    });
+  }
+  static getStores(res) {
+    con.query("SELECT * FROM store", (err, rows, fields) => {
+      if (!err) {
+        res.send(rows);
+      } else {
+        console.log(err);
       }
     });
   }
 
-  static getCategories() {
-   app.get("/rest/categories", async (req, res) => {
-       con.query("SELECT * FROM category", (err, rows, fields) => {
-        if (!err) {
-          res.send(rows);
-        } else {
-          console.log(err);
-        }
-        return res.send(rows);
-  
-      });
-      
-    });
-  }
-  static getStores() {
-    app.get("/rest/stores", async (req, res) => {
-      con.query("SELECT * FROM store", (err, rows, fields) => {
-        if (!err) {
-          res.send(rows);
-        } else {
-          console.log(err);
-        }
-      });
-    });
+  static harvestProducts(req, res) {
+    if (!/^[0-2]{1}$/.test(req.params.store)) {
+      //change [0-2] if you want to have more stores
+      res.status(404).send(`store cannot be found: ${req.params.store}`);
+      return;
+    }
 
+    if (req.query.category == undefined) {
+      res.status(404).send(`category cannot be found: ${req.query.category}`);
+      return;
+    }
+
+    let storeId = Number(req.params.store);
+    let categoryURL = req.query.category;
+    HarvesterFactory.createProducts(storeId, categoryURL)
+      .then((result) => {
+        res.status(300).json(result);
+        this.addProductsToDb(result);
+      })
+      .then(console.log("Printing products to backend using factory"))
+      .catch((err) => {
+        console.error(err);
+      });
   }
-  
-}
+
+  static addProductsToDb(products) {
+    var jsonArray = products.map((el) => Object.values(el));
+    var mysqlQuery =
+      "INSERT INTO `product`(name, storeId, categoryId, brand, photoUrl, isEco, unit, pricePerUnit, pricePerItem, country, url, modifyDate ) VALUES ?";
+
+    con.query(mysqlQuery, [jsonArray], (err, results, fields) => {
+      if (err) {
+        return console.error(err.message);
+      } else console.log("succes!");
+    });
+  }
+
+  static deleteProducts(res) {
+    con.query("DELETE FROM product", (err, rows, fields) => {
+      if (!err) {
+        res.send(rows);
+      } else {
+        console.log(err);
+      }
+    });
+  }
+};
