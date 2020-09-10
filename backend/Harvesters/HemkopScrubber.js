@@ -7,17 +7,16 @@ module.exports = class HemkopScrubber extends Scrubber {
     name: x => x.name,
     articleNumber: x => x.code,
     brand: x => x.manufacturer,
-    imageUrl: x => x.image.url,
+    photoUrl: x => x.image.url,
     unitPrice: x => x.priceValue,
     unitVolume: x => x.packageSize,
     unitMeasurement: x => x.priceUnit,
     comparePrice: x => x.comparePrice.replace(' kr', ''),
-    compareMeasurement: x => x.comparePriceUnit,
-    inStock: x => '',
+    unit: x => x.comparePriceUnit,
     frozen: x => x => x.labels.includes('frozen'),
-    ecological: x => x.labels.includes('Eko'),
+    isEco: x => x.labels.includes('Eko'),
     Swedish: x => x.labels.includes("swedish_flag"),
-    countryOfOrigin: async (x) => {
+    country: async (x) => {
         // Seems we need detailed product info for this...
         // (one fetch per product - lots of extra time :( )
         // maybe ask productOwner if Swedish/non Swedish enough?
