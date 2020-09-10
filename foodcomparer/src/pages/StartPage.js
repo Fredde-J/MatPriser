@@ -12,9 +12,9 @@ import CatagoryCard from "../components/CatagoryCard";
 import searchIcon from "../images/searchIcon.svg";
 
 import { CategoryContext } from "../ContextProviders/CategoryContextProvider";
-  const [showAllCatagorys, setShowAllCatagorys] = useState(false);
 
 const StartPage = () => {
+  const [showAllCatagorys, setShowAllCatagorys] = useState(false);
   let categories = useContext(CategoryContext);
 
   const printCategories = () => {
@@ -58,6 +58,10 @@ const StartPage = () => {
           >
             Mindre kategorier
           </h2>
+          <h3>
+            I AM MORE CATEGORIES FEAR ME <br></br>
+            GET IN TO THE CHOPPAAAA
+          </h3>
         </>
       )}
     </>
