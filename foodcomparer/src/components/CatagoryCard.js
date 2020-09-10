@@ -5,7 +5,7 @@ import {
   } from 'reactstrap';
 
   import milk from '../images/milk.png';
-  import '../css/StartPage.css'
+
 
 
 const CatagoryCard = ()=>{

@@ -10,7 +10,6 @@ import {
 } from "reactstrap";
 import CatagoryCard from "../components/CatagoryCard";
 import searchIcon from "../images/searchIcon.svg";
-import "../css/StartPage.css";
 
 const StartPage = () => {
   let populareCatagorys = [0, 1, 2, 3];
