@@ -17,11 +17,6 @@ const StartPage = () => {
   const [showAllCatagorys, setShowAllCatagorys] = useState(false);
   let categories = useContext(CategoryContext);
 
-  const printCategories = () => {
-    console.log("HELLO");
-    console.log(categories);
-  };
-
   return (
     <>
       <br></br>
@@ -51,7 +46,7 @@ const StartPage = () => {
           }
         })}
       </Row>
-      
+
       {!showAllCatagorys ? (
         <h2
           className="d-flex justify-content-center"

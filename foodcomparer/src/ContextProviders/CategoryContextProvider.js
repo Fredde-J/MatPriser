@@ -24,10 +24,6 @@ const CategoryContextProvider = (props) => {
     getCategories();
   }, []);
 
-  useEffect(() => {
-    console.log(categories);
-  }, [categories]);
-
   const values = {
     categories,
   };
