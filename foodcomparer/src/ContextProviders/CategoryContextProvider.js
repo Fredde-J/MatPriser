@@ -3,7 +3,7 @@ import axios from "axios";
 
 export const CategoryContext = React.createContext();
 
- const CategoryContextProvider = (props) => {
+const CategoryContextProvider = (props) => {
   const [categories, setCategories] = useState([]);
 
   const getCategories = async () => {
@@ -24,9 +24,9 @@ export const CategoryContext = React.createContext();
     getCategories();
   }, []);
 
-  useEffect(()=>{
-    console.log(categories)
-  },[categories])
+  useEffect(() => {
+    console.log(categories);
+  }, [categories]);
 
   const values = {
     categories,
@@ -38,4 +38,4 @@ export const CategoryContext = React.createContext();
     </CategoryContext.Provider>
   );
 };
-export default CategoryContextProvider
+export default CategoryContextProvider;

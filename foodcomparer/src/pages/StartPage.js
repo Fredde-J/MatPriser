@@ -12,15 +12,14 @@ import CatagoryCard from "../components/CatagoryCard";
 import searchIcon from "../images/searchIcon.svg";
 import "../css/StartPage.css";
 
-
- import {CategoryContext} from "../ContextProviders/CategoryContextProvider";
+import { CategoryContext } from "../ContextProviders/CategoryContextProvider";
 
 const StartPage = () => {
   let categories = useContext(CategoryContext);
 
   const printCategories = () => {
     console.log("HELLO");
-    console.log(categories )
+    console.log(categories);
   };
 
   let catagorys = ["Lätt mjölk"];
@@ -39,8 +38,7 @@ const StartPage = () => {
           </InputGroup>
         </Col>
       </Row>
-        <h3 onClick={printCategories}>visa alla categorier</h3>
-
+      <h3 onClick={printCategories}>visa alla categorier</h3>
 
       <h3 className="d-flex justify-content-center">Populära kategorier</h3>
       <CatagoryCard name="mjölk"></CatagoryCard>

@@ -3,7 +3,7 @@ const app = express();
 const port = 4000;
 
 //Using cors
-const cors = require("cors")
+const cors = require("cors");
 
 app.use(express.json(), cors());
 app.get("/", (req, res) => {
@@ -20,7 +20,7 @@ let mysql = require("mysql");
 let con = mysql.createConnection({
   host: "localhost",
   user: "root",
-  port: 3308,
+  port: 3306,
   password: "",
   database: "mat_pris",
 });

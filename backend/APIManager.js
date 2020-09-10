@@ -14,9 +14,7 @@ module.exports = class APIManager {
       console.log("Connected!");
     });
   }
-  static getProducts() {
-    
-  }
+  static getProducts() {}
 
   static setProducts() {
     app.post("/rest/products", async (req, res) => {

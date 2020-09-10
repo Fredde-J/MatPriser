@@ -3,7 +3,7 @@ import axios from "axios";
 
 export const ProductContext = React.createContext();
 
-export const ProductContextProvider = (props) => {
+const ProductContextProvider = (props) => {
   const [products, setProducts] = useState([]);
 
   const getProducts = async () => {
@@ -33,3 +33,4 @@ export const ProductContextProvider = (props) => {
     </ProductContext.Provider>
   );
 };
+export default ProductContextProvider;
