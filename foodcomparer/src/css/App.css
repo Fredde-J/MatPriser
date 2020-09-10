@@ -4,27 +4,22 @@
 }
 .App {
   display: flex;
-  min-height: 100vh;
   flex-direction: column;
 }
-.App::before{
-  content: "";
-  background-image: url("../images/background.jpg");
+body {
+  background-attachment: fixed;
+  background-image: url("../images/background.png");
+  background-position: center;
   background-size: cover;
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  bottom: 0px;
-  left: 0px;
-  opacity: 0.4;
 }
+
 h1 {
-  position: relative; 
-  line-height: 0.9;
   text-align: center;
   font-family: 'Pacifico', cursive;
 }
-h3{
-  position: relative; 
-  line-height: 0.9; 
+h3{font-family: 'Pacifico', cursive;}
+main {
+  flex: 1;
 }
+
+

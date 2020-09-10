@@ -9,12 +9,11 @@ import {
 } from "reactstrap";
 
 import milk from "../images/milk.png";
-import "../css/StartPage.css";
 
 const CatagoryCard = (props) => {
   return (
     <>
-      <Card className="col-6">
+      <Card className="col-5 ml-4 mb-3 d-flex flex-wrap align-items-center ">
         <CardBody>
           <CardTitle>{props.name}</CardTitle>
         </CardBody>

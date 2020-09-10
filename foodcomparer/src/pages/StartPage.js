@@ -10,11 +10,11 @@ import {
 } from "reactstrap";
 import CatagoryCard from "../components/CatagoryCard";
 import searchIcon from "../images/searchIcon.svg";
-import "../css/StartPage.css";
 
 import { CategoryContext } from "../ContextProviders/CategoryContextProvider";
 
 const StartPage = () => {
+  const [showAllCatagorys, setShowAllCatagorys] = useState(false);
   let categories = useContext(CategoryContext);
 
   const printCategories = () => {
@@ -22,7 +22,6 @@ const StartPage = () => {
     console.log(categories);
   };
 
-  let catagorys = ["Lätt mjölk"];
   return (
     <>
       <br></br>
@@ -43,6 +42,28 @@ const StartPage = () => {
       <h3 className="d-flex justify-content-center">Populära kategorier</h3>
       <CatagoryCard name="mjölk"></CatagoryCard>
       <h3 className="d-flex justify-content-center">Alla kategorier</h3>
+      {!showAllCatagorys ? (
+        <h2
+          className="d-flex justify-content-center"
+          onClick={() => setShowAllCatagorys(true)}
+        >
+          {" "}
+          Fler kategorier
+        </h2>
+      ) : (
+        <>
+          <h2
+            className="d-flex justify-content-center"
+            onClick={() => setShowAllCatagorys(false)}
+          >
+            Mindre kategorier
+          </h2>
+          <h3>
+            I AM MORE CATEGORIES FEAR ME <br></br>
+            GET IN TO THE CHOPPAAAA
+          </h3>
+        </>
+      )}
     </>
   );
 };
