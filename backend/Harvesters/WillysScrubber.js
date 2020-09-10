@@ -2,11 +2,11 @@ const fetch = require("node-fetch");
 const Scrubber = require("./Scrubber");
 
 module.exports = class WillysScrubber extends Scrubber {
+  //name, storeId, categoryId, brand, photoUrl, isEco, unit, pricePerUnit, pricePerItem, country, url, modifyDate, articleNumber 
   static translateSchema = {
     name: (x) => x.name,
     storeId: (x) => 3, // testvärde!
     categoryId: (x) => 2, // testvärde!
-    articleNumber: (x) => x.code,
     brand: (x) => x.manufacturer,
     photoUrl: (x) => x.image && x.image.url,
     isEco: (x) => x.labels.includes("ecological") ? 1: 0,
@@ -23,7 +23,8 @@ module.exports = class WillysScrubber extends Scrubber {
       let data = await rawData.json();
       return data.originCountry || data.tradeItemCountryOfOrigin;
     },
-    url: (x) => "-", //testvärde!
-    modifyDate: (x) => '2020-01-01 00:00:01 '
+    url: (x) => "https://www.willys.se/produkt/"+x.name.replace(/ /g, '-')+'-'+x.code,    
+    modifyDate: (x) => new Date(),
+    articleNumber: (x) => x.code
   };
 };

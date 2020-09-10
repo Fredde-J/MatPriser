@@ -12,11 +12,7 @@ module.exports = class HarvesterFactory {
     let scrubbedProducts;
 
     switch (storeId) {
-      // 0 - willys, 1 - coop, 2 - mathem/hemkop
-      case 0:
-        products = await WillysHarvester.getProducts(categoryURL);
-        scrubbedProducts = await WillysScrubber.scrubAll(products);
-        break;
+      // 1 - coop, 2 - hemkop, 3 - willys     
       case 1:
         products = await CoopHarvester.getProducts(categoryURL);
         scrubbedProducts = await CoopScrubber.scrubAll(products);
@@ -25,6 +21,10 @@ module.exports = class HarvesterFactory {
         products = await HemkopHarvester.getProducts(categoryURL);
         scrubbedProducts = await HemkopScrubber.scrubAll(products);
         break;
+      case 3:
+          products = await WillysHarvester.getProducts(categoryURL);
+          scrubbedProducts = await WillysScrubber.scrubAll(products);
+          break;
       default:
         console.error(
           "Out of bounds! Expected storeId between 0-2, recieved ",

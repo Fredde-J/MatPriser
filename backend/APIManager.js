@@ -45,8 +45,8 @@ module.exports = class APIManager {
   }
 
   static harvestProducts(req, res) {
-    if (!/^[0-2]{1}$/.test(req.params.store)) {
-      //change [0-2] if you want to have more stores
+    if (!/^[1-3]{1}$/.test(req.params.store)) {
+      //change [1-3] if you want to have more stores
       res.status(404).send(`store cannot be found: ${req.params.store}`);
       return;
     }
@@ -72,7 +72,7 @@ module.exports = class APIManager {
   static addProductsToDb(products) {
     var jsonArray = products.map((el) => Object.values(el));
     var mysqlQuery =
-      "INSERT INTO `product`(name, storeId, categoryId, brand, photoUrl, isEco, unit, pricePerUnit, pricePerItem, country, url, modifyDate ) VALUES ?";
+      "INSERT INTO `product`(name, storeId, categoryId, brand, photoUrl, isEco, unit, pricePerUnit, pricePerItem, country, url, modifyDate, articleNumber) VALUES ?";
 
     con.query(mysqlQuery, [jsonArray], (err, results, fields) => {
       if (err) {

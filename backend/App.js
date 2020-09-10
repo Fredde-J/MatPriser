@@ -20,14 +20,14 @@ APIManager.connectToDb();
 
 app.get("/harvest/getproducts/:store", (req, res) => {
   //example http://localhost:3000/harvest/getproducts/0?category=Kott-chark-och-fagel/Fagel/Fryst-fagel - willys
-  //example http://localhost:3000/harvest/getproducts/1?category=32486 - coop
+  //example http://localhost:3000/harvest/getproducts/1?category=discover?categoryId=32408 - coop
   //store must be a number
   APIManager.harvestProducts(req, res);
 });
 
 app.get("/harvest/getcategories/:store", (req, res) => {
-  if (!/^[0-2]{1}$/.test(req.params.store)) {
-    //change [0-2] if you want to have more stores
+  if (!/^[1-3]{1}$/.test(req.params.store)) {
+    //change [0-3] if you want to have more stores
     res.status(404).send(`store cannot be found: ${req.params.store}`);
     return;
   }
