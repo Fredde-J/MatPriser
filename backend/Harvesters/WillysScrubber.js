@@ -8,8 +8,7 @@ module.exports = class WillysScrubber extends Scrubber {
     categoryId: (x) => 2, // testvärde!
     brand: (x) => x.manufacturer,
     photoUrl: (x) => x.image && x.image.url,
-    isEco: (x) => 0,                        
-    //x.labels.includes("ecological"),
+    isEco: (x) => x.labels.includes("ecological") ? 1: 0,
     unit: (x) => x.comparePriceUnit,
     pricePerUnit: (x) => parseFloat(x.comparePrice.replace(/,/, ".")),
     pricePerItem: (x) => x.priceValue,

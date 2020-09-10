@@ -1,15 +1,13 @@
 const express = require("express");
 const app = express();
 const port = 3000;
+const APIManager = require("./APIManager");
+const HarvesterFactory = require("./Harvesters/MainHarvesterFactory");
 
 app.use(express.json());
 app.get("/", (req, res) => {
   res.send("Hello World! From Express!");
 });
-
-const APIManager = require("./APIManager");
-const HarvesterFactory = require("./Harvesters/MainHarvesterFactory");
-var scrubbedData;
 
 app.get("/test:store", (req, res) => {
   res.json({
@@ -24,7 +22,7 @@ app.get("/harvest/getproducts/:store", (req, res) => {
   //example http://localhost:3000/harvest/getproducts/0?category=Kott-chark-och-fagel/Fagel/Fryst-fagel - willys
   //example http://localhost:3000/harvest/getproducts/1?category=32486 - coop
   //store must be a number
-  APIManager.harvestProducts(req, res)
+  APIManager.harvestProducts(req, res);
 });
 
 app.get("/harvest/getcategories/:store", (req, res) => {
@@ -50,7 +48,7 @@ app.listen(port, () => {
 });
 
 app.post("/harvest/getproducts/:store", async (req, res) => {
- APIManager.harvestProducts(req, res);
+  APIManager.harvestProducts(req, res);
 });
 
 app.get("/rest/products", async (req, res) => {
