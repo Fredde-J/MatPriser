@@ -17,10 +17,6 @@ const StartPage = () => {
   //let showAllCatagorys = false
   const [showAllCatagorys, setShowAllCatagorys] = useState(false);
 
-  useEffect(() => {
-    console.log(showAllCatagorys);
-  }, [showAllCatagorys]);
-
   return (
     <>
       <br></br>
