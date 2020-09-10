@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useContext } from "react";
 import { withRouter } from "react-router-dom";
 import {
   InputGroup,
@@ -11,11 +11,16 @@ import {
 import CatagoryCard from "../components/CatagoryCard";
 import searchIcon from "../images/searchIcon.svg";
 
-const StartPage = () => {
-  let populareCatagorys = [0, 1, 2, 3];
-  let allCatagorys = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
-  //let showAllCatagorys = false
+import { CategoryContext } from "../ContextProviders/CategoryContextProvider";
   const [showAllCatagorys, setShowAllCatagorys] = useState(false);
+
+const StartPage = () => {
+  let categories = useContext(CategoryContext);
+
+  const printCategories = () => {
+    console.log("HELLO");
+    console.log(categories);
+  };
 
   return (
     <>
@@ -32,15 +37,11 @@ const StartPage = () => {
           </InputGroup>
         </Col>
       </Row>
+      <h3 onClick={printCategories}>visa alla categorier</h3>
 
-      <h2 className="d-flex justify-content-center">Populära kategorier</h2>
-
-      <Row>
-        {populareCatagorys.map((catagory, index) => {
-          return <CatagoryCard key={index} />;
-        })}
-      </Row>
-
+      <h3 className="d-flex justify-content-center">Populära kategorier</h3>
+      <CatagoryCard name="mjölk"></CatagoryCard>
+      <h3 className="d-flex justify-content-center">Alla kategorier</h3>
       {!showAllCatagorys ? (
         <h2
           className="d-flex justify-content-center"
@@ -57,11 +58,6 @@ const StartPage = () => {
           >
             Mindre kategorier
           </h2>
-          <Row>
-            {allCatagorys.map((catagory, index) => {
-              return <CatagoryCard key={index} />;
-            })}
-          </Row>
         </>
       )}
     </>

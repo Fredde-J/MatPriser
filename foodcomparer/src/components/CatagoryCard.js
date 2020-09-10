@@ -10,12 +10,12 @@ import {
 
 import milk from "../images/milk.png";
 
-const CatagoryCard = () => {
+const CatagoryCard = (props) => {
   return (
     <>
       <Card className="col-5 ml-4 mb-3 d-flex flex-wrap align-items-center ">
         <CardBody>
-          <h3>Lätt Mjölk</h3>
+          <CardTitle>{props.name}</CardTitle>
         </CardBody>
         <img height="150vh" width="150vw" src={milk} alt="Card image cap" />
       </Card>
