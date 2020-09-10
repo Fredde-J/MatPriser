@@ -16,13 +16,17 @@ import {
   ProductContextProvider,
   ProductContext,
 } from "../ContextProviders/ProductContextProvider";
+import {
+  CategoryContextProvider,
+  CategoryContext,
+} from "../ContextProviders/CategoryContextProvider";
 
 const StartPage = () => {
-  let products = useContext(ProductContext);
+  let categories = useContext(CategoryContext);
 
-  const printProducts = () => {
+  const printCategories = () => {
     console.log("HELLO");
-    console.log(products);
+    console.log(categories);
   };
 
   let catagorys = ["Lätt mjölk"];
@@ -42,9 +46,11 @@ const StartPage = () => {
         </Col>
       </Row>
 
-      <ProductContextProvider>
-        <button onClick={printProducts()}>Click me to print products</button>
-      </ProductContextProvider>
+      <CategoryContextProvider>
+        <button onClick={printCategories()}>
+          Click me to print categories
+        </button>
+      </CategoryContextProvider>
 
       <h3 className="d-flex justify-content-center">Populära kategorier</h3>
       <CatagoryCard name="mjölk"></CatagoryCard>

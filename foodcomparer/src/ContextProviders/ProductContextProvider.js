@@ -8,12 +8,12 @@ export const ProductContextProvider = (props) => {
 
   const getProducts = async () => {
     axios
-      .get("http://localhost:4000/rest/categories")
+      .get("http://localhost:4000/rest/products")
       .then((response) => {
         return response.data;
       })
-      .then(result => {
-        setProducts(result)
+      .then((result) => {
+        setProducts(result);
       })
       .catch((err) => {
         console.error(err);
@@ -22,7 +22,7 @@ export const ProductContextProvider = (props) => {
 
   useEffect(() => {
     getProducts();
-  }, [])
+  }, []);
 
   const values = {
     products,
