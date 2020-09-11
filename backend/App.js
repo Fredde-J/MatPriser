@@ -19,8 +19,9 @@ app.get("/test:store", (req, res) => {
 APIManager.connectToDb();
 
 app.get("/harvest/getproducts/:store", (req, res) => {
-  //example http://localhost:3000/harvest/getproducts/0?category=Kott-chark-och-fagel/Fagel/Fryst-fagel - willys
   //example http://localhost:3000/harvest/getproducts/1?category=discover?categoryId=32408 - coop
+  //example http://localhost:3000/harvest/getproducts/2?category=Brod-och-kakor/Knackebrod-och-skorpor/Knackebrod - hemköp
+  //example http://localhost:3000/harvest/getproducts/3?category=Frukt-och-Gront/Gronsaker/Paprika - willys
   //store must be a number
   APIManager.harvestProducts(req, res);
 });
