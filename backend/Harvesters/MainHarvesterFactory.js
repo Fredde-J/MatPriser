@@ -7,7 +7,7 @@ const HemkopHarvester = require("./HemkopHarvester");
 const HemkopScrubber = require("./HemkopScrubber");
 
 module.exports = class HarvesterFactory {
-  static async createProducts(storeId, categoryURL) {
+  static async createProducts(storeId, categoryId, categoryURL) {
     let products;
     let scrubbedProducts;
 
@@ -22,14 +22,15 @@ module.exports = class HarvesterFactory {
         scrubbedProducts = await HemkopScrubber.scrubAll(products);
         break;
       case 3:
-          products = await WillysHarvester.getProducts(categoryURL);
-          scrubbedProducts = await WillysScrubber.scrubAll(products);
+        products = await WillysHarvester.getProducts(categoryURL);
+        scrubbedProducts = await WillysScrubber.scrubAll(products);
           break;
       default:
         console.error(
           "Out of bounds! Expected storeId between 0-2, recieved ",
           storeId
         );
+        return scrubbedProducts;
     }
     /* let coopBanan = await CoopHarvester.getProducts(32490);
     let coopFisk = await CoopHarvester.getProducts(14754); */
@@ -37,7 +38,7 @@ module.exports = class HarvesterFactory {
     return scrubbedProducts;
   }
 
-  static async createCategories(storeId) {
+  /*static async createCategories(storeId) {
     let categories;
 
     switch (storeId) {
@@ -56,6 +57,6 @@ module.exports = class HarvesterFactory {
     }
 
     return categories;
-  }
+  }*/
   //mockup
 };
