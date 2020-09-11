@@ -33,43 +33,56 @@ module.exports = class APIManager {
         console.log(err);
       }
     });
+  }  
+
+  static async getCategoriesUrlByStoreId(storeID, callback) {
+    con.query("SELECT categoryId, categoryURL FROM storecategoryurl where storeID ="+storeID+" order by categoryId", function (err, result, fields) {
+      if (err) 
+            callback(err,null);
+        else
+            callback(null,result);
+      /*rows.forEach( (row) => {
+        console.log(`${row.categoryURL} lives in ${row.city}`);
+      });
+      */
+    });
   }
-  static getStores(res) {
-    con.query("SELECT * FROM store", (err, rows, fields) => {
-      if (!err) {
-        res.send(rows);
-      } else {
-        console.log(err);
-      }
+  
+  static async getStores(callback) {
+    con.query("SELECT id FROM store", (err, result, fields) => {
+      if (err) 
+            callback(err,null);
+        else
+            callback(null,result);
     });
   }
 
-  static harvestProducts(req, res) {
-    if (!/^[1-3]{1}$/.test(req.params.store)) {
+  static harvestProducts(storeId, categoryId, categoryUrl) {
+    /*if (!/^[1-3]{1}$/.test(req.params.store)) {
       //change [1-3] if you want to have more stores
       res.status(404).send(`store cannot be found: ${req.params.store}`);
       return;
     }
-
-    if (req.query.category == undefined) {
+*/
+   /* if (req.query.category == undefined) {
       res.status(404).send(`category cannot be found: ${req.query.category}`);
       return;
-    }
+    }*/
 
-    let storeId = Number(req.params.store);
-    let categoryURL = req.query.category;
-    HarvesterFactory.createProducts(storeId, categoryURL)
+    //let storeId = Number(req.params.store);
+    //let categoryURL = req.query.category;
+    HarvesterFactory.createProducts(storeId, categoryId, categoryUrl)
       .then((result) => {
-        res.status(300).json(result);
-        this.addProductsToDb(result);
+        //res.status(300).json(result);
+        this.addProductsToDb(storeId, result,categoryId);
       })
-      .then(console.log("Printing products to backend using factory"))
+      .then()
       .catch((err) => {
         console.error(err);
       });
   }
 
-  static addProductsToDb(products) {
+  static addProductsToDb(storeId, products,categoryId) {
     var jsonArray = products.map((el) => Object.values(el));
     var mysqlQuery =
       "INSERT INTO `product`(name, storeId, categoryId, brand, photoUrl, isEco, unit, pricePerUnit, pricePerItem, country, url, modifyDate, articleNumber) VALUES ?";
@@ -77,7 +90,7 @@ module.exports = class APIManager {
     con.query(mysqlQuery, [jsonArray], (err, results, fields) => {
       if (err) {
         return console.error(err.message);
-      } else console.log("succes!");
+      } else console.log("storeId: "+storeId+ " categoryId: "+categoryId+" succes!");
     });
   }
 

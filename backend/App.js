@@ -18,7 +18,35 @@ app.get("/test:store", (req, res) => {
 });
 APIManager.connectToDb();
 
-app.get("/harvest/getproducts/:store", (req, res) => {
+APIManager.getStores(function(err,data){
+  if (err) {
+      // error handling code goes here
+      console.log("ERROR : ",err);            
+  } else {            
+      // code to execute on data retrieval
+      stores = data;
+      for(let store of stores){
+          //console.log(store.id);
+          APIManager.getCategoriesUrlByStoreId(store.id,function(err,data){
+            if (err) {
+                // error handling code goes here
+                console.log("ERROR : ",err);            
+            } else {            
+                // code to execute on data retrieval
+                categories = data;
+                for(let category of categories){
+                    //console.log(category.categoryURL);
+                    APIManager.harvestProducts(store.id, category.categoryId, category.categoryURL)
+                }
+            }    
+          });
+      }
+  }    
+});
+
+
+
+/*app.get("/harvest/getproducts/:store", (req, res) => {
   //example http://localhost:3000/harvest/getproducts/1?category=discover?categoryId=32408 - coop
   //example http://localhost:3000/harvest/getproducts/2?category=Brod-och-kakor/Knackebrod-och-skorpor/Knackebrod - hemköp
   //example http://localhost:3000/harvest/getproducts/3?category=Frukt-och-Gront/Gronsaker/Paprika - willys
@@ -32,19 +60,20 @@ app.get("/harvest/getcategories/:store", (req, res) => {
     res.status(404).send(`store cannot be found: ${req.params.store}`);
     return;
   }
+*/
 
-  let storeId = Number(req.params.store);
-  HarvesterFactory.createCategories(storeId)
-    .then((result) => {
+ /* let storeId = Number(req.params.store);
+    HarvesterFactory.createCategories(storeId,categoryUrl)
+  .then((result) => {
       res.status(300).json(result);
     })
     .then(console.log("Printing categories to backend using factory"))
     .catch((err) => {
       console.error(err);
     });
-});
+});*/
 
-app.listen(port, () => {
+/*app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
 
@@ -67,3 +96,4 @@ app.get("rest/stores", async (req, res) => {
 app.delete("/rest/products", async (req, res) => {
   APIManager.deleteProducts(res);
 });
+*/
