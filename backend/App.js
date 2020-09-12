@@ -36,7 +36,7 @@ APIManager.getStores(function(err,data){
                 categories = data;
                 for(let category of categories){
                     //console.log(category.categoryURL);
-                    APIManager.harvestProducts(store.id, category.categoryId, category.categoryURL)
+                    APIManager.harvestProducts(store.id, category.categoryId, store.baseURL, category.categoryURL)
                 }
             }    
           });

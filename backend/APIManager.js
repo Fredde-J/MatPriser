@@ -45,7 +45,7 @@ module.exports = class APIManager {
   }
   
   static async getStores(callback) {
-    con.query("SELECT id FROM store", (err, result, fields) => {
+    con.query("SELECT id, baseURL FROM store", (err, result, fields) => {
       if (err) 
             callback(err,null);
         else
@@ -53,7 +53,7 @@ module.exports = class APIManager {
     });
   }
 
-  static harvestProducts(storeId, categoryId, categoryUrl) {
+  static harvestProducts(storeId, categoryId, baseURL, categoryUrl) {
     /*if (!/^[1-3]{1}$/.test(req.params.store)) {
       //change [1-3] if you want to have more stores
       res.status(404).send(`store cannot be found: ${req.params.store}`);
@@ -67,7 +67,7 @@ module.exports = class APIManager {
 
     //let storeId = Number(req.params.store);
     //let categoryURL = req.query.category;
-    HarvesterFactory.createProducts(storeId, categoryId, categoryUrl)
+    HarvesterFactory.createProducts(storeId, categoryId, baseURL, categoryUrl)
       .then((result) => {
         //res.status(300).json(result);
         this.addProductsToDb(storeId, result,categoryId);

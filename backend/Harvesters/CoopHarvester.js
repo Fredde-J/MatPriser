@@ -9,7 +9,7 @@ module.exports = class CoopHarvester {
     '&placements=category_page.Discover&rrSessionId=1' +
     '&currentPage=0&pageSize=10000&fields=FULL';
 
-    static async getProducts(categoryURL) {
+    static async getProducts(baseURL, categoryURL) {
       //search?text=standardmjölk:
       //discover?categoryId=
         let raw = await fetch('https://www.coop.se/ws/v2/coop/users/anonymous/' +
