@@ -41,10 +41,6 @@ module.exports = class APIManager {
             callback(err,null);
         else
             callback(null,result);
-      /*rows.forEach( (row) => {
-        console.log(`${row.categoryURL} lives in ${row.city}`);
-      });
-      */
     });
   }
   

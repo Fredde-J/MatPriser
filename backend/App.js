@@ -44,8 +44,6 @@ APIManager.getStores(function(err,data){
   }    
 });
 
-
-
 /*app.get("/harvest/getproducts/:store", (req, res) => {
   //example http://localhost:3000/harvest/getproducts/1?category=discover?categoryId=32408 - coop
   //example http://localhost:3000/harvest/getproducts/2?category=Brod-och-kakor/Knackebrod-och-skorpor/Knackebrod - hemköp
@@ -73,7 +71,7 @@ app.get("/harvest/getcategories/:store", (req, res) => {
     });
 });*/
 
-/*app.listen(port, () => {
+app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
 
@@ -96,4 +94,3 @@ app.get("rest/stores", async (req, res) => {
 app.delete("/rest/products", async (req, res) => {
   APIManager.deleteProducts(res);
 });
-*/
