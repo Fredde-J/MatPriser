@@ -75,9 +75,9 @@ app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
 
-app.post("/harvest/getproducts/:store", async (req, res) => {
+/*app.post("/harvest/getproducts/:store", async (req, res) => {
   APIManager.harvestProducts(req, res);
-});
+});*/
 
 app.get("/rest/products", async (req, res) => {
   APIManager.getProductsFromDb(res);
