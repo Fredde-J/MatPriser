@@ -2,11 +2,15 @@ const fetch = require('node-fetch');
 const Scrubber = require('./Scrubber');
 
 module.exports = class CoopScrubber extends Scrubber {
+  constructor(categoryId) {
+    super(categoryId);
+    this.categoryId = categoryId;
+  }
   //name, storeId, categoryId, brand, photoUrl, isEco, unit, pricePerUnit, pricePerItem, country, url, modifyDate, articleNumber 
   static translateSchema = {
     name: x => x.name,
     storeId: (x) => 1, // CoopStoreId
-    categoryId: (x) => 2, // testvärde!
+    categoryId: (x) => this.categoryId, // testvärde!
     brand: x => x.manufacturer,
     photoUrl: x => x.images[0].url,
     isEco: x => x.name.includes("Eko") ? 1: 0,

@@ -1,8 +1,10 @@
 module.exports = class Scrubber {
-
+  constructor(categoryId) {
+    this.categoryId = categoryId;
+  }
   // Method that scrubs a product 
   // based on the translateSchema in our subClass
-  static async scrubOne(product) {
+  static async scrubOne(categoryId, product) {
     let scrubbed = {};
     let tschema = this.translateSchema;
     for (let key in tschema) {
@@ -13,10 +15,11 @@ module.exports = class Scrubber {
   }
 
   // Scrub a whole array of products
-  static async scrubAll(products) {
+  static async scrubAll(categoryId, products) {
+    this.categoryId = categoryId;
     let scrubbed = [];
     for (let product of products) {
-      scrubbed.push(await this.scrubOne(product));
+      scrubbed.push(await this.scrubOne(categoryId, product));
     }
     return scrubbed;
   }
