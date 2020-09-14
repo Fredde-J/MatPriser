@@ -10,7 +10,7 @@ module.exports = class HemkopScrubber extends Scrubber {
   static translateSchema = {
     name: x => x.name,
     storeId: x => 2, //Hemköp StoreId
-    categoryId: (x) => this.categoryId, // testvärde!
+    mainCategoryId: (x) => this.categoryId, // testvärde!
     brand: x => x.manufacturer,
     photoUrl: x => x.image.url,
     isEco: x => x.labels.includes("Eko") ? 1: 0,
@@ -29,7 +29,19 @@ module.exports = class HemkopScrubber extends Scrubber {
       },
     url: (x) => "https://www.hemkop.se/produkt/"+x.name.replace(/ /g, '-')+'-'+x.code,    
     modifyDate: (x) => new Date(),
-    articleNumber: x => x.code
+    articleNumber: x => x.code,
+    promotionConditionLabel: (x) => {
+      let promotion = x.potentialPromotions[0]; 
+      return promotion ? promotion.conditionLabel : null;
+    },
+    promotionType: (x) => {
+      let promotion = x.potentialPromotions[0]; 
+      return promotion ? promotion.campaignType : null;
+    },
+    promotionPrice: (x) => {
+      let promotion = x.potentialPromotions[0]; 
+      return promotion ? promotion.price.value : null;
+    }
   }
 
 }

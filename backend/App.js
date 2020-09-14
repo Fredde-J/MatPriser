@@ -27,7 +27,7 @@ APIManager.getStores(function(err,data){
       stores = data;
       for(let store of stores){
           //console.log(store.id);
-          APIManager.getCategoriesUrlByStoreId(store.id,function(err,data){
+          APIManager.getMainCategoriesUrlByStoreId(store.id,function(err,data){
             if (err) {
                 // error handling code goes here
                 console.log("ERROR : ",err);            
@@ -36,7 +36,7 @@ APIManager.getStores(function(err,data){
                 categories = data;
                 for(let category of categories){
                     //console.log(category.categoryURL);
-                    APIManager.harvestProducts(store.id, category.categoryId, store.baseURL, category.categoryURL)
+                    APIManager.harvestProducts(store.id, category.mainCategoryId, store.baseURL, category.categoryURL)
                 }
             }    
           });
@@ -84,7 +84,7 @@ app.get("/rest/products", async (req, res) => {
 });
 
 app.get("/rest/categories", async (req, res) => {
-  APIManager.getCategories(res);
+  APIManager.getMainCategories(res);
 });
 
 app.get("rest/stores", async (req, res) => {

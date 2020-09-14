@@ -25,8 +25,8 @@ module.exports = class APIManager {
       }
     });
   }
-  static getCategories(res) {
-    con.query("SELECT * FROM category", (err, rows, fields) => {
+  static getMainCategories(res) {
+    con.query("SELECT * FROM maincategory order by id", (err, rows, fields) => {
       if (!err) {
         res.send(rows);
       } else {
@@ -35,8 +35,8 @@ module.exports = class APIManager {
     });
   }  
 
-  static async getCategoriesUrlByStoreId(storeID, callback) {
-    con.query("SELECT categoryId, categoryURL FROM storecategoryurl where storeID ="+storeID+" order by categoryId", function (err, result, fields) {
+  static async getMainCategoriesUrlByStoreId(storeID, callback) {
+    con.query("SELECT mainCategoryId, categoryURL FROM storecategoryurl where storeID ="+storeID+" AND subCategoryId is null order by mainCategoryId", function (err, result, fields) {
       if (err) 
             callback(err,null);
         else
@@ -81,7 +81,7 @@ module.exports = class APIManager {
   static addProductsToDb(storeId, products,categoryId) {
     var jsonArray = products.map((el) => Object.values(el));
     var mysqlQuery =
-      "INSERT INTO `product`(name, storeId, categoryId, brand, photoUrl, isEco, unit, pricePerUnit, pricePerItem, country, url, modifyDate, articleNumber) VALUES ?";
+      "INSERT INTO `product`(name, storeId, mainCategoryId, brand, photoUrl, isEco, unit, pricePerUnit, pricePerItem, country, url, modifyDate, articleNumber, promotionConditionLabel, promotionType, promotionPrice) VALUES ?";
 
     con.query(mysqlQuery, [jsonArray], (err, results, fields) => {
       if (err) {
