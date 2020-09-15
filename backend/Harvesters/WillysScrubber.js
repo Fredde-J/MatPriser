@@ -15,7 +15,7 @@ module.exports = class WillysScrubber extends Scrubber {
     photoUrl: (x) => x.image && x.image.url,
     isEco: (x) => x.labels.includes("ecological") ? 1: 0,
     unit: (x) => x.comparePriceUnit,
-    pricePerUnit: (x) => parseFloat(x.comparePrice.replace(/,/, ".")),
+    pricePerUnit: (x) => x.comparePrice ? parseFloat(x.comparePrice.replace(/,/, ".")) : null,
     pricePerItem: (x) => x.priceValue,
     country: async (x) => {
       // Seems we need detailed product info for this...

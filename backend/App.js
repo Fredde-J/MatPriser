@@ -34,8 +34,7 @@ APIManager.getStores(function(err,data){
             } else {            
                 // code to execute on data retrieval
                 categories = data;
-                for(let category of categories){
-                    //console.log(category.categoryURL);
+                for(let category of categories){                    
                     APIManager.harvestProducts(store.id, category.mainCategoryId, store.baseURL, category.categoryURL);
                 }
             }    
