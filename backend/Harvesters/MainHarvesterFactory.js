@@ -6,7 +6,7 @@ const CoopScrubber = require("./CoopScrubber");
 const HemkopScrubber = require("./HemkopScrubber");
 
 module.exports = class HarvesterFactory {
-  static async createProducts(storeId, categoryId, baseURL, categoryURL) {
+  static async createProducts(storeId, mainCategoryId, baseURL, categoryURL) {
     let products;
     let scrubbedProducts;
 
@@ -15,17 +15,17 @@ module.exports = class HarvesterFactory {
       case 1:
         products = await CoopHarvester.getProducts(baseURL,categoryURL);
         //next step: CoopScrubber with parameters (url, categoryId)
-        scrubbedProducts = await CoopScrubber.scrubAll(categoryId, products);
+        scrubbedProducts = await CoopScrubber.scrubAll(mainCategoryId, products);
         break;
       case 2:
       case 3:
         products = await AxfoodHarvester.getProducts(baseURL,categoryURL);
         //next step: AxfoodScrubber with parameters (url, categoryId)
         if(storeId == 2){
-          scrubbedProducts = await HemkopScrubber.scrubAll(categoryId, products); //url, categoryId
+          scrubbedProducts = await HemkopScrubber.scrubAll(mainCategoryId, products); //url, categoryId
         }
         else if(storeId == 3){
-          scrubbedProducts = await WillysScrubber.scrubAll(categoryId, products); //url, categoryId
+          scrubbedProducts = await WillysScrubber.scrubAll(mainCategoryId, products); //url, categoryId
         }
         break;
       default:
@@ -40,6 +40,7 @@ module.exports = class HarvesterFactory {
 
     return scrubbedProducts;
   }
+
 
   /*static async createCategories(storeId) {
     let categories;

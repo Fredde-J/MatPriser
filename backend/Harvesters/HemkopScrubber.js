@@ -2,15 +2,15 @@ const fetch = require('node-fetch');
 const Scrubber = require('./Scrubber');
 
 module.exports = class HemkopScrubber extends Scrubber {
-  constructor(categoryId) {
-    super(categoryId);
-    this.categoryId = categoryId;
+  constructor(mainCategoryId) {
+    super(mainCategoryId);
+    this.mainCategoryId = mainCategoryId;
   }
 //name, storeId, categoryId, brand, photoUrl, isEco, unit, pricePerUnit, pricePerItem, country, url, modifyDate, articleNumber 
   static translateSchema = {
     name: x => x.name,
     storeId: x => 2, //Hemköp StoreId
-    mainCategoryId: (x) => this.categoryId, // testvärde!
+    mainCategoryId: (x) => this.mainCategoryId, // testvärde!
     brand: x => x.manufacturer,
     photoUrl: x => x.image.url,
     isEco: x => x.labels.includes("Eko") ? 1: 0,

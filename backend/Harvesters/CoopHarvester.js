@@ -5,9 +5,8 @@ const fetch = require('node-fetch');
 module.exports = class CoopHarvester {
 
   /*static genericCoopAPIUrl = 'https://www.coop.se/ws/v2/coop/users/anonymous/' +
-    'products/discover?categoryId=32490&storeId=016001' +
-    '&placements=category_page.Discover&rrSessionId=1' +
-    '&currentPage=0&pageSize=10000&fields=FULL';*/
+    'products/discover?categoryId=32490'+
+    '&storeId=016001&placements=category_page.Discover&rrSessionId=1&currentPage=0&pageSize=10000&fields=FULL';*/
 
   static async getProducts(baseURL, categoryURL) {
         let raw = await fetch(baseURL +

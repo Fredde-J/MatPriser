@@ -26,14 +26,14 @@ module.exports = class APIManager {
     });
   }
   static getMainCategories(res) {
-    con.query("SELECT * FROM maincategory order by id", (err, rows, fields) => {
+    con.query("SELECT * FROM maincategory order by name", (err, rows, fields) => {
       if (!err) {
         res.send(rows);
       } else {
         console.log(err);
       }
     });
-  }  
+  }
 
   static async getMainCategoriesUrlByStoreId(storeID, callback) {
     con.query("SELECT mainCategoryId, categoryURL FROM storecategoryurl where storeID ="+storeID+" AND subCategoryId is null order by mainCategoryId", function (err, result, fields) {
@@ -53,7 +53,7 @@ module.exports = class APIManager {
     });
   }
 
-  static harvestProducts(storeId, categoryId, baseURL, categoryUrl) {
+  static harvestProducts(storeId, mainCategoryId, baseURL, categoryUrl) {
     /*if (!/^[1-3]{1}$/.test(req.params.store)) {
       //change [1-3] if you want to have more stores
       res.status(404).send(`store cannot be found: ${req.params.store}`);
@@ -67,10 +67,10 @@ module.exports = class APIManager {
 
     //let storeId = Number(req.params.store);
     //let categoryURL = req.query.category;
-    HarvesterFactory.createProducts(storeId, categoryId, baseURL, categoryUrl)
+    HarvesterFactory.createProducts(storeId, mainCategoryId, baseURL, categoryUrl)
       .then((result) => {
         //res.status(300).json(result);
-        this.addProductsToDb(storeId, result,categoryId);
+        this.addProductsToDb(storeId, result, mainCategoryId);
       })
       .then()
       .catch((err) => {
@@ -78,7 +78,7 @@ module.exports = class APIManager {
       });
   }
 
-  static addProductsToDb(storeId, products,categoryId) {
+  static addProductsToDb(storeId, products, mainCategoryId) {
     var jsonArray = products.map((el) => Object.values(el));
     var mysqlQuery =
       "INSERT INTO `product`(name, storeId, mainCategoryId, brand, photoUrl, isEco, unit, pricePerUnit, pricePerItem, country, url, modifyDate, articleNumber, promotionConditionLabel, promotionType, promotionPrice) VALUES ?";
@@ -86,7 +86,7 @@ module.exports = class APIManager {
     con.query(mysqlQuery, [jsonArray], (err, results, fields) => {
       if (err) {
         return console.error(err.message);
-      } else console.log("storeId: "+storeId+ " categoryId: "+categoryId+" succes!");
+      } else console.log("storeId: "+storeId+ " categoryId: "+mainCategoryId+" succes!");
     });
   }
 
