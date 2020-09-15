@@ -25,6 +25,17 @@ module.exports = class APIManager {
       }
     });
   }
+
+  static getProductsByMainCategoryIdFromDb(mainCategoryId, res) {
+    con.query("SELECT * FROM product WHERE mainCategoryId = "+mainCategoryId+" ", (err, rows, fields) => {
+      if (!err) {
+        res.send(rows);
+      } else {
+        console.log(err);
+      }
+    });
+  }
+
   static getMainCategories(res) {
     con.query("SELECT * FROM maincategory order by name", (err, rows, fields) => {
       if (!err) {
@@ -52,24 +63,10 @@ module.exports = class APIManager {
             callback(null,result);
     });
   }
-
-  static harvestProducts(storeId, mainCategoryId, baseURL, categoryUrl) {
-    /*if (!/^[1-3]{1}$/.test(req.params.store)) {
-      //change [1-3] if you want to have more stores
-      res.status(404).send(`store cannot be found: ${req.params.store}`);
-      return;
-    }
-*/
-   /* if (req.query.category == undefined) {
-      res.status(404).send(`category cannot be found: ${req.query.category}`);
-      return;
-    }*/
-
-    //let storeId = Number(req.params.store);
-    //let categoryURL = req.query.category;
-    HarvesterFactory.createProducts(storeId, mainCategoryId, baseURL, categoryUrl)
+/*
+  static harvestProducts(storeId, mainCategoryId, baseURL, categoryURL) {
+    HarvesterFactory.createProducts(storeId, mainCategoryId, baseURL, categoryURL)
       .then((result) => {
-        //res.status(300).json(result);
         this.addProductsToDb(storeId, result, mainCategoryId);
       })
       .then()
@@ -77,7 +74,7 @@ module.exports = class APIManager {
         console.error(err);
       });
   }
-
+*/
   static addProductsToDb(storeId, products, mainCategoryId) {
     var jsonArray = products.map((el) => Object.values(el));
     var mysqlQuery =

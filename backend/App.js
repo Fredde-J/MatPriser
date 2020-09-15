@@ -18,30 +18,34 @@ app.get("/test:store", (req, res) => {
 });
 APIManager.connectToDb();
 
-APIManager.getStores(function(err,data){
-  if (err) {
-      // error handling code goes here
-      console.log("ERROR : ",err);            
-  } else {            
-      // code to execute on data retrieval
-      stores = data;
-      for(let store of stores){
-          //console.log(store.id);
-          APIManager.getMainCategoriesUrlByStoreId(store.id,function(err,data){
-            if (err) {
-                // error handling code goes here
-                console.log("ERROR : ",err);            
-            } else {            
-                // code to execute on data retrieval
-                categories = data;
-                for(let category of categories){                    
-                    APIManager.harvestProducts(store.id, category.mainCategoryId, store.baseURL, category.categoryURL);
-                }
-            }    
-          });
-      }
-  }    
-});
+//app.get("/harvest/setproducts/", (req, res) => {
+//next step: function  
+  APIManager.getStores(function(err,data){
+    if (err) { console.log("ERROR : ",err);   } 
+    else {
+        stores = data;
+        for(let store of stores){
+            APIManager.getMainCategoriesUrlByStoreId(store.id,function(err,data){
+              if (err) { console.log("ERROR : ",err); } 
+              else {
+                  categories = data;
+                  for(let category of categories){
+                    //APIManager.harvestProducts(store.id, category.mainCategoryId, store.baseURL, category.categoryURL);
+                    HarvesterFactory.createProducts(store.id, category.mainCategoryId, store.baseURL, category.categoryURL)
+                        .then((result) => {
+                          APIManager.addProductsToDb(store.id, result, category.mainCategoryId);
+                        })
+                        .then()
+                        .catch((err) => {
+                          console.error(err);
+                        });
+                  }
+              }    
+            });
+        }
+    }    
+  });
+//});
 
 /*app.get("/harvest/getproducts/:store", (req, res) => {
   //example http://localhost:3000/harvest/getproducts/1?category=discover?categoryId=32408 - coop
@@ -80,6 +84,11 @@ app.listen(port, () => {
 
 app.get("/rest/products", async (req, res) => {
   APIManager.getProductsFromDb(res);
+});
+
+app.get("/rest/productsByMainCategoryId/:mCatId", async (req, res) => {
+  let mCatId = Number(req.params.mCatId);
+  APIManager.getProductsByMainCategoryIdFromDb(mCatId, res);
 });
 
 app.get("/rest/categories", async (req, res) => {

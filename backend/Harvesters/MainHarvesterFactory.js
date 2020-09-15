@@ -14,18 +14,16 @@ module.exports = class HarvesterFactory {
       // 1 - coop, 2 - hemkop, 3 - willys     
       case 1:
         products = await CoopHarvester.getProducts(baseURL,categoryURL);
-        //next step: CoopScrubber with parameters (url, categoryId)
         scrubbedProducts = await CoopScrubber.scrubAll(mainCategoryId, products);
         break;
       case 2:
       case 3:
         products = await AxfoodHarvester.getProducts(baseURL,categoryURL);
-        //next step: AxfoodScrubber with parameters (url, categoryId)
         if(storeId == 2){
-          scrubbedProducts = await HemkopScrubber.scrubAll(mainCategoryId, products); //url, categoryId
+          scrubbedProducts = await HemkopScrubber.scrubAll(mainCategoryId, products);
         }
         else if(storeId == 3){
-          scrubbedProducts = await WillysScrubber.scrubAll(mainCategoryId, products); //url, categoryId
+          scrubbedProducts = await WillysScrubber.scrubAll(mainCategoryId, products);
         }
         break;
       default:
