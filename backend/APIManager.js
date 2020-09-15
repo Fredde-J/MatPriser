@@ -27,7 +27,7 @@ module.exports = class APIManager {
   }
 
   static getProductsByMainCategoryIdFromDb(mainCategoryId, res) {
-    con.query("SELECT * FROM product WHERE mainCategoryId = "+mainCategoryId+" ", (err, rows, fields) => {
+    con.query("SELECT * FROM product WHERE mainCategoryId = "+mainCategoryId+" AND isActive = 1", (err, rows, fields) => {
       if (!err) {
         res.send(rows);
       } else {
@@ -83,7 +83,11 @@ module.exports = class APIManager {
     con.query(mysqlQuery, [jsonArray], (err, results, fields) => {
       if (err) {
         return console.error(err.message);
-      } else console.log("storeId: "+storeId+ " categoryId: "+mainCategoryId+" succes!");
+      } else {
+        console.log("storeId: "+storeId+ " categoryId: "+mainCategoryId+" succes!");
+        this.deleteProductsByMainCategoryId(storeId, mainCategoryId);
+        this.updateProductsStatusByMainCategoryId(storeId, mainCategoryId);
+      }
     });
   }
 
@@ -96,4 +100,25 @@ module.exports = class APIManager {
       }
     });
   }
+
+  static deleteProductsByMainCategoryId(storeId, mainCategoryId, res) {
+    con.query("DELETE FROM product WHERE storeId = "+storeId+" AND mainCategoryId = "+mainCategoryId+" AND isActive = 1", (err) => {
+      if (!err) {
+        null;
+      } else {
+        console.log(err);
+      }
+    });
+  }
+
+  static updateProductsStatusByMainCategoryId(storeId, mainCategoryId, res) {
+    con.query("UPDATE product SET isActive = 1 WHERE storeId = "+storeId+" AND mainCategoryId = "+mainCategoryId+" ", (err) => {
+      if (!err) {
+        null;
+      } else {
+        console.log(err);
+      }
+    });
+  }
+
 };

@@ -39,26 +39,5 @@ module.exports = class HarvesterFactory {
     return scrubbedProducts;
   }
 
-
-  /*static async createCategories(storeId) {
-    let categories;
-
-    switch (storeId) {
-      case 0:
-        categories = await WillysHarvester.getCategories();
-        break;
-      case 1:
-        break;
-      case 2:
-        break;
-      default:
-        console.error(
-          "Out of bounds! Expected storeId between 0-2, recieved",
-          storeId
-        );
-    }
-
-    return categories;
-  }*/
   //mockup
 };

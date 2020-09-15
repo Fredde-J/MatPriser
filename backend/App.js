@@ -18,9 +18,11 @@ app.get("/test:store", (req, res) => {
 });
 APIManager.connectToDb();
 
-//app.get("/harvest/setproducts/", (req, res) => {
-//next step: function  
-  APIManager.getStores(function(err,data){
+var schedule = require('node-schedule');
+var j = schedule.scheduleJob('10 10 * * *', function(){
+  //'10 * * * *' Execute a cron job when the minute is 10 (e.g. 19:10, 20:10, etc.).
+  //'10 10 * * *'Execute a cron job 10:10
+   APIManager.getStores(function(err,data){
     if (err) { console.log("ERROR : ",err);   } 
     else {
         stores = data;
@@ -45,7 +47,8 @@ APIManager.connectToDb();
         }
     }    
   });
-//});
+});
+ 
 
 /*app.get("/harvest/getproducts/:store", (req, res) => {
   //example http://localhost:3000/harvest/getproducts/1?category=discover?categoryId=32408 - coop
