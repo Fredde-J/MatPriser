@@ -36,7 +36,7 @@ CREATE TABLE `subcategory` (
 
 LOCK TABLES `subcategory` WRITE;
 /*!40000 ALTER TABLE `subcategory` DISABLE KEYS */;
-INSERT INTO `subcategory` VALUES (1,'Standard Mjölk',1),(2,'Mellan Mjölk',1),(3,'Lätt Mjölk',1),(4,'Drickyoghurt',1),(5,'Ägg',1),(6,'Ost',1),(7,'Banan',2),(8,'Äpple',2),(9,'Druvor',2),(10,'Melon',2),(11,'Tomat',3),(12,'Paprika',3),(14,'Knäckebröd',4),(15,'Bröd',4),(16,'Fika',4),(17,'Kex och Kakor',4),(18,'Snabbkaffe',5),(20,'Hela bönor',5),(21,'Hand diskmedel',6),(22,'Toalettpapper',6),(23,'Tvättmedel',6),(24,'Hushållspapper',6),(25,'Kött',7),(26,'Fågel',7),(27,'Tofu',9),(28,'Pålägg',9),(29,'Fisk',8),(30,'Skaldjur',8),(31,'Filter',5);
+INSERT INTO `subcategory` VALUES (1,'Standard Mjölk',1),(2,'Mellan Mjölk',1),(3,'Lätt Mjölk',1),(4,'Drickyoghurt',1),(7,'Banan',2),(8,'Äpple',2),(9,'Druvor',2),(10,'Melon',2),(11,'Tomat',3),(12,'Paprika',3),(14,'Knäckebröd',4),(15,'Bröd',4),(16,'Fika',4),(17,'Kex och Kakor',4),(18,'Snabbkaffe',5),(20,'Hela bönor',5),(21,'Hand diskmedel',6),(22,'Toalettpapper',6),(23,'Tvättmedel',6),(24,'Hushållspapper',6),(25,'Kött',7),(26,'Fågel',7),(27,'Tofu',9),(28,'Pålägg',9),(29,'Fisk',8),(30,'Skaldjur',8),(31,'Filter',5);
 /*!40000 ALTER TABLE `subcategory` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -49,4 +49,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-09-14 22:51:00
+-- Dump completed on 2020-09-15 12:03:20
