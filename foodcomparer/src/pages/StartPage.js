@@ -10,7 +10,6 @@ import {
 } from "reactstrap";
 import CatagoryCard from "../components/CatagoryCard";
 import searchIcon from "../images/searchIcon.svg";
-
 import { CategoryContext } from "../ContextProviders/CategoryContextProvider";
 
 const StartPage = () => {
