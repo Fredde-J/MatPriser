@@ -2,16 +2,20 @@ const fetch = require("node-fetch");
 const Scrubber = require("./Scrubber");
 
 module.exports = class WillysScrubber extends Scrubber {
+  constructor(mainCategoryId) {
+    super(mainCategoryId);
+    this.mainCategoryId = mainCategoryId;
+  }
   //name, storeId, categoryId, brand, photoUrl, isEco, unit, pricePerUnit, pricePerItem, country, url, modifyDate, articleNumber 
   static translateSchema = {
     name: (x) => x.name,
     storeId: (x) => 3, // testvärde!
-    categoryId: (x) => 2, // testvärde!
+    mainCategoryId: (x) => this.mainCategoryId, // testvärde!
     brand: (x) => x.manufacturer,
     photoUrl: (x) => x.image && x.image.url,
     isEco: (x) => x.labels.includes("ecological") ? 1: 0,
     unit: (x) => x.comparePriceUnit,
-    pricePerUnit: (x) => parseFloat(x.comparePrice.replace(/,/, ".")),
+    pricePerUnit: (x) => x.comparePrice ? parseFloat(x.comparePrice.replace(/,/, ".")) : null,
     pricePerItem: (x) => x.priceValue,
     country: async (x) => {
       // Seems we need detailed product info for this...
@@ -25,6 +29,18 @@ module.exports = class WillysScrubber extends Scrubber {
     },
     url: (x) => "https://www.willys.se/produkt/"+x.name.replace(/ /g, '-')+'-'+x.code,    
     modifyDate: (x) => new Date(),
-    articleNumber: (x) => x.code
+    articleNumber: (x) => x.code,
+    promotionConditionLabel: (x) => {
+      let promotion = x.potentialPromotions[0]; 
+      return promotion ? promotion.conditionLabel : null;
+    },
+    promotionType: (x) => {
+      let promotion = x.potentialPromotions[0]; 
+      return promotion ? promotion.campaignType : null;
+    },
+    promotionPrice: (x) => {
+      let promotion = x.potentialPromotions[0]; 
+      return promotion ? promotion.price.value : null;
+    }
   };
 };

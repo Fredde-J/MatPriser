@@ -25,72 +25,79 @@ module.exports = class APIManager {
       }
     });
   }
-  static getCategories(res) {
-    con.query("SELECT * FROM category", (err, rows, fields) => {
+
+  static getProductsByMainCategoryIdFromDb(mainCategoryId, res) {
+    con.query("SELECT * FROM product WHERE mainCategoryId = "+mainCategoryId+" AND isActive = 1", (err, rows, fields) => {
       if (!err) {
         res.send(rows);
       } else {
         console.log(err);
       }
     });
-  }  
+  }
 
-  static async getCategoriesUrlByStoreId(storeID, callback) {
-    con.query("SELECT categoryId, categoryURL FROM storecategoryurl where storeID ="+storeID+" order by categoryId", function (err, result, fields) {
+  static getProductsBySearchText(text, res){
+    con.query("SELECT * FROM product where name like '%"+text+"%' and isActive = 1", (err, rows, fields) => {
+      if (!err) {
+        res.send(rows);
+      } else {
+        console.log(err);
+      }
+    });
+  }
+
+  static getMainCategories(res) {
+    con.query("SELECT * FROM maincategory order by name", (err, rows, fields) => {
+      if (!err) {
+        res.send(rows);
+      } else {
+        console.log(err);
+      }
+    });
+  }
+
+  static async getMainCategoriesUrlByStoreId(storeID, callback) {
+    con.query("SELECT mainCategoryId, categoryURL FROM storecategoryurl where storeID ="+storeID+" AND subCategoryId is null order by mainCategoryId", function (err, result, fields) {
       if (err) 
             callback(err,null);
         else
             callback(null,result);
-      /*rows.forEach( (row) => {
-        console.log(`${row.categoryURL} lives in ${row.city}`);
-      });
-      */
     });
   }
   
   static async getStores(callback) {
-    con.query("SELECT id FROM store", (err, result, fields) => {
+    con.query("SELECT id, baseURL FROM store", (err, result, fields) => {
       if (err) 
             callback(err,null);
         else
             callback(null,result);
     });
   }
-
-  static harvestProducts(storeId, categoryId, categoryUrl) {
-    /*if (!/^[1-3]{1}$/.test(req.params.store)) {
-      //change [1-3] if you want to have more stores
-      res.status(404).send(`store cannot be found: ${req.params.store}`);
-      return;
-    }
-*/
-   /* if (req.query.category == undefined) {
-      res.status(404).send(`category cannot be found: ${req.query.category}`);
-      return;
-    }*/
-
-    //let storeId = Number(req.params.store);
-    //let categoryURL = req.query.category;
-    HarvesterFactory.createProducts(storeId, categoryId, categoryUrl)
+/*
+  static harvestProducts(storeId, mainCategoryId, baseURL, categoryURL) {
+    HarvesterFactory.createProducts(storeId, mainCategoryId, baseURL, categoryURL)
       .then((result) => {
-        //res.status(300).json(result);
-        this.addProductsToDb(storeId, result,categoryId);
+        this.addProductsToDb(storeId, result, mainCategoryId);
       })
       .then()
       .catch((err) => {
         console.error(err);
       });
   }
-
-  static addProductsToDb(storeId, products,categoryId) {
+*/
+  static addProductsToDb(storeId, products, mainCategoryId) {
     var jsonArray = products.map((el) => Object.values(el));
     var mysqlQuery =
-      "INSERT INTO `product`(name, storeId, categoryId, brand, photoUrl, isEco, unit, pricePerUnit, pricePerItem, country, url, modifyDate, articleNumber) VALUES ?";
+      "INSERT INTO `product`(name, storeId, mainCategoryId, brand, photoUrl, isEco, unit, pricePerUnit, pricePerItem, country, url, modifyDate, articleNumber, promotionConditionLabel, promotionType, promotionPrice) VALUES ?";
 
     con.query(mysqlQuery, [jsonArray], (err, results, fields) => {
       if (err) {
         return console.error(err.message);
-      } else console.log("storeId: "+storeId+ " categoryId: "+categoryId+" succes!");
+      } else {
+        console.log("storeId: "+storeId+ " categoryId: "+mainCategoryId+" succes!");
+        this.deleteProductsByMainCategoryId(storeId, mainCategoryId);
+        this.updateProductsStatusByMainCategoryId(storeId, mainCategoryId);
+      }
     });
   }
 
@@ -103,4 +110,25 @@ module.exports = class APIManager {
       }
     });
   }
+
+  static deleteProductsByMainCategoryId(storeId, mainCategoryId, res) {
+    con.query("DELETE FROM product WHERE storeId = "+storeId+" AND mainCategoryId = "+mainCategoryId+" AND isActive = 1", (err) => {
+      if (!err) {
+        null;
+      } else {
+        console.log(err);
+      }
+    });
+  }
+
+  static updateProductsStatusByMainCategoryId(storeId, mainCategoryId, res) {
+    con.query("UPDATE product SET isActive = 1 WHERE storeId = "+storeId+" AND mainCategoryId = "+mainCategoryId+" ", (err) => {
+      if (!err) {
+        null;
+      } else {
+        console.log(err);
+      }
+    });
+  }
+
 };
