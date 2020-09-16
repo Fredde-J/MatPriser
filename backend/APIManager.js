@@ -36,6 +36,16 @@ module.exports = class APIManager {
     });
   }
 
+  static getProductsBySearchText(text, res){
+    con.query("SELECT * FROM product where name like '%"+text+"%' and isActive = 1", (err, rows, fields) => {
+      if (!err) {
+        res.send(rows);
+      } else {
+        console.log(err);
+      }
+    });
+  }
+
   static getMainCategories(res) {
     con.query("SELECT * FROM maincategory order by name", (err, rows, fields) => {
       if (!err) {

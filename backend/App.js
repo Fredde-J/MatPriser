@@ -89,12 +89,17 @@ app.get("/rest/products", async (req, res) => {
   APIManager.getProductsFromDb(res);
 });
 
-app.get("/rest/productsByMainCategoryId/:mCatId", async (req, res) => {
+app.get("/rest/productsbymaincategoryId/:mCatId", async (req, res) => {
   let mCatId = Number(req.params.mCatId);
   APIManager.getProductsByMainCategoryIdFromDb(mCatId, res);
 });
 
-app.get("/rest/categories", async (req, res) => {
+app.get("/rest/productsbysearchtext/:text", async (req, res) => {
+  let text = req.params.text;
+  APIManager.getProductsBySearchText(text, res);
+});
+
+app.get("/rest/maincategories", async (req, res) => {
   APIManager.getMainCategories(res);
 });
 
