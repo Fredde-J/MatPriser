@@ -7,6 +7,9 @@ const Header = (props) => {
   const goTohomepage =()=>{
     props.history.push("/")
   }
+  const goToShoppingList =()=>{
+    props.history.push("/shoppinglist")
+  }
   return (
     <>
       <Row className="" style={{ backgroundColor: "rgb(250, 246, 184)" }}>
@@ -18,6 +21,7 @@ const Header = (props) => {
             src={listIcon}
             className="rounded float-right"
             style={{ width: 70 }}
+            onClick={goToShoppingList}
           ></img> 
         </Col>
       </Row>
