@@ -16,29 +16,28 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `category`
+-- Table structure for table `subcategory`
 --
 
-DROP TABLE IF EXISTS `category`;
+DROP TABLE IF EXISTS `subcategory`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `category` (
+CREATE TABLE `subcategory` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) NOT NULL,
-  `isPopular` tinyint(1) DEFAULT 0 COMMENT '1- true, 0-false',
-  `picURL` varchar(45) DEFAULT NULL,
+  `name` varchar(45) DEFAULT NULL,
+  `mainCategoryId` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `category`
+-- Dumping data for table `subcategory`
 --
 
-LOCK TABLES `category` WRITE;
-/*!40000 ALTER TABLE `category` DISABLE KEYS */;
-INSERT INTO `category` VALUES (1,'Standardmjölk',1,NULL),(2,'Mellanmjölk',0,NULL),(3,'Lättmjölk',0,NULL),(4,'Banan',1,NULL),(5,'Äpple',0,NULL),(6,'Druvor',0,NULL),(7,'Tomat',1,NULL),(8,'Paprika',1,NULL),(9,'Melon',0,NULL),(10,'Apelsinjuice',0,NULL),(11,'Ägg',1,NULL),(12,'Tofu',0,NULL),(13,'Snabbkaffe',0,NULL),(14,'Knäckebröd',1,NULL),(15,'Färsk fisk',0,NULL),(16,'Handdiskmedel',0,NULL);
-/*!40000 ALTER TABLE `category` ENABLE KEYS */;
+LOCK TABLES `subcategory` WRITE;
+/*!40000 ALTER TABLE `subcategory` DISABLE KEYS */;
+INSERT INTO `subcategory` VALUES (1,'Standard Mjölk',1),(2,'Mellan Mjölk',1),(3,'Lätt Mjölk',1),(4,'Drickyoghurt',1),(7,'Banan',2),(8,'Äpple',2),(9,'Druvor',2),(10,'Melon',2),(11,'Tomat',3),(12,'Paprika',3),(14,'Knäckebröd',4),(15,'Bröd',4),(16,'Fika',4),(17,'Kex och Kakor',4),(18,'Snabbkaffe',5),(20,'Hela bönor',5),(21,'Hand diskmedel',6),(22,'Toalettpapper',6),(23,'Tvättmedel',6),(24,'Hushållspapper',6),(25,'Kött',7),(26,'Fågel',7),(27,'Tofu',9),(28,'Pålägg',9),(29,'Fisk',8),(30,'Skaldjur',8),(31,'Filter',5);
+/*!40000 ALTER TABLE `subcategory` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -50,4 +49,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-09-10 11:40:30
+-- Dump completed on 2020-09-15 21:21:32
