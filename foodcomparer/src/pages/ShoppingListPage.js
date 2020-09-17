@@ -45,7 +45,8 @@ const ShoppingListPage = () => {
 
   return (
     <>
-      <h1>shopping list</h1>
+      <ShoppingListCard />
+      <br />
       <PrintProducts />
     </>
   );

@@ -14,7 +14,8 @@ function App() {
         <CategorysContextProvider>
           <ProductContectProvider>
           <main className="container">
-            <Header />
+              <Header />
+              <br />
             <Switch>
               <Route exact path="/" component={StartPage} />
               <Route exact path="/shoppinglist" component={ShoppingListPage}/>
