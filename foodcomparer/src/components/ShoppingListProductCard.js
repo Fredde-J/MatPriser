@@ -1,24 +1,33 @@
-import React, { defaultProps } from "react";
-import { Button, Card, CardBody, CardTitle, CardSubtitle } from "reactstrap";
+import React from "react";
+import { Button, ButtonGroup, Card, Col, Container, Row } from "reactstrap";
 
-const ShoppingListProductCard = (props) => {
+const ShoppingListProductCard = ({
+  product: { name, brand, amount, price, onSale }, //ES6 destructuring
+}) => {
   return (
     <>
       <Card body>
-        <CardBody>
-          <CardTitle>{props.name}</CardTitle>
-          <CardSubtitle>{props.brand}</CardSubtitle>
-          <Button>CLICK ME</Button>
-        </CardBody>
+        <Row>
+          <Col xs="8">
+            <Container>
+              <Row>{name}</Row>
+              <Row>{brand}</Row>
+            </Container>
+          </Col>
+          <Col xs="2">
+            <ButtonGroup size="sm">
+              <Button>+</Button>
+              <Button disabled>{amount}</Button>
+              <Button>-</Button>
+            </ButtonGroup>
+          </Col>
+          <Col xs="2" style={{ color: onSale ? "red" : null }}>
+            {price} kr
+          </Col>
+        </Row>
       </Card>
     </>
   );
-};
-
-ShoppingListProductCard.defaultProps = {
-  name: "TESTINGTON FOOD",
-  brand: "TESTIA AB",
-  ammount: 0,
 };
 
 export default ShoppingListProductCard;
