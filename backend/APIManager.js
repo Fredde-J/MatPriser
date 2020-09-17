@@ -9,6 +9,7 @@ module.exports = class APIManager {
       user: "root",
       password: "",
       database: "mat_pris",
+      multipleStatements: true
     });
 
     con.connect((err) => {
@@ -96,8 +97,19 @@ module.exports = class APIManager {
       } else {
         console.log("storeId: "+storeId+ " categoryId: "+mainCategoryId+" succes!");
         this.deleteProductsByMainCategoryId(storeId, mainCategoryId);
-        this.updateProductsStatusByMainCategoryId(storeId, mainCategoryId);
+        this.updateProductsStatusByMainCategoryId(storeId, mainCategoryId);        
+        this.updateProductsSubCategoryId(storeId, mainCategoryId);
       }
+    });
+  }
+
+  static getProductsByMainCategoryIdNotSubCategoryId(storeId, mainCategoryId, callback){
+    con.query("SELECT id, name FROM product where storeId = "+storeId+" AND mainCategoryId = "+mainCategoryId+" AND subCategoryId is null order by id", (err, result, fields) => {
+      if (err) 
+            callback(err,null);
+        else
+            callback(null,result);
+
     });
   }
 
@@ -129,6 +141,51 @@ module.exports = class APIManager {
         console.log(err);
       }
     });
+  }
+
+  static getSubCategoriesByMainCategoryId(maincategoryId, callback) {
+    con.query("SELECT * FROM subcategory where mainCategoryId = "+maincategoryId+" order by name", (err, result, fields) => {
+      if (err) 
+            callback(err,null);
+        else
+            callback(null,result);
+    });
+  }
+
+  static updateProductsSubCategoryId(storeId, mainCategoryId){
+    this.updateProductsSubCategoryByMainCategoryId(storeId, mainCategoryId,function(err,data){
+      for (var p = 0; p < data.length; p++) {
+        con.query("UPDATE product SET subCategoryId = "+data[p].subCategoryId+" WHERE id = "+data[p].productId+"", function (err, result) {
+          if (err) throw err;
+          //console.log(result.affectedRows + " record(s) updated");
+        });
+      }
+    });
+  }
+
+  static updateProductsSubCategoryByMainCategoryId(storeId, mainCategoryId, callback) {
+    var sql = "SELECT * FROM subcategory where mainCategoryId = ? and description is not null order by name;SELECT id, name FROM product where storeId = ? AND mainCategoryId = ? AND subCategoryId is null order by id";
+ 
+    con.query(sql, [mainCategoryId, storeId, mainCategoryId], function(error, results) {
+        if (error) {
+            throw error;
+        }
+        let updateProductArr=[];
+        for (var i = 0; i < results[0].length; i++) {
+          var subCatDescArray = results[0][i].description.split(',');  
+          for (var j = 0; j < subCatDescArray.length; j++) {
+           for (var p = 0; p < results[1].length; p++) {  
+              if(results[1][p].name.toUpperCase().includes(subCatDescArray[j].toUpperCase())){
+                //console.log(results[1][p].id+' '+results[1][p].name);
+                //console.log('***'+subCatDescArray[j]+'***');
+                updateProductArr.push({ "productId": results[1][p].id, "subCategoryId": results[0][i].id});
+              }
+            }
+          }
+        }
+        callback(null,updateProductArr);
+    }
+    );   
   }
 
 };
