@@ -1,11 +1,8 @@
 import React from "react";
 import {
   Card,
-  CardText,
   CardBody,
-  CardLink,
   CardTitle,
-  CardSubtitle,
 } from "reactstrap";
 
 import milk from "../images/milk.png";

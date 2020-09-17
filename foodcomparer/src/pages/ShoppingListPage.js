@@ -6,7 +6,7 @@ import ShoppingListProductCard from '../components/ShoppingListProductCard';
 const ShoppingListPage =()=>{
  return (
      <>
-     <h1>shopping list</h1>
+     <br></br>
      <ShoppingListCard></ShoppingListCard>
      <ShoppingListProductCard></ShoppingListProductCard>
      </>
