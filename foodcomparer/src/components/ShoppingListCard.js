@@ -11,16 +11,23 @@ const ShoppingListCard = () => {
   const [willysTotalPrice, setwillysTotalPrice] = useState(0);
   const [hemkopTotalPrice, sethemkopTotalPrice] = useState(0);
 
+  console.log(allProducts)
+
   //the if below will be removed when product card is complete 
   if (allProducts.products[0] != undefined) {
     let shoppingItems = [];
     shoppingItems.push(
       allProducts.products[0],
       allProducts.products[1],
-      allProducts.products[7]
+      allProducts.products[7],
+      allProducts.products[12500],
+      allProducts.products[12505],
+      allProducts.products[3400],
+      allProducts.products[3401]
     );
     localStorage.setItem("shoppingList", JSON.stringify(shoppingItems));
   }
+  //*********************************************************************/
 
   const getPrice = () => {
     let itemsFromLocalStorage = JSON.parse(
@@ -32,12 +39,13 @@ const ShoppingListCard = () => {
     let hemkopPrices = 0;
 
     itemsFromLocalStorage.forEach(async (item) => {
-      if (item.storeId == 0) {
-        willysPrices += item.pricePerItem;
-      } else if (item.storeId == 1) {
+      if (item.storeId === 1) {
         coopPrices += item.pricePerItem;
-      } else if (item.storeId == 2) {
+      } else if (item.storeId === 2) {
         hemkopPrices += item.pricePerItem;
+      } else if (item.storeId === 3) {
+        
+        willysPrices += item.pricePerItem;
       }
     });
     setcoopTotalPrice(coopPrices.toFixed(2));
