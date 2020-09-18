@@ -6,12 +6,10 @@ import hemkop from "../images/hemkop.jpg";
 import { ProductContext } from "../ContextProviders/ProductContextProvider";
 
 const ShoppingListCard = () => {
-  let allProducts = useContext(ProductContext);
+  const allProducts = useContext(ProductContext);
   const [coopTotalPrice, setcoopTotalPrice] = useState(0);
   const [willysTotalPrice, setwillysTotalPrice] = useState(0);
   const [hemkopTotalPrice, sethemkopTotalPrice] = useState(0);
-
-  console.log(allProducts)
 
   //the if below will be removed when product card is complete 
   if (allProducts.products[0] != undefined) {
@@ -33,7 +31,6 @@ const ShoppingListCard = () => {
     let itemsFromLocalStorage = JSON.parse(
       localStorage.getItem("shoppingList")
     );
-    console.log(itemsFromLocalStorage);
     let willysPrices = 0;
     let coopPrices = 0;
     let hemkopPrices = 0;
