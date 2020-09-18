@@ -11,7 +11,7 @@ const ShoppingListCard = () => {
   const [willysTotalPrice, setwillysTotalPrice] = useState(0);
   const [hemkopTotalPrice, sethemkopTotalPrice] = useState(0);
 
-  //the if below will be removed when product card is complete 
+  //the if below will be removed when product card is complete
   if (allProducts.products[0] != undefined) {
     let shoppingItems = [];
     shoppingItems.push(
@@ -36,13 +36,16 @@ const ShoppingListCard = () => {
     let hemkopPrices = 0;
 
     itemsFromLocalStorage.forEach(async (item) => {
-      if (item.storeId === 1) {
-        coopPrices += item.pricePerItem;
-      } else if (item.storeId === 2) {
-        hemkopPrices += item.pricePerItem;
-      } else if (item.storeId === 3) {
-        
-        willysPrices += item.pricePerItem;
+      if (item.pricePerItem) {
+        if (item.storeId === 1) {
+          coopPrices += item.pricePerItem;
+        } else if (item.storeId === 2) {
+          hemkopPrices += item.pricePerItem;
+        } else if (item.storeId === 3) {
+          willysPrices += item.pricePerItem;
+        }
+      } else {
+        console.error("pricePerItem is null or undefined");
       }
     });
     setcoopTotalPrice(coopPrices.toFixed(2));
@@ -51,7 +54,9 @@ const ShoppingListCard = () => {
   };
 
   useEffect(() => {
-    getPrice();
+    if (localStorage.getItem("shoppingList")) {
+      getPrice();
+    }
   }, [allProducts]);
 
   return (
