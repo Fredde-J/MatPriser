@@ -6,17 +6,20 @@ import { ProductContext } from "../ContextProviders/ProductContextProvider";
 
 const ProductPage = (props) => {
   let products = useContext(ProductContext)
-  let id = props.match.params.mCatId;
-  products.getProductsByMainCatId(id);
+  let mainCatId = props.match.params.mCatId;
+
+  useEffect(() => {
+    products.getProductsByMainCatId(mainCatId);
+  }, []);
   
-  useEffect(() => {}, [products.mainCatProducts]);
+  // useEffect(() => {}, [products.mainCatProducts]);
   
   return (
     <div>
       {products.mainCatProducts.slice(0, 50).map((product, i) => {
         return (
           <div>
-            <ProductCard key={product + i} name={product.name} url={product.photoUrl}/>
+            <ProductCard key={product.id + i} name={product.name} url={product.photoUrl}/>
           </div>
         );
       })}
