@@ -87,6 +87,12 @@ app.get("/rest/maincategories", async (req, res) => {
   APIManager.getMainCategories(res);
 });
 
+app.get("/rest/subcategories/:mainCategoryId", async (req, res) => {
+  let mainCategoryId = Number(req.params.mainCategoryId);
+  APIManager.getAllSubCategoriesByMainCategoryId(mainCategoryId, res);
+});
+
+
 app.get("rest/stores", async (req, res) => {
   APIManager.getStores(res);
 });
