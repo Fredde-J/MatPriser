@@ -11,7 +11,6 @@ import listIcon from '../images/listIcon.svg'
 const ProductCard = (props) => {
   let imgSrc = props.product.photoUrl.replace("tiff", "png");
   const [storeName, setStoreName] = useState([]);
-  const [shoppingList, setShoppingList] = useState([])
 
   const getStoreName = () => {
     console.log(props.product.storeId);
@@ -20,18 +19,27 @@ const ProductCard = (props) => {
   }
   const addToList = ()=>{
     console.log(props.product)
-    let shoppingListFromLocalStore = localStorage.getItem("shoppingList")
-    JSON.parse(shoppingListFromLocalStore)
-    //shoppingListFromLocalStore.push(props.product)
-    console.log(shoppingListFromLocalStore)
+    let products = [props.product]
+    if(localStorage.getItem('shoppingList')===null){
+      localStorage.setItem('shoppingList',JSON.stringify(products))
+    }else{
+      let shoppingListFromLocalStore = localStorage.getItem("shoppingList")
+      shoppingListFromLocalStore = JSON.parse(shoppingListFromLocalStore)
+      shoppingListFromLocalStore.push(props.product)
+      localStorage.setItem('shoppingList', JSON.stringify(shoppingListFromLocalStore))
+      //remove before merge
+      let result = localStorage.getItem('shoppingList')
+      console.log(JSON.parse(result))
+      //
+    }
+    
   }
   useEffect(() =>{
-    if(localStorage.getItem("shoppingList")===null){
-      let productsInList = [];
-      localStorage.setItem('shoppingList', JSON.stringify(productsInList))
-    }
-    getStoreName();
+  getStoreName()
+  localStorage.clear()
   },[])
+ 
+  
   return (
     <>
       <Card className="col-5 ml-4 mb-3 d-flex flex-wrap align-items-center product-card">
