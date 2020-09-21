@@ -6,18 +6,19 @@ import {
   CardTitle,
   CardText
 } from "reactstrap";
+import listIcon from '../images/listIcon.svg'
 
 const ProductCard = (props) => {
   let imgSrc = props.product.photoUrl.replace("tiff", "png");
   const [storeName, setStoreName] = useState([]);
 
-  console.log(props)
-
   const getStoreName = () => {
     console.log(props.product.storeId);
     setStoreName(props.product.storeId);
     
-
+  }
+  const addToList = ()=>{
+    
   }
   useEffect(() =>{
     getStoreName();
@@ -30,6 +31,7 @@ const ProductCard = (props) => {
           <CardText>{storeName}</CardText>
         </CardBody>
         <img height="150vh" width="150vw" src={imgSrc} alt="Card image cap" />
+        <img src={listIcon} alt="listIcon" onClick={addToList}></img>
       </Card>
     </>
   );
