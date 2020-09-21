@@ -1,11 +1,8 @@
 import React, {Component, useContext, useEffect, useState} from "react";
 import {
   Card,
-  CardText,
   CardBody,
-  CardLink,
   CardTitle,
-  CardSubtitle,
 } from "reactstrap";
 
 const ProductCard = (props) => {

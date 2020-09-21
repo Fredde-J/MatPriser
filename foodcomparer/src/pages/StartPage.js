@@ -12,9 +12,9 @@ import CatagoryCard from "../components/CatagoryCard";
 import searchIcon from "../images/searchIcon.svg";
 import { CategoryContext } from "../ContextProviders/CategoryContextProvider";
 
-const StartPage = () => {
+const StartPage = (props) => {
   const [showAllCatagorys, setShowAllCatagorys] = useState(false);
-  let categories = useContext(CategoryContext);
+  const categories = useContext(CategoryContext);
 
   return (
     <>
@@ -26,7 +26,7 @@ const StartPage = () => {
               <Input placeholder="sök" />
             </InputGroupAddon>
             <Button>
-              <img src={searchIcon}></img>
+              <img src={searchIcon} alt="searchIcon"></img>
             </Button>
           </InputGroup>
         </Col>
@@ -35,11 +35,12 @@ const StartPage = () => {
       <h2 className="d-flex justify-content-center">Populära kategorier</h2>
       <Row>
         {categories.categories.map((category, index) => {
-          if (category.isPopular == 1) {
+          if (category.isPopular === 1) {
             return (
               <CatagoryCard
                 key={category + index}
                 name={category.name}
+                id={category.id}
               ></CatagoryCard>
             );
           }
