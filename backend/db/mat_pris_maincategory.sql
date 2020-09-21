@@ -37,7 +37,7 @@ CREATE TABLE `maincategory` (
 
 LOCK TABLES `maincategory` WRITE;
 /*!40000 ALTER TABLE `maincategory` DISABLE KEYS */;
-INSERT INTO `maincategory` VALUES (1,'Mjölk',1,NULL),(2,'Frukt',0,NULL),(3,'Grönsaker',0,NULL),(4,'Bröd, kakor',1,NULL),(5,'Kaffe',0,NULL),(6,'Hem',0,NULL),(7,'Kött',1,NULL),(8,'Fisk, skaldjur',1,NULL),(9,'Vegetariskt',0,NULL),(19,'Ost',0,NULL),(20,'Ägg',0,NULL);
+INSERT INTO `maincategory` VALUES (1,'Mjölk',1,'/images/milk.png'),(2,'Frukt',0,NULL),(3,'Grönsaker',0,NULL),(4,'Bröd, kakor',1,'/images/bread.png'),(5,'Kaffe',0,NULL),(6,'Hem',0,NULL),(7,'Kött',1,'/images/meat.png'),(8,'Fisk, skaldjur',1,'/images/fish.jpg'),(9,'Vegetariskt',0,NULL),(19,'Ost',0,NULL),(20,'Ägg',0,NULL);
 /*!40000 ALTER TABLE `maincategory` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -50,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-09-17 23:10:11
+-- Dump completed on 2020-09-21 21:51:25
