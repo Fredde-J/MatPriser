@@ -1,10 +1,15 @@
 *{
   box-sizing: border-box;
 }
-
 .product-card{
   display: flex;
   float: left;
+  height: 379px;
+}
+.list-icon{
+  margin-top: 15px;
+  width: 40px;
+  
 }
 .card-title{
   font-family: "OCR A Std", monospace;
@@ -35,6 +40,7 @@
   width: 50px;
 }
 .price-div{
+  color: gray;
   right: 0px;
   float: right;
   width: 60%;

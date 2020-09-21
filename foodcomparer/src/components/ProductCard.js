@@ -34,6 +34,7 @@ const ProductCard = (props) => {
   return (
     <>
       <Card className="col-5 ml-4 mb-3 d-flex flex-wrap product-card">
+        <img class="list-icon" src={listIcon} alt="listIcon" onClick={addToList}></img>
         <img
           id="product-img"
           height="150vh"
@@ -44,13 +45,15 @@ const ProductCard = (props) => {
         <CardBody>
           <CardTitle class="card-title">{props.product.name}</CardTitle>
           <CardText class="card-text">
-            <span class="store-div" id={storeName}>{storeName}</span>
-            <span class="price-div">{props.product.pricePerItem}kr/st <br />
+            <span class="store-div" id={storeName}>
+              {storeName}
+            </span>
+            <span class="price-div">
+              {props.product.pricePerItem}kr/st <br />
               {props.product.pricePerUnit}kr/{props.product.unit}
             </span>
           </CardText>
         </CardBody>
-        <img src={listIcon} alt="listIcon" onClick={addToList}></img>
       </Card>
     </>
   );
