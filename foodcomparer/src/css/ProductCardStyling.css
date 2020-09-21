@@ -1,7 +1,49 @@
 *{
   box-sizing: border-box;
 }
+
 .product-card{
   display: flex;
   float: left;
+}
+.card-title{
+  font-family: "OCR A Std", monospace;
+  margin-bottom: 5px;
+  font-size: 17px;
+  font-weight: bold;
+}
+.card-text{
+  display: inline;
+  font-family: "OCR A Std", monospace;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+#Coop{
+  color: green;
+}
+#Hemköp{
+  color:red;
+
+}
+#product-img{
+  align-self: center;
+  margin-top: 25px;
+  
+}
+.store-div{
+  width: 50px;
+}
+.price-div{
+  right: 0px;
+  float: right;
+  width: 60%;
+  text-align: right;
+}
+@media screen and (max-width: 600px) {
+  .product-card{
+  display: inline-block;
+  
+}
+
 }

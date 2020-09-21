@@ -13,9 +13,17 @@ const ProductCard = (props) => {
   const [storeName, setStoreName] = useState([]);
 
   const getStoreName = () => {
-    console.log(props.product.storeId);
-    setStoreName(props.product.storeId);
-    
+    let id = props.product.storeId;
+    if(id === 1){
+      setStoreName("Coop");
+    }
+    else if(id === 2){
+      setStoreName("Hemköp");
+    }    
+    else if(id === 3){
+      setStoreName("Willys");
+    }
+
   }
   const addToList = ()=>{
     
@@ -25,12 +33,23 @@ const ProductCard = (props) => {
   },[])
   return (
     <>
-      <Card className="col-5 ml-4 mb-3 d-flex flex-wrap align-items-center product-card">
+      <Card className="col-5 ml-4 mb-3 d-flex flex-wrap product-card">
+        <img
+          id="product-img"
+          height="150vh"
+          width="150vw"
+          src={imgSrc}
+          alt="Card image cap"
+        />
         <CardBody>
-          <CardTitle>{props.product.name}</CardTitle>
-          <CardText>{storeName}</CardText>
+          <CardTitle class="card-title">{props.product.name}</CardTitle>
+          <CardText class="card-text">
+            <span class="store-div" id={storeName}>{storeName}</span>
+            <span class="price-div">{props.product.pricePerItem}kr/st <br />
+              {props.product.pricePerUnit}kr/{props.product.unit}
+            </span>
+          </CardText>
         </CardBody>
-        <img height="150vh" width="150vw" src={imgSrc} alt="Card image cap" />
         <img src={listIcon} alt="listIcon" onClick={addToList}></img>
       </Card>
     </>
