@@ -16,10 +16,10 @@ const ProductPage = (props) => {
   
   return (
     <div>
-      {products.mainCatProducts.slice(0, 50).map((product, i) => {
+      {products.mainCatProducts.slice(0,50).map((product, i) => {
         return (
           <div>
-            <ProductCard key={product.id + i} name={product.name} url={product.photoUrl}/>
+            <ProductCard key={product.id + i} product={product} />
           </div>
         );
       })}

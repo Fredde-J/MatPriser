@@ -128,6 +128,12 @@ app.get("rest/stores", async (req, res) => {
   APIManager.getStores(res);
 });
 
+app.get("rest/storename:storeId", async (req, res) => {
+  console.log("storeid", req.params.storeId)
+  let storeId = Number(req.params.storeId);
+  APIManager.getStoreName(storeId, res);
+})
+
 app.delete("/rest/products", async (req, res) => {
   APIManager.deleteProducts(res);
 });

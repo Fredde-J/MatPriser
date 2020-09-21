@@ -73,6 +73,16 @@ module.exports = class APIManager {
             callback(null,result);
     });
   }
+  
+  static async getStoreName(storeId, callback) {
+    con.query("SELECT name FROM store WHERE id = "+ storeId , (err, result, fields) => {
+      if (err) 
+            callback(err,null);
+        else
+            callback(null,result);
+    });
+  }
+
 /*
   static harvestProducts(storeId, mainCategoryId, baseURL, categoryURL) {
     HarvesterFactory.createProducts(storeId, mainCategoryId, baseURL, categoryURL)
