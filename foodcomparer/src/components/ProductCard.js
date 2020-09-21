@@ -11,6 +11,7 @@ import listIcon from '../images/listIcon.svg'
 const ProductCard = (props) => {
   let imgSrc = props.product.photoUrl.replace("tiff", "png");
   const [storeName, setStoreName] = useState([]);
+  const [shoppingList, setShoppingList] = useState([])
 
   const getStoreName = () => {
     console.log(props.product.storeId);
@@ -18,9 +19,17 @@ const ProductCard = (props) => {
     
   }
   const addToList = ()=>{
-    
+    console.log(props.product)
+    let shoppingListFromLocalStore = localStorage.getItem("shoppingList")
+    JSON.parse(shoppingListFromLocalStore)
+    //shoppingListFromLocalStore.push(props.product)
+    console.log(shoppingListFromLocalStore)
   }
   useEffect(() =>{
+    if(localStorage.getItem("shoppingList")===null){
+      let productsInList = [];
+      localStorage.setItem('shoppingList', JSON.stringify(productsInList))
+    }
     getStoreName();
   },[])
   return (
