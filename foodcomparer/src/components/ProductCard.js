@@ -26,11 +26,28 @@ const ProductCard = (props) => {
 
   }
   const addToList = ()=>{
+    console.log(props.product)
+    let products = [props.product]
+    if(localStorage.getItem('shoppingList')===null){
+      localStorage.setItem('shoppingList',JSON.stringify(products))
+    }else{
+      let shoppingListFromLocalStore = localStorage.getItem("shoppingList")
+      shoppingListFromLocalStore = JSON.parse(shoppingListFromLocalStore)
+      shoppingListFromLocalStore.push(props.product)
+      localStorage.setItem('shoppingList', JSON.stringify(shoppingListFromLocalStore))
+      //remove before merge
+      let result = localStorage.getItem('shoppingList')
+      console.log(JSON.parse(result))
+      //
+    }
     
   }
   useEffect(() =>{
-    getStoreName();
+  getStoreName()
+  localStorage.clear()
   },[])
+ 
+  
   return (
     <>
       <Card className="col-5 ml-4 mb-3 d-flex flex-wrap product-card">
