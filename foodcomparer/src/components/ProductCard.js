@@ -51,15 +51,14 @@ const ProductCard = (props) => {
   return (
     <>
       <Card className="col-5 ml-4 mb-3 d-flex flex-wrap product-card">
-        <img class="list-icon" src={listIcon} alt="listIcon" onClick={addToList}></img>
         <img
-          id="product-img"
-          height="150vh"
-          width="150vw"
-          src={imgSrc}
-          alt="Card image cap"
-        />
-        <CardBody>
+          class="list-icon"
+          src={listIcon}
+          alt="listIcon"
+          onClick={addToList}
+        ></img>
+          <img id="product-img" src={imgSrc} alt="Card image cap" />
+        <div class="product-desc">
           <CardTitle class="card-title">{props.product.name}</CardTitle>
           <CardText class="card-text">
             <span class="store-div" id={storeName}>
@@ -70,7 +69,7 @@ const ProductCard = (props) => {
               {props.product.pricePerUnit}kr/{props.product.unit}
             </span>
           </CardText>
-        </CardBody>
+        </div>
       </Card>
     </>
   );
