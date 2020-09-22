@@ -9,6 +9,7 @@ module.exports = class APIManager {
       user: "root",
       password: "",
       database: "mat_pris",
+      port:3308
     });
 
     con.connect((err) => {

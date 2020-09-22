@@ -6,9 +6,10 @@ import {
   CardTitle,
   CardText
 } from "reactstrap";
-import listIcon from '../images/listIcon.svg'
+
 
 const ProductCard = (props) => {
+  const listIcon = "/images/listIcon.svg"
   let imgSrc = props.product.photoUrl.replace("tiff", "png");
   const [storeName, setStoreName] = useState([]);
 

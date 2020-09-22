@@ -1,9 +1,10 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
-import listIcon from "../images/listIcon.svg";
+//import listIcon from "/images/listIcon.svg";
 import { Row, Col } from "reactstrap";
 
 const Header = () => {
+  const listIcon="/images/listIcon.svg"
   return (
     <>
       <Row className="" style={{ backgroundColor: "rgb(250, 246, 184)" }}>

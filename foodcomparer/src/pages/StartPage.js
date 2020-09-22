@@ -9,10 +9,11 @@ import {
   Col,
 } from "reactstrap";
 import CatagoryCard from "../components/CatagoryCard";
-import searchIcon from "../images/searchIcon.svg";
+//import searchIcon from "/images/searchIcon.svg";
 import { CategoryContext } from "../ContextProviders/CategoryContextProvider";
 
 const StartPage = (props) => {
+  const searchIcon ="/images/searchIcon.svg"
   const [showAllCatagorys, setShowAllCatagorys] = useState(false);
   const categories = useContext(CategoryContext);
 
@@ -41,6 +42,7 @@ const StartPage = (props) => {
                 key={category + index}
                 name={category.name}
                 id={category.id}
+                icon={category.picURL}
               ></CatagoryCard>
             );
           }
