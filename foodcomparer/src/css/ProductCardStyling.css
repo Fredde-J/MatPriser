@@ -17,6 +17,8 @@
   margin-bottom: 0px; 
   font-size: 17px;
   font-weight: bold;
+  padding-left: 5px;
+  background-color: #f7f0f0;
 }
 .card-text{
   display: inline;
@@ -48,17 +50,55 @@
 .store-div{
   width: 50px;
 }
+
+.flex{
+  display: flex;
+  justify-content: space-between;
+}
+
+.dirCol{
+  flex-direction: column
+}
+
 .price-div{
   color: gray;
   right: 0px;
   float: right;
-  width: 60%;
   text-align: right;
+  display: flex;
 }
+
 @media screen and (max-width: 600px) {
   .product-card{
   display: inline-block;
   
 }
 
+}
+
+.discountPrice{
+  background-color: #f51630;
+  color: #fff;
+  border-color: transparent;
+  margin-left: 10px;
+  padding: 0px 1px;
+}
+
+.priceBoc{
+  padding: 3px 0px;
+}
+
+.littleText{
+  font-size: 12px;
+}
+
+.whiteBox{
+  background-color: #fff;
+  color: #000;
+  margin-top: 1px;
+  padding: 0px 2px;
+}
+
+.flag{
+  margin-right: 3px;
 }
