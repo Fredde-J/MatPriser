@@ -143,7 +143,7 @@ module.exports = class APIManager {
   }
 
   static async getCountries(callback) {
-    con.query("SELECT name FROM country order by name", (err, result, fields) => {
+    con.query("SELECT name, nameEng FROM country order by name", (err, result, fields) => {
       if (err) callback(err, null);
       else callback(null, result);
     });
@@ -236,7 +236,7 @@ module.exports = class APIManager {
             "UPDATE product SET isCountry = 1, country = '"+country.name+"' WHERE storeId = " +
               storeId +
               " AND mainCategoryId = " + mainCategoryId +
-              " AND country LIKE '%"+country.name+"%' ",
+              " AND country LIKE '%"+country.name+"%' OR country LIKE '%"+country.nameEng+"%' ",
             (err) => {
               if (!err) {
                 null;
