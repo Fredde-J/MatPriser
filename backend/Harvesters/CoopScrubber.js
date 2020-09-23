@@ -27,7 +27,16 @@ module.exports = class CoopScrubber extends Scrubber {
     },      
     pricePerUnit: x => parseFloat(x.comparisonPrice.value),
     pricePerItem: x => x.price.value,
-    country: x => x.manufacturer ? x.manufacturer.replace(/Kl 1./g, '').trim(' ','') : null,
+    country: x => {
+      let manufacturer = x.manufacturer ? x.manufacturer : null;
+      if(manufacturer !== null ){
+        manufacturer = manufacturer.replace(/Kl 1./g, '');
+        manufacturer = manufacturer.replace(/Kl. 1/g, '');
+        manufacturer = manufacturer.replace(/Kl1./g, '');
+        manufacturer = manufacturer.trim(' ','');
+      }
+      return x.manufacturer ? manufacturer : null;
+    },
     url: x => "https://www.coop.se"+x.url,        
     modifyDate: (x) => new Date(),
     articleNumber: x => x.code,

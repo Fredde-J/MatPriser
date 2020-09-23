@@ -16,30 +16,27 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `maincategory`
+-- Table structure for table `country`
 --
 
-DROP TABLE IF EXISTS `maincategory`;
+DROP TABLE IF EXISTS `country`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `maincategory` (
+CREATE TABLE `country` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) NOT NULL,
-  `isPopular` tinyint(1) DEFAULT 0 COMMENT '1- true, 0-false',
-  `picURL` varchar(45) DEFAULT NULL,
-  `isCountryDropdown` tinyint(1) DEFAULT 0 COMMENT 'true 1, false 0',
+  `name` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `maincategory`
+-- Dumping data for table `country`
 --
 
-LOCK TABLES `maincategory` WRITE;
-/*!40000 ALTER TABLE `maincategory` DISABLE KEYS */;
-INSERT INTO `maincategory` VALUES (1,'Mjölk',1,'/images/milk.png',0),(2,'Frukt',0,'/images/fruit.png',1),(3,'Grönsaker',0,'/images/vegtables.png',1),(4,'Bröd, kakor',1,'/images/bread.png',0),(5,'Kaffe',0,'/images/coffe.png',0),(6,'Hem',0,'/images/house.png',0),(7,'Kött',1,'/images/meat.png',0),(8,'Fisk, skaldjur',1,'/images/fish.svg',0),(9,'Vegetariskt',0,'/images/vegan.jpg',0),(19,'Ost',0,'/images/cheese.png',0),(20,'Ägg',0,'/images/egg.png',0);
-/*!40000 ALTER TABLE `maincategory` ENABLE KEYS */;
+LOCK TABLES `country` WRITE;
+/*!40000 ALTER TABLE `country` DISABLE KEYS */;
+INSERT INTO `country` VALUES (1,'Belgien'),(2,'Brasilien'),(3,'Chile'),(4,'Colombia'),(5,'Costa Rica'),(6,'Ecuador'),(7,'Egypten'),(8,'Elfenbenskusten'),(9,'Frankrike'),(10,'Holland'),(11,'Iran'),(12,'Israel'),(13,'Italien'),(14,'Kina'),(15,'Nederländerna'),(16,'Nya Zeeland'),(17,'Polen'),(18,'Serbien'),(19,'Spanien'),(20,'Sverige'),(21,'Sydafrika'),(22,'Turkiet'),(23,'Ungern'),(24,'Tyskland'),(25,'Tjeckien'),(26,'Danmark'),(27,'Österrike'),(28,'Estland'),(29,'Finland'),(30,'Japan'),(31,'Kroatien'),(32,'Norge'),(33,'USA'),(34,'Storbritannien');
+/*!40000 ALTER TABLE `country` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

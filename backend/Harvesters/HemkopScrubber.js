@@ -15,7 +15,15 @@ module.exports = class HemkopScrubber extends Scrubber {
     photoUrl: x => x.image.url,
     isEco: x => x.labels.includes("Eko") ? 1: 0,
     unit: x => x.comparePriceUnit,
-    pricePerUnit: (x) => x.comparePrice ? parseFloat(x.comparePrice.replace(/,/, ".")) : null,
+    pricePerUnit: x => { 
+      let comparePrice = x.comparePrice ? x.comparePrice : null;
+      if(comparePrice !== null ){
+        comparePrice = comparePrice.replace('kr','');
+        comparePrice = comparePrice.replace(/\s/g,'');
+        comparePrice = comparePrice.replace(',', ".");
+      }
+      return x.comparePrice ? parseFloat(comparePrice) : null;
+    },
     pricePerItem: x => x.priceValue,
     country: async (x) => {
         // Seems we need detailed product info for this...

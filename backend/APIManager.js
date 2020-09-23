@@ -127,7 +127,7 @@ module.exports = class APIManager {
     con.query(
       "SELECT mainCategoryId, categoryURL FROM storecategoryurl where storeID =" +
         storeID +
-        " AND subCategoryId is null order by mainCategoryId",
+        " order by mainCategoryId",
       function (err, result, fields) {
         if (err) callback(err, null);
         else callback(null, result);
@@ -137,6 +137,13 @@ module.exports = class APIManager {
 
   static async getStores(callback) {
     con.query("SELECT id, baseURL FROM store", (err, result, fields) => {
+      if (err) callback(err, null);
+      else callback(null, result);
+    });
+  }
+
+  static async getCountries(callback) {
+    con.query("SELECT name FROM country order by name", (err, result, fields) => {
       if (err) callback(err, null);
       else callback(null, result);
     });
@@ -164,10 +171,11 @@ module.exports = class APIManager {
       } else {
         console.log(
           "storeId: " + storeId + " categoryId: " + mainCategoryId + " succes!"
-        );
+        );        
         this.deleteProductsByMainCategoryId(storeId, mainCategoryId);
         this.updateProductsStatusByMainCategoryId(storeId, mainCategoryId);
         this.updateProductsSubCategoryId(storeId, mainCategoryId);
+        this.updateProductsIsCountry(storeId, mainCategoryId);
       }
     });
   }
@@ -215,6 +223,31 @@ module.exports = class APIManager {
         }
       }
     );
+  }
+
+  static updateProductsIsCountry(storeId, mainCategoryId, res) {
+    this.getCountries(function (err, data) {
+      if (err) {
+        console.log("ERROR : ", err);
+      } else {
+        let countries = data;
+        for (let country of countries) {
+          con.query(
+            "UPDATE product SET isCountry = 1, country = '"+country.name+"' WHERE storeId = " +
+              storeId +
+              " AND mainCategoryId = " + mainCategoryId +
+              " AND country LIKE '%"+country.name+"%' ",
+            (err) => {
+              if (!err) {
+                null;
+              } else {
+                console.log(err);
+              }
+            }
+          );
+        }
+      }
+    });
   }
 
   static updateProductsStatusByMainCategoryId(storeId, mainCategoryId, res) {
@@ -267,6 +300,7 @@ module.exports = class APIManager {
       }
     );
   }
+  
 
   static updateProductsSubCategoryByMainCategoryId(
     storeId,
