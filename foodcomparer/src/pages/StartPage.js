@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import {
   InputGroup,
@@ -16,6 +16,10 @@ const StartPage = (props) => {
   const searchIcon ="/images/searchIcon.svg"
   const [showAllCatagorys, setShowAllCatagorys] = useState(false);
   const categories = useContext(CategoryContext);
+
+  useEffect(() =>{
+     
+    },[showAllCatagorys])
 
   return (
     <>
@@ -67,10 +71,13 @@ const StartPage = (props) => {
           </h2>
           <Row>
             {categories.categories.map((category, index) => {
+              if(category.isPopular === 0)
               return (
                 <CatagoryCard
                   key={category + index}
                   name={category.name}
+                  id={category.id}
+                  icon={category.picURL}
                 ></CatagoryCard>
               );
             })}
