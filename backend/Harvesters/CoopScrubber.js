@@ -15,9 +15,10 @@ module.exports = class CoopScrubber extends Scrubber {
     photoUrl: x => {
       //https://res.cloudinary.com/coopsverige/image/upload/374319.png
       //https://res.cloudinary.com/coopsverige/image/upload/fl_progressive,q_90,c_lpad,g_center,h_660,w_660/374319.png
+      //https://res.cloudinary.com/coopsverige/image/upload/fl_progressive,q_90,c_lpad,g_center,h_240,w_240/374319.png
       let imgURL = x.images[0].url;
       var n = imgURL.search("upload");
-      return imgURL.substring(0, n+6)+'/fl_progressive,q_90,c_lpad,g_center,h_660,w_660'+imgURL.substring(n+6);
+      return imgURL.substring(0, n+6)+'/fl_progressive,q_90,c_lpad,g_center,h_240,w_240'+imgURL.substring(n+6);
     },
     isEco: x => x.name.includes("Eko") ? 1: 0,
     unit: x => {
