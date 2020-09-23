@@ -71,23 +71,7 @@ var j = schedule.scheduleJob("51 09 * * *", function () {
   });
 });
 
-/*app.get("/harvest/getproducts/:store", (req, res) => {
-  //example http://localhost:3000/harvest/getproducts/1?category=discover?categoryId=32408 - coop
-  //example http://localhost:3000/harvest/getproducts/2?category=Brod-och-kakor/Knackebrod-och-skorpor/Knackebrod - hemköp
-  //example http://localhost:3000/harvest/getproducts/3?category=Frukt-och-Gront/Gronsaker/Paprika - willys
-  //store must be a number
-  APIManager.harvestProducts(req, res);
-});
-
-app.get("/harvest/getcategories/:store", (req, res) => {
-  if (!/^[1-3]{1}$/.test(req.params.store)) {
-    //change [0-3] if you want to have more stores
-    res.status(404).send(`store cannot be found: ${req.params.store}`);
-    return;
-  }
-*/
-
-/* let storeId = Number(req.params.store);
+ /* let storeId = Number(req.params.store);
     HarvesterFactory.createCategories(storeId,categoryUrl)
   .then((result) => {
       res.status(300).json(result);
@@ -123,6 +107,12 @@ app.get("/rest/productsbysearchtext/:text", async (req, res) => {
 app.get("/rest/maincategories", async (req, res) => {
   APIManager.getMainCategories(res);
 });
+
+app.get("/rest/subcategories/:mainCategoryId", async (req, res) => {
+  let mainCategoryId = Number(req.params.mainCategoryId);
+  APIManager.getAllSubCategoriesByMainCategoryId(mainCategoryId, res);
+});
+
 
 app.get("rest/stores", async (req, res) => {
   APIManager.getStores(res);
