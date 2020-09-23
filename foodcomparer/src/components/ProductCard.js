@@ -45,7 +45,6 @@ const ProductCard = (props) => {
   }
   useEffect(() =>{
   getStoreName()
-  localStorage.clear()
   },[])
  
   

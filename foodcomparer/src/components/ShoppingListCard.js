@@ -12,6 +12,7 @@ const ShoppingListCard = () => {
   const [hemkopTotalPrice, sethemkopTotalPrice] = useState(0);
 
   //the if below will be removed when product card is complete
+  /*
   if (allProducts.products[0] != undefined) {
     let shoppingItems = [];
     shoppingItems.push(
@@ -25,6 +26,7 @@ const ShoppingListCard = () => {
     );
     localStorage.setItem("shoppingList", JSON.stringify(shoppingItems));
   }
+  */
   //*********************************************************************/
 
   const getPrice = () => {
@@ -57,7 +59,7 @@ const ShoppingListCard = () => {
     if (localStorage.getItem("shoppingList")) {
       getPrice();
     }
-  }, [allProducts]);
+  }, []);
 
   return (
     <>
