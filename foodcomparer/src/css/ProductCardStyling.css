@@ -18,8 +18,12 @@
   font-size: 17px;
   font-weight: bold;
   padding-left: 5px;
+}
+
+.product-desc .card-title{  
   background-color: #f7f0f0;
 }
+
 .card-text{
   display: inline;
   font-family: "OCR A Std", monospace;
@@ -41,11 +45,22 @@
   color:red;
 
 }
+
+.mediaBox{
+  justify-content: center;
+  align-items: stretch
+}
+
+.cardMedia{
+  display: flex;
+}
+
 #product-img{
-  align-self: center;
-  margin-top: 25px;
-  size: 50px;
-  max-height: 40%;
+  display: block;
+  max-width:300px;
+  max-height:200px;
+  width: auto;
+  height: auto;
 }
 .store-div{
   width: 50px;
@@ -53,6 +68,8 @@
 
 .flex{
   display: flex;
+}
+.spaceB{  
   justify-content: space-between;
 }
 

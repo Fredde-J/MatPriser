@@ -71,7 +71,11 @@ const ProductCard = (props) => {
           alt="listIcon"
           onClick={addToList}
         ></img>
-          <img id="product-img" src={imgSrc} alt="Card image cap" />
+          <div class="flex mediaBox">
+            <div class="cardMedia">
+              <img id="product-img" src={imgSrc} alt="Card image cap" />
+            </div>
+          </div>
         <div class="product-desc">
           <CardTitle class="card-title">{
                 props.product.country === 'Sverige' ?
@@ -80,10 +84,10 @@ const ProductCard = (props) => {
               }
               {props.product.name}</CardTitle>
           <CardText class="card-text">
-            <div class="flex">
+            <div class="flex spaceB">
               <img src={storeLogo} height="50vh"></img>
               <span class="price-div priceBox">
-                <div class="flex dirCol">{props.product.pricePerItem} kr{productUnit} <br />
+                <div class="flex spaceB dirCol">{props.product.pricePerItem} kr{productUnit} <br />
                 <span class="littleText">Jmf-pris {props.product.pricePerUnit} kr{productUnit}</span>
                 </div>
                 {
