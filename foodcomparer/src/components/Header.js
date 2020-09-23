@@ -1,10 +1,9 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
-import listIcon from "../images/listIcon.svg";
+//import listIcon from "/images/listIcon.svg";
 import { Row, Col } from "reactstrap";
 
 import {pointer} from '../css/Header.css'
-
 const Header = (props) => {
   const goTohomepage =()=>{
     props.history.push("/")
@@ -12,6 +11,7 @@ const Header = (props) => {
   const goToShoppingList =()=>{
     props.history.push("/shoppinglist")
   }
+  const listIcon="/images/listIcon.svg"
   return (
     <>
       <Row className="" style={{ backgroundColor: "rgb(250, 246, 184)" }}>

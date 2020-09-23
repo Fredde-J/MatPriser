@@ -5,7 +5,9 @@ export const ProductContext = React.createContext();
 
 const ProductContextProvider = (props) => {
   const [products, setProducts] = useState([]);
-
+  const [mainCatProducts, setMainCatProducts] = useState([]);
+  const [store, setStore] = useState([]);
+  
   const getProducts = async () => {
     axios
       .get("http://localhost:4000/rest/products")
@@ -20,12 +22,46 @@ const ProductContextProvider = (props) => {
       });
   };
 
+
+  const getProductsByMainCatId = async (id) => {
+    axios
+    .get("http://localhost:4000/rest/productsbymaincategoryId/" + id)
+    .then((response) => {
+      return response.data;
+    }).then((result) => {
+      setMainCatProducts(result)
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+  }
+
+  const getStoreNameById = async (id) => {
+    axios
+    .get("http://localhost:4000/rest/storename/" + id)
+    .then((response) => {
+      return response.data;
+    }).then((result) => {
+      setStore(result)
+      console.log(result)
+      console.log("store", result)
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+  }
+
   useEffect(() => {
     getProducts();
+    getProductsByMainCatId();
   }, []);
 
   const values = {
     products,
+    store, 
+    mainCatProducts,
+    getProductsByMainCatId,
+    getStoreNameById
   };
   return (
     <ProductContext.Provider value={values}>
