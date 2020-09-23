@@ -8,7 +8,7 @@ const CategoryContextProvider = (props) => {
 
   const getCategories = async () => {
     axios
-      .get("http://localhost:4000/rest/categories")
+      .get("http://localhost:4000/rest/maincategories")
       .then((response) => {
         return response.data;
       })
