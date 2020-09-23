@@ -5,23 +5,25 @@ import StartPage from "./pages/StartPage";
 import ShoppingListPage from "./pages/ShoppingListPage"
 import Header from "./components/Header";
 import CategorysContextProvider from "./ContextProviders/CategoryContextProvider";
-import ProductContectProvider from "./ContextProviders/ProductContextProvider"
+import ProductContextProvider from "./ContextProviders/ProductContextProvider";
+import ProductPage from "./pages/ProductPage";
 
 function App() {
   return (
     <BrowserRouter>
       <div className="App">
         <CategorysContextProvider>
-          <ProductContectProvider>
-          <main className="container">
+          <ProductContextProvider>
+            <main className="container">
               <Header />
               <br />
-            <Switch>
-              <Route exact path="/" component={StartPage} />
+              <Switch>
+                <Route exact path="/" component={StartPage} />
+                <Route exact path="/products/:mCatId" component={ProductPage} />
               <Route exact path="/shoppinglist" component={ShoppingListPage}/>
-            </Switch>
-          </main>
-          </ProductContectProvider>
+              </Switch>
+            </main>
+          </ProductContextProvider>
         </CategorysContextProvider>
       </div>
     </BrowserRouter>
