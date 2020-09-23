@@ -104,6 +104,18 @@ app.get("/rest/productsbysearchtext/:text", async (req, res) => {
   APIManager.getProductsBySearchText(text, res);
 });
 
+app.get("/rest/productsbysearchtextmaincatid/:text/:mainCatId", async (req, res) => {
+  let text = req.params.text;
+  let mainCatId = req.params.mainCatId;
+  APIManager.getProductsBySearchTextAndMainCatId(text, mainCatId, res);
+});
+
+app.get("/rest/productsbysearchtextsubcatid/:text/:subCatId", async (req, res) => {
+  let text = req.params.text;
+  let subCatId = req.params.subCatId;
+  APIManager.getProductsBySearchTextAndSubCatId(text, subCatId, res);
+});
+
 app.get("/rest/maincategories", async (req, res) => {
   APIManager.getMainCategories(res);
 });

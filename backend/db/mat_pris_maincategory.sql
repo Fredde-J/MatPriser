@@ -27,6 +27,7 @@ CREATE TABLE `maincategory` (
   `name` varchar(45) NOT NULL,
   `isPopular` tinyint(1) DEFAULT 0 COMMENT '1- true, 0-false',
   `picURL` varchar(45) DEFAULT NULL,
+  `isCountryDropdown` tinyint(1) DEFAULT 0 COMMENT 'true 1, false 0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -37,7 +38,7 @@ CREATE TABLE `maincategory` (
 
 LOCK TABLES `maincategory` WRITE;
 /*!40000 ALTER TABLE `maincategory` DISABLE KEYS */;
-INSERT INTO `maincategory` VALUES (1,'Mjölk',1,'/images/milk.png'),(2,'Frukt',0,NULL),(3,'Grönsaker',0,NULL),(4,'Bröd, kakor',1,'/images/bread.png'),(5,'Kaffe',0,NULL),(6,'Hem',0,NULL),(7,'Kött',1,'/images/meat.png'),(8,'Fisk, skaldjur',1,'/images/fish.jpg'),(9,'Vegetariskt',0,NULL),(19,'Ost',0,NULL),(20,'Ägg',0,NULL);
+INSERT INTO `maincategory` VALUES (1,'Mjölk',1,'/images/milk.png',0),(2,'Frukt',0,NULL,1),(3,'Grönsaker',0,NULL,1),(4,'Bröd, kakor',1,'/images/bread.png',0),(5,'Kaffe',0,NULL,0),(6,'Hem',0,NULL,0),(7,'Kött',1,'/images/meat.png',0),(8,'Fisk, skaldjur',1,'/images/fish.svg',0),(9,'Vegetariskt',0,NULL,0),(19,'Ost',0,NULL,0),(20,'Ägg',0,'/images/egg.png',0);
 /*!40000 ALTER TABLE `maincategory` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -50,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-09-21 21:51:25
+-- Dump completed on 2020-09-23 13:08:01

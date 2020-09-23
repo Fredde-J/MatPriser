@@ -32,7 +32,7 @@ module.exports = class APIManager {
     con.query(
       "SELECT * FROM product WHERE mainCategoryId = " +
         mainCategoryId +
-        " AND isActive = 1",
+        " AND isActive = 1 order by pricePerUnit",
       (err, rows, fields) => {
         if (!err) {
           res.send(rows);
@@ -45,7 +45,47 @@ module.exports = class APIManager {
 
   static getProductsBySearchText(text, res) {
     con.query(
-      "SELECT * FROM product where name like '%" + text + "%' and isActive = 1",
+      "SELECT product.*, maincategory.name mainCategoryName "+
+      "FROM product, maincategory "+
+      "where product.mainCategoryId = maincategory.id "+
+      " and product.name like '%" + text + "%' and product.isActive = 1 "+
+      "order by product.mainCategoryId, product.pricePerUnit",
+      (err, rows, fields) => {
+        if (!err) {
+          res.send(rows);
+        } else {
+          console.log(err);
+        }
+      }
+    );
+  }
+
+  static getProductsBySearchTextAndMainCatId(text, mainCategoryId, res) {
+    con.query(
+      "SELECT product.*, maincategory.name mainCategoryName, subcategory.name subCategoryName  "+
+      "FROM maincategory, product "+
+      " LEFT JOIN subcategory ON product.subCategoryId = subcategory.id "+
+      "where product.mainCategoryId = maincategory.id "+
+      "and maincategory.id = "+mainCategoryId+" "+
+      " and product.name like '%" + text + "%' and product.isActive = 1 "+
+      "order by product.subCategoryId, product.pricePerUnit",
+      (err, rows, fields) => {
+        if (!err) {
+          res.send(rows);
+        } else {
+          console.log(err);
+        }
+      }
+    );
+  }
+
+  static getProductsBySearchTextAndSubCatId(text, subCategoryId, res) {
+    con.query(
+      "SELECT product.*, subcategory.name subCategoryName "+
+      "FROM product, subcategory "+
+      "where product.subCategoryId = subcategory.id "+
+      "and subcategory.id = "+subCategoryId+" "+
+      " and product.name like '%" + text + "%' and product.isActive = 1",
       (err, rows, fields) => {
         if (!err) {
           res.send(rows);
