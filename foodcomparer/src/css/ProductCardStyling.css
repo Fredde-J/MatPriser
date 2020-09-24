@@ -1,11 +1,26 @@
 *{
   box-sizing: border-box;
 }
+#productsContainer{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+.cardTop{
+  display: flex;
+  justify-content: space-between;
+}
+.storeLogo{
+  margin-right: 3px;
+  margin-top: 15px;
+}
 .product-card{
   position: relative;
   display: flex;
   float: left;
   height: 379px;
+  width: 31%;
+  margin-bottom: 5px;
 }
 .list-icon{
   margin-top: 15px;

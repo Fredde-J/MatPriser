@@ -15,12 +15,10 @@ const ProductPage = (props) => {
   // useEffect(() => {}, [products.mainCatProducts]);
   
   return (
-    <div>
-      {products.mainCatProducts.slice(0,50).map((product, i) => {
+    <div id="productsContainer">
+      {products.mainCatProducts.slice(0,60).map((product, i) => {
         return (
-          <div>
             <ProductCard key={product.id + i} product={product} />
-          </div>
         );
       })}
     </div>

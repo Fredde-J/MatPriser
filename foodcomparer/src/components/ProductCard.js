@@ -78,19 +78,21 @@ const ProductCard = (props) => {
  
   
   return (
-    <>
-      <Card className="col-5 ml-4 mb-3 d-flex flex-wrap product-card">
-        <img
-          class="list-icon"
-          src={listIcon}
-          alt="listIcon"
-          onClick={addToList}
-        ></img>
-          <div class="flex mediaBox">
-            <div class="cardMedia">
-              <img id="product-img" src={imgSrc} alt="Card image cap" />
-            </div>
+      <Card className="product-card">
+        <div class="cardTop">
+          <img
+            class="list-icon"
+            src={listIcon}
+            alt="listIcon"
+            onClick={addToList}
+          ></img>
+          <img class="storeLogo" src={storeLogo} height="50vh"></img>
+        </div>
+        <div class="flex mediaBox">
+          <div class="cardMedia">
+            <img id="product-img" src={imgSrc} alt="Card image cap" />
           </div>
+        </div>
         <div class="product-desc">
           <CardTitle class="card-title">{
                 props.product.country === 'Sverige' ?
@@ -100,9 +102,7 @@ const ProductCard = (props) => {
               {ecoText? <div class="ecoBox"><span class="eco">{ecoText}</span></div> : ''}
               {props.product.name}</CardTitle>
           <CardText class="card-text">
-            <div class="flex spaceB">
-              <img src={storeLogo} height="50vh"></img>
-              <span class="price-div priceBox">
+            <div class="flex spaceB price-div priceBox">
                 <div class="flex spaceB dirCol">{props.product.pricePerItem} kr{productUnit} <br />
                 <span class="littleText">Jmf-pris {props.product.pricePerUnit} kr{productUnit}</span>
                 </div>
@@ -115,12 +115,10 @@ const ProductCard = (props) => {
                   </div> 
                 : ''
                 }
-              </span>
             </div>
           </CardText>
         </div>
       </Card>
-    </>
   );
 
 }
