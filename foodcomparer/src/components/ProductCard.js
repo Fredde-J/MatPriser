@@ -15,6 +15,7 @@ const ProductCard = (props) => {
   let productUnit;
   let promotionConditionLabel;
   let promotionPrice;
+  let ecoText;
 
   if (props.product.unit){
     productUnit = "/"+props.product.unit;
@@ -24,6 +25,10 @@ const ProductCard = (props) => {
   }
   if(props.product.promotionPrice){
     promotionPrice = props.product.promotionPrice+" kr";
+  }
+
+  if(props.product.isEco === 1){
+    ecoText = 'Eko';
   }
   const [storeName, setStoreName] = useState([]);
   const [storeLogo, setStoreLogo] = useState([]);
@@ -84,8 +89,9 @@ const ProductCard = (props) => {
           <CardTitle class="card-title">{
                 props.product.country === 'Sverige' ?
                 <img src="../images/SWE.png" class="flag" height="15vh"></img>
-                : <span></span>
-              }
+                : ''
+              }              
+              {ecoText? <div class="ecoBox"><span class="eco">{ecoText}</span></div> : ''}
               {props.product.name}</CardTitle>
           <CardText class="card-text">
             <div class="flex spaceB">
@@ -101,7 +107,7 @@ const ProductCard = (props) => {
                     <div>{promotionPrice}</div>
                     {props.product.promotionType === 'LOYALTY' ? 'Medlempris' : '' }
                   </div> 
-                : <span></span>
+                : ''
                 }
               </span>
             </div>

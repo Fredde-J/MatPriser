@@ -18,6 +18,8 @@
   font-size: 17px;
   font-weight: bold;
   padding-left: 5px;
+  display: flex;
+  align-items: center;
 }
 
 .product-desc .card-title{  
@@ -36,6 +38,19 @@
   left: 10px;
   right: 10px;
   width:93%;
+}
+.ecoBox{
+  background-color: green;
+  padding: 0 3px;
+  margin: 0px 5px 0px 3px;
+  border-radius: 5px;
+  display: flex;
+  max-height: 20px;
+}
+.eco{
+  color: #FFF;
+  font-weight: bold;
+  font-size: 15px;
 }
 
 #Coop{
@@ -119,5 +134,5 @@
 }
 
 .flag{
-  margin-right: 3px;
+  margin-right: 5px;
 }
