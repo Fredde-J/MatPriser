@@ -14,12 +14,16 @@ const ProductCard = (props) => {
   let imgSrc = props.product.photoUrl.replace("tiff", "png");
   let productUnit;
   let promotionConditionLabel;
+  let promotionPrice;
 
   if (props.product.unit){
     productUnit = "/"+props.product.unit;
   }
   if(props.product.promotionConditionLabel){
     promotionConditionLabel = props.product.promotionConditionLabel+" kr";
+  }
+  if(props.product.promotionPrice){
+    promotionPrice = props.product.promotionPrice+" kr";
   }
   const [storeName, setStoreName] = useState([]);
   const [storeLogo, setStoreLogo] = useState([]);
@@ -91,10 +95,10 @@ const ProductCard = (props) => {
                 <span class="littleText">Jmf-pris {props.product.pricePerUnit} kr{productUnit}</span>
                 </div>
                 {
-                props.product.promotionPrice ? 
+                props.product.promotionPrice || props.product.promotionConditionLabel ? 
                   <div class="discountPrice dirCol">
                     <div class='whiteBox littleText'>{promotionConditionLabel}</div>
-                    <div>{props.product.promotionPrice} kr</div>
+                    <div>{promotionPrice}</div>
                     {props.product.promotionType === 'LOYALTY' ? 'Medlempris' : '' }
                   </div> 
                 : <span></span>
