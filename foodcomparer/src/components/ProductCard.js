@@ -13,16 +13,13 @@ const ProductCard = (props) => {
   const listIcon = "/images/listIcon.svg"
   let imgSrc = props.product.photoUrl.replace("tiff", "png");
   let productUnit;
-  let promotionConditionLabel;
   let promotionPrice;
   let ecoText;
 
   if (props.product.unit){
     productUnit = "/"+props.product.unit;
   }
-  if(props.product.promotionConditionLabel){
-    promotionConditionLabel = props.product.promotionConditionLabel+" kr";
-  }
+
   if(props.product.promotionPrice){
     promotionPrice = props.product.promotionPrice+" kr";
   }
@@ -103,7 +100,7 @@ const ProductCard = (props) => {
                 {
                 props.product.promotionPrice || props.product.promotionConditionLabel ? 
                   <div class="discountPrice dirCol">
-                    <div class='whiteBox littleText'>{promotionConditionLabel}</div>
+                    <div class='whiteBox littleText'>{props.product.promotionConditionLabel}</div>
                     <div>{promotionPrice}</div>
                     {props.product.promotionType === 'LOYALTY' ? 'Medlempris' : '' }
                   </div> 
