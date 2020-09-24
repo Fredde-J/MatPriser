@@ -17,6 +17,7 @@ module.exports = class CoopScrubber extends Scrubber {
       //https://res.cloudinary.com/coopsverige/image/upload/fl_progressive,q_90,c_lpad,g_center,h_660,w_660/374319.png
       //https://res.cloudinary.com/coopsverige/image/upload/fl_progressive,q_90,c_lpad,g_center,h_240,w_240/374319.png
       let imgURL = x.images[0].url;
+      imgURL = imgURL.replace(/.tiff/g, '.png');
       var n = imgURL.search("upload");
       return imgURL.substring(0, n+6)+'/fl_progressive,q_90,c_lpad,g_center,h_240,w_240'+imgURL.substring(n+6);
     },

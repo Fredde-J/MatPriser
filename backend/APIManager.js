@@ -19,7 +19,7 @@ module.exports = class APIManager {
     });
   }
   static getProductsFromDb(res) {
-    con.query("SELECT * FROM product", (err, rows, fields) => {
+    con.query("SELECT * FROM product order by ISNULL(promotionPrice) ASC, mainCategoryId, pricePerUnit", (err, rows, fields) => {
       if (!err) {
         res.send(rows);
       } else {
@@ -32,7 +32,7 @@ module.exports = class APIManager {
     con.query(
       "SELECT * FROM product WHERE mainCategoryId = " +
         mainCategoryId +
-        " AND isActive = 1 order by pricePerUnit",
+        " AND isActive = 1 order by order by ISNULL(promotionPrice) ASC, mainCategoryId, pricePerUnit",
       (err, rows, fields) => {
         if (!err) {
           res.send(rows);
@@ -49,7 +49,7 @@ module.exports = class APIManager {
       "FROM product, maincategory "+
       "where product.mainCategoryId = maincategory.id "+
       " and product.name like '%" + text + "%' and product.isActive = 1 "+
-      "order by product.mainCategoryId, product.pricePerUnit",
+      "order by product.mainCategoryId, ISNULL(product.promotionConditionLabel) ASC, product.pricePerUnit",
       (err, rows, fields) => {
         if (!err) {
           res.send(rows);
@@ -68,7 +68,7 @@ module.exports = class APIManager {
       "where product.mainCategoryId = maincategory.id "+
       "and maincategory.id = "+mainCategoryId+" "+
       " and product.name like '%" + text + "%' and product.isActive = 1 "+
-      "order by product.subCategoryId, product.pricePerUnit",
+      "order by product.subCategoryId, ISNULL(product.promotionConditionLabel) ASC, product.pricePerUnit",
       (err, rows, fields) => {
         if (!err) {
           res.send(rows);
