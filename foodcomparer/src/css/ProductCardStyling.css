@@ -99,6 +99,8 @@
   border-color: transparent;
   margin-left: 10px;
   padding: 0px 1px;
+  display: flex;
+  justify-content: center;
 }
 
 .priceBoc{
