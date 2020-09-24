@@ -26,7 +26,6 @@ CREATE TABLE `storecategoryurl` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `storeId` int(11) NOT NULL,
   `mainCategoryId` int(11) NOT NULL,
-  `subCategoryId` int(11) DEFAULT NULL,
   `categoryURL` varchar(500) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_StoreCategoryUrlCategoryId` (`mainCategoryId`),
@@ -42,7 +41,7 @@ CREATE TABLE `storecategoryurl` (
 
 LOCK TABLES `storecategoryurl` WRITE;
 /*!40000 ALTER TABLE `storecategoryurl` DISABLE KEYS */;
-INSERT INTO `storecategoryurl` VALUES (62,3,1,NULL,'Mejeri-ost-och-agg/Mjolk'),(63,2,1,NULL,'Mejeri-ost-och-agg/Mjolk'),(64,1,1,NULL,'discover?categoryId=6264'),(92,3,2,NULL,'Frukt-och-Gront/Frukt'),(93,2,2,NULL,'Frukt-och-gront/Frukt'),(94,1,2,NULL,'discover?categoryId=32484'),(95,3,3,NULL,'Frukt-och-Gront/Gronsaker'),(96,2,3,NULL,'Frukt-och-gront/Gronsaker'),(97,1,3,NULL,'discover?categoryId=32361'),(98,3,4,NULL,'Brod-och-Kakor'),(99,2,4,NULL,'Brod-och-kakor'),(100,1,4,NULL,'discover?categoryId=18121'),(113,3,5,NULL,'Dryck/Kaffe'),(114,2,5,NULL,'Skafferi/Kaffe'),(115,1,5,NULL,'discover?categoryId=32644'),(122,3,6,NULL,'Hem-och-Stad'),(123,2,6,NULL,'Hem-och-stad'),(124,1,6,NULL,'discover?categoryId=29659'),(137,3,7,NULL,'Kott-chark-och-fagel'),(138,2,7,NULL,'Kott-och-kyckling'),(139,1,7,NULL,'discover?categoryId=11777'),(143,3,8,NULL,'Fisk-och-Skaldjur'),(144,2,8,NULL,'Fisk-och-skaldjur'),(145,1,8,NULL,'discover?categoryId=14754'),(146,3,9,NULL,'Vegetariskt'),(147,2,9,NULL,'Vegetariskt'),(148,1,9,NULL,'discover?categoryId=39033900'),(164,3,20,NULL,'Mejeri-ost-och-agg/Agg'),(165,2,20,NULL,'Mejeri-ost-och-agg/Agg/Agg'),(166,1,20,NULL,'discover?categoryId=32243'),(167,3,19,NULL,'Mejeri-ost-och-agg/Ost'),(168,2,19,NULL,'Mejeri-ost-och-agg/Ost'),(169,1,19,NULL,'discover?categoryId=6327');
+INSERT INTO `storecategoryurl` VALUES (62,3,1,'Mejeri-ost-och-agg/Mjolk'),(63,2,1,'Mejeri-ost-och-agg/Mjolk'),(64,1,1,'discover?categoryId=6264'),(92,3,2,'Frukt-och-Gront/Frukt'),(93,2,2,'Frukt-och-gront/Frukt'),(94,1,2,'discover?categoryId=32484'),(95,3,3,'Frukt-och-Gront/Gronsaker'),(96,2,3,'Frukt-och-gront/Gronsaker'),(97,1,3,'discover?categoryId=32361'),(98,3,4,'Brod-och-Kakor'),(99,2,4,'Brod-och-kakor'),(100,1,4,'discover?categoryId=18121'),(113,3,5,'Dryck/Kaffe'),(114,2,5,'Skafferi/Kaffe'),(115,1,5,'discover?categoryId=32644'),(122,3,6,'Hem-och-Stad'),(123,2,6,'Hem-och-stad'),(124,1,6,'discover?categoryId=29659'),(137,3,7,'Kott-chark-och-fagel'),(138,2,7,'Kott-och-kyckling'),(139,1,7,'discover?categoryId=11777'),(143,3,8,'Fisk-och-Skaldjur'),(144,2,8,'Fisk-och-skaldjur'),(145,1,8,'discover?categoryId=14754'),(146,3,9,'Vegetariskt'),(147,2,9,'Vegetariskt'),(148,1,9,'discover?categoryId=39033900'),(164,3,20,'Mejeri-ost-och-agg/Agg'),(165,2,20,'Mejeri-ost-och-agg/Agg/Agg'),(166,1,20,'discover?categoryId=32243'),(167,3,19,'Mejeri-ost-och-agg/Ost'),(168,2,19,'Mejeri-ost-och-agg/Ost'),(169,1,19,'discover?categoryId=6327');
 /*!40000 ALTER TABLE `storecategoryurl` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -55,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-09-21 21:51:25
+-- Dump completed on 2020-09-24  5:36:05

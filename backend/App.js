@@ -27,7 +27,7 @@ app.get("/test:store", (req, res) => {
 APIManager.connectToDb();
 
 var schedule = require("node-schedule");
-var j = schedule.scheduleJob("51 09 * * *", function () {
+var j = schedule.scheduleJob("10 10 * * *", function () {
   //'10 * * * *' Execute a cron job when the minute is 10 (e.g. 19:10, 20:10, etc.).
   //'10 10 * * *'Execute a cron job 10:10
   APIManager.getStores(function (err, data) {
@@ -102,6 +102,18 @@ app.get("/rest/productsbymaincategoryId/:mCatId", async (req, res) => {
 app.get("/rest/productsbysearchtext/:text", async (req, res) => {
   let text = req.params.text;
   APIManager.getProductsBySearchText(text, res);
+});
+
+app.get("/rest/productsbysearchtextmaincatid/:text/:mainCatId", async (req, res) => {
+  let text = req.params.text;
+  let mainCatId = req.params.mainCatId;
+  APIManager.getProductsBySearchTextAndMainCatId(text, mainCatId, res);
+});
+
+app.get("/rest/productsbysearchtextsubcatid/:text/:subCatId", async (req, res) => {
+  let text = req.params.text;
+  let subCatId = req.params.subCatId;
+  APIManager.getProductsBySearchTextAndSubCatId(text, subCatId, res);
 });
 
 app.get("/rest/maincategories", async (req, res) => {
