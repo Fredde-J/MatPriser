@@ -1,35 +1,25 @@
 import React, { useState, useContext } from "react";
 import { withRouter } from "react-router-dom";
 import {
-  InputGroup,
-  InputGroupAddon,
-  Button,
-  Input,
   Row,
   Col,
 } from "reactstrap";
 import CatagoryCard from "../components/CatagoryCard";
+import SearchBar from "../components/SearchBar"
 //import searchIcon from "/images/searchIcon.svg";
 import { CategoryContext } from "../ContextProviders/CategoryContextProvider";
 
 const StartPage = (props) => {
-  const searchIcon ="/images/searchIcon.svg"
   const [showAllCatagorys, setShowAllCatagorys] = useState(false);
   const categories = useContext(CategoryContext);
 
+
   return (
     <>
-      <br></br>
+    
       <Row>
         <Col>
-          <InputGroup className="d-flex justify-content-center">
-            <InputGroupAddon addonType="append">
-              <Input placeholder="sök" />
-            </InputGroupAddon>
-            <Button>
-              <img src={searchIcon} alt="searchIcon"></img>
-            </Button>
-          </InputGroup>
+         <SearchBar/>
         </Col>
       </Row>
 

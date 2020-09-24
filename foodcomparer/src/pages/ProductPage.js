@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
-import { Card } from "reactstrap";
+import { Card,Row,Col } from "reactstrap";
 import ProductCard from "../components/ProductCard";
 import { ProductContext } from "../ContextProviders/ProductContextProvider";
+import SearchBar from "../components/SearchBar";
 
 const ProductPage = (props) => {
   let products = useContext(ProductContext)
@@ -16,6 +17,12 @@ const ProductPage = (props) => {
   
   return (
     <div>
+      <Row>
+        <Col>
+        <SearchBar/>
+        </Col>
+      </Row>
+      <br></br>
       {products.mainCatProducts.slice(0,50).map((product, i) => {
         return (
           <div>
