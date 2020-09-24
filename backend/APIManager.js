@@ -19,7 +19,7 @@ module.exports = class APIManager {
     });
   }
   static getProductsFromDb(res) {
-    con.query("SELECT * FROM product", (err, rows, fields) => {
+    con.query("SELECT * FROM product order by promotionConditionLabel IS NULL ASC, mainCategoryId, pricePerUnit", (err, rows, fields) => {
       if (!err) {
         res.send(rows);
       } else {
@@ -32,7 +32,7 @@ module.exports = class APIManager {
     con.query(
       "SELECT * FROM product WHERE mainCategoryId = " +
         mainCategoryId +
-        " AND isActive = 1",
+        " AND isActive = 1 order by promotionConditionLabel IS NULL ASC, pricePerUnit",
       (err, rows, fields) => {
         if (!err) {
           res.send(rows);
@@ -45,7 +45,47 @@ module.exports = class APIManager {
 
   static getProductsBySearchText(text, res) {
     con.query(
-      "SELECT * FROM product where name like '%" + text + "%' and isActive = 1",
+      "SELECT product.*, maincategory.name mainCategoryName "+
+      "FROM product, maincategory "+
+      "where product.mainCategoryId = maincategory.id "+
+      " and product.name like '%" + text + "%' and product.isActive = 1 "+
+      "order by product.mainCategoryId, ISNULL(product.promotionConditionLabel) ASC, product.pricePerUnit",
+      (err, rows, fields) => {
+        if (!err) {
+          res.send(rows);
+        } else {
+          console.log(err);
+        }
+      }
+    );
+  }
+
+  static getProductsBySearchTextAndMainCatId(text, mainCategoryId, res) {
+    con.query(
+      "SELECT product.*, maincategory.name mainCategoryName, subcategory.name subCategoryName  "+
+      "FROM maincategory, product "+
+      " LEFT JOIN subcategory ON product.subCategoryId = subcategory.id "+
+      "where product.mainCategoryId = maincategory.id "+
+      "and maincategory.id = "+mainCategoryId+" "+
+      " and product.name like '%" + text + "%' and product.isActive = 1 "+
+      "order by product.subCategoryId, ISNULL(product.promotionConditionLabel) ASC, product.pricePerUnit",
+      (err, rows, fields) => {
+        if (!err) {
+          res.send(rows);
+        } else {
+          console.log(err);
+        }
+      }
+    );
+  }
+
+  static getProductsBySearchTextAndSubCatId(text, subCategoryId, res) {
+    con.query(
+      "SELECT product.*, subcategory.name subCategoryName "+
+      "FROM product, subcategory "+
+      "where product.subCategoryId = subcategory.id "+
+      "and subcategory.id = "+subCategoryId+" "+
+      " and product.name like '%" + text + "%' and product.isActive = 1",
       (err, rows, fields) => {
         if (!err) {
           res.send(rows);
@@ -87,7 +127,7 @@ module.exports = class APIManager {
     con.query(
       "SELECT mainCategoryId, categoryURL FROM storecategoryurl where storeID =" +
         storeID +
-        " AND subCategoryId is null order by mainCategoryId",
+        " order by mainCategoryId",
       function (err, result, fields) {
         if (err) callback(err, null);
         else callback(null, result);
@@ -97,6 +137,13 @@ module.exports = class APIManager {
 
   static async getStores(callback) {
     con.query("SELECT id, baseURL FROM store", (err, result, fields) => {
+      if (err) callback(err, null);
+      else callback(null, result);
+    });
+  }
+
+  static async getCountries(callback) {
+    con.query("SELECT name, nameEng FROM country order by name", (err, result, fields) => {
       if (err) callback(err, null);
       else callback(null, result);
     });
@@ -124,10 +171,11 @@ module.exports = class APIManager {
       } else {
         console.log(
           "storeId: " + storeId + " categoryId: " + mainCategoryId + " succes!"
-        );
+        );        
         this.deleteProductsByMainCategoryId(storeId, mainCategoryId);
         this.updateProductsStatusByMainCategoryId(storeId, mainCategoryId);
         this.updateProductsSubCategoryId(storeId, mainCategoryId);
+        this.updateProductsIsCountry(storeId, mainCategoryId);
       }
     });
   }
@@ -175,6 +223,31 @@ module.exports = class APIManager {
         }
       }
     );
+  }
+
+  static updateProductsIsCountry(storeId, mainCategoryId, res) {
+    this.getCountries(function (err, data) {
+      if (err) {
+        console.log("ERROR : ", err);
+      } else {
+        let countries = data;
+        for (let country of countries) {
+          con.query(
+            "UPDATE product SET isCountry = 1, country = '"+country.name+"' WHERE storeId = " +
+              storeId +
+              " AND mainCategoryId = " + mainCategoryId +
+              " AND country LIKE '%"+country.name+"%' OR country LIKE '%"+country.nameEng+"%' ",
+            (err) => {
+              if (!err) {
+                null;
+              } else {
+                console.log(err);
+              }
+            }
+          );
+        }
+      }
+    });
   }
 
   static updateProductsStatusByMainCategoryId(storeId, mainCategoryId, res) {
@@ -227,6 +300,7 @@ module.exports = class APIManager {
       }
     );
   }
+  
 
   static updateProductsSubCategoryByMainCategoryId(
     storeId,
