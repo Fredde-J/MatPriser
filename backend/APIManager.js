@@ -123,6 +123,7 @@ module.exports = class APIManager {
       }
     );
   }
+
   static async getMainCategoriesUrlByStoreId(storeID, callback) {
     con.query(
       "SELECT mainCategoryId, categoryURL FROM storecategoryurl where storeID =" +
@@ -206,6 +207,24 @@ module.exports = class APIManager {
         console.log(err);
       }
     });
+  }
+
+  static getSimilareProductsbyId(productId, res) {
+    con.query(
+      "SELECT  s.* "+
+      "FROM product s JOIN product p  on p.id= " + productId +" "+
+      " WHERE REPLACE(REPLACE(s.name, 'Eko', ''),'Klass 1','') like CONCAT('%',trim(REPLACE(REPLACE(p.name, 'Eko', ''),'Klass 1','')),'%') "+
+      " AND s.mainCategoryId = p.mainCategoryId "+
+      " AND s.storeId != p.storeId "+
+      " ORDER BY storeId",
+      (err, rows, fields) => {
+        if (!err) {
+          res.send(rows);
+        } else {
+          console.log(err);
+        }
+      }
+    );
   }
 
   static deleteProductsByMainCategoryId(storeId, mainCategoryId, res) {
