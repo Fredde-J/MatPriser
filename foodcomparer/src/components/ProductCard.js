@@ -1,4 +1,5 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useContext} from "react";
+import { ProductContext} from "../ContextProviders/ProductContextProvider"
 import '../css/ProductCardStyling.css'
 import {
   Card,
@@ -11,6 +12,10 @@ import hemkopLogo from "../images/hemkop.jpg";
 
 const ProductCard = (props) => {
   const listIcon = "/images/listIcon.svg"
+  const [storeName, setStoreName] = useState([]);
+  const [storeLogo, setStoreLogo] = useState([]);
+  const [productsToList, setProductsToList] = useState([])
+  const productContext = useContext(ProductContext)
   let imgSrc = props.product.photoUrl.replace("tiff", "png");
   let productUnit;
   let promotionPrice;
@@ -27,8 +32,7 @@ const ProductCard = (props) => {
   if(props.product.isEco === 1){
     ecoText = 'Eko';
   }
-  const [storeName, setStoreName] = useState([]);
-  const [storeLogo, setStoreLogo] = useState([]);
+  
 
   const getStoreName = () => {
     let storeId = props.product.storeId;
@@ -48,15 +52,20 @@ const ProductCard = (props) => {
   }
   const addToList = ()=>{
     console.log(props.product)
-    let products = [props.product]
+
+    setProductsToList([productContext.getSimilarProductsById(props.product.id),props.product])
+
     if(localStorage.getItem('shoppingList')===null){
-      localStorage.setItem('shoppingList',JSON.stringify(products))
+      localStorage.setItem('shoppingList',JSON.stringify(productsToList))
     }else{
       let shoppingListFromLocalStore = localStorage.getItem("shoppingList")
       shoppingListFromLocalStore = JSON.parse(shoppingListFromLocalStore)
-      shoppingListFromLocalStore.push(props.product)
+     productsToList.forEach(product => {
+      shoppingListFromLocalStore.push(product)
+      });
+      
       localStorage.setItem('shoppingList', JSON.stringify(shoppingListFromLocalStore))
-      //remove before merge
+      //Remove when product card is done
       let result = localStorage.getItem('shoppingList')
       console.log(JSON.parse(result))
       //

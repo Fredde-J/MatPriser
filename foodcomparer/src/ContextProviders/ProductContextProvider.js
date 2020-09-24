@@ -36,6 +36,23 @@ const ProductContextProvider = (props) => {
     });
   }
 
+  const getSimilarProductsById = async (id) => {
+    axios
+    .get("" + id)
+    .then((response) => {
+      return response.data;
+    }).then((result) => {
+      setStore(result)
+      console.log(result)
+      console.log("store", result)
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+  }
+
+
+
   const getStoreNameById = async (id) => {
     axios
     .get("http://localhost:4000/rest/storename/" + id)
@@ -61,7 +78,8 @@ const ProductContextProvider = (props) => {
     store, 
     mainCatProducts,
     getProductsByMainCatId,
-    getStoreNameById
+    getStoreNameById,
+    getSimilarProductsById,
   };
   return (
     <ProductContext.Provider value={values}>
