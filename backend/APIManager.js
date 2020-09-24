@@ -19,7 +19,7 @@ module.exports = class APIManager {
     });
   }
   static getProductsFromDb(res) {
-    con.query("SELECT * FROM product order by ISNULL(promotionPrice) ASC, mainCategoryId, pricePerUnit", (err, rows, fields) => {
+    con.query("SELECT * FROM product order by promotionConditionLabel IS NULL ASC, mainCategoryId, pricePerUnit", (err, rows, fields) => {
       if (!err) {
         res.send(rows);
       } else {
@@ -32,7 +32,7 @@ module.exports = class APIManager {
     con.query(
       "SELECT * FROM product WHERE mainCategoryId = " +
         mainCategoryId +
-        " AND isActive = 1 order by order by ISNULL(promotionPrice) ASC, mainCategoryId, pricePerUnit",
+        " AND isActive = 1 order by order by promotionConditionLabel IS NULL ASC, pricePerUnit",
       (err, rows, fields) => {
         if (!err) {
           res.send(rows);
