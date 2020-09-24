@@ -53,7 +53,7 @@ const ProductCard = (props) => {
   const addToList = ()=>{
     console.log(props.product)
 
-    setProductsToList([productContext.getSimilarProductsById(props.product.id),props.product])
+    //setProductsToList([productContext.getSimilarProductsById(props.product.id),props.product])
 
     if(localStorage.getItem('shoppingList')===null){
       localStorage.setItem('shoppingList',JSON.stringify(productsToList))
