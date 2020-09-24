@@ -32,7 +32,7 @@ module.exports = class APIManager {
     con.query(
       "SELECT * FROM product WHERE mainCategoryId = " +
         mainCategoryId +
-        " AND isActive = 1 order by order by promotionConditionLabel IS NULL ASC, pricePerUnit",
+        " AND isActive = 1 order by promotionConditionLabel IS NULL ASC, pricePerUnit",
       (err, rows, fields) => {
         if (!err) {
           res.send(rows);
