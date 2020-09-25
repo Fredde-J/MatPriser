@@ -114,6 +114,10 @@
   text-align: right;
   display: flex;
 }
+.load-more-btn{
+  width: 100%;
+  height: 50px;
+}
 
 @media screen and (max-width: 600px) {
   .product-card{
