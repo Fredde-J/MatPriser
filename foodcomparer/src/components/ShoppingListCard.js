@@ -11,22 +11,6 @@ const ShoppingListCard = () => {
   const [willysTotalPrice, setwillysTotalPrice] = useState(0);
   const [hemkopTotalPrice, sethemkopTotalPrice] = useState(0);
 
-  //the if below will be removed when product card is complete
-  if (allProducts.products[0] != undefined) {
-    let shoppingItems = [];
-    shoppingItems.push(
-      allProducts.products[0],
-      allProducts.products[1],
-      allProducts.products[7],
-      allProducts.products[12500],
-      allProducts.products[12505],
-      allProducts.products[3400],
-      allProducts.products[3401]
-    );
-    localStorage.setItem("shoppingList", JSON.stringify(shoppingItems));
-  }
-  //*********************************************************************/
-
   const getPrice = () => {
     let itemsFromLocalStorage = JSON.parse(
       localStorage.getItem("shoppingList")

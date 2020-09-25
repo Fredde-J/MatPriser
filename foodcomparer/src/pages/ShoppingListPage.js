@@ -1,41 +1,47 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
 import ShoppingListCard from "../components/ShoppingListCard";
 import ShoppingListProductCard from "../components/ShoppingListProductCard";
 
 const ShoppingListPage = () => {
-  const testProducts = [
-    {
-      name: "Cat food",
-      brand: "Mjau",
-      amount: 3,
-      price: 30,
-      onSale: false,
-    },
-    {
-      name: "Bröd",
-      brand: "Ica",
-      amount: 1,
-      price: 12,
-      onSale: true,
-    },
-    {
-      name: "Godis",
-      brand: "Godiskungen",
-      amount: 2,
-      price: 30,
-      onSale: false,
-    },
-  ];
+  const [list, setList] = useState([]);
+  const [load, setLoad] = useState(false);
+
+  const populateList = () => {
+    if (
+      JSON.parse(localStorage.getItem("shoppingList")) === null ||
+      JSON.parse(localStorage.getItem("shoppingList")).length === 0
+    )
+      return null;
+    let ls = JSON.parse(localStorage.getItem("shoppingList"));
+    setList(ls);
+  };
+
+  const onAddClick = (product) => {
+    let shoppingListFromLocalStore = localStorage.getItem("shoppingList");
+    shoppingListFromLocalStore = JSON.parse(shoppingListFromLocalStore);
+    shoppingListFromLocalStore.push(product);
+    localStorage.setItem(
+      "shoppingList",
+      JSON.stringify(shoppingListFromLocalStore)
+    );
+    setLoad(false);
+  };
+
+  useEffect(() => {
+    populateList();
+    setLoad(true);
+  }, [load]);
 
   const PrintProducts = () => {
     return (
       <>
-        {testProducts.map((product, index) => {
+        {list.map((product, index) => {
           return (
             <ShoppingListProductCard
               key={`${index}${product.name}`}
-              product={ product }
+              product={product}
+              handleAddClick={onAddClick}
             />
           );
         })}
@@ -47,7 +53,7 @@ const ShoppingListPage = () => {
     <>
       <ShoppingListCard />
       <br />
-      <PrintProducts />
+      {load && <PrintProducts />}
     </>
   );
 };
