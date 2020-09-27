@@ -94,13 +94,20 @@ const ProductCard = (props) => {
           </div>
         </div>
         <div class="product-desc">
-          <CardTitle class="card-title">{
-                props.product.country === 'Sverige' ?
-                <img src="../images/SWE.png" class="flag" height="15vh"></img>
-                : ''
-              }              
+          <CardTitle class="card-title">             
               {ecoText? <div class="ecoBox"><span class="eco">{ecoText}</span></div> : ''}
-              {props.product.name}</CardTitle>
+              {props.product.name}
+              </CardTitle>
+          <CardText><div class="countrylabel">{
+                props.product.isCountry === 1?
+                <span>Ursprungsland: {props.product.country}</span>
+                : ''
+              }
+              {
+                props.product.country === 'Sverige' ?
+                <span><img src="../images/SWE.png" class="flag" height="15vh"></img></span>
+                : ''
+              }</div></CardText>    
           <CardText class="card-text">
             <div class="flex spaceB price-div priceBox">
                 <div class="flex spaceB dirCol">{props.product.pricePerItem} kr{productUnit} <br />
@@ -111,7 +118,7 @@ const ProductCard = (props) => {
                   <div class="discountPrice dirCol">
                     <div class='whiteBox littleText'>{props.product.promotionConditionLabel}</div>
                     <div>{promotionPrice}</div>
-                    {props.product.promotionType === 'LOYALTY' ? 'Medlempris' : '' }
+                    {props.product.promotionType === 'LOYALTY' ? 'Medlemspris' : '' }
                   </div> 
                 : ''
                 }
