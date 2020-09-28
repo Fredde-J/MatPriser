@@ -5,8 +5,7 @@ import coop from "../images/coop4.png";
 import hemkop from "../images/hemkop.jpg";
 import { ProductContext } from "../ContextProviders/ProductContextProvider";
 
-const ShoppingListCard = () => {
-  const allProducts = useContext(ProductContext);
+const ShoppingListCard = (props) => {
   const [coopTotalPrice, setcoopTotalPrice] = useState(0);
   const [willysTotalPrice, setwillysTotalPrice] = useState(0);
   const [hemkopTotalPrice, sethemkopTotalPrice] = useState(0);
@@ -41,7 +40,7 @@ const ShoppingListCard = () => {
     if (localStorage.getItem("shoppingList")) {
       getPrice();
     }
-  }, [allProducts]);
+  }, [props.load]);
 
   return (
     <>

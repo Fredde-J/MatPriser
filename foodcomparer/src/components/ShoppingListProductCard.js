@@ -2,9 +2,13 @@ import React from "react";
 import { Button, ButtonGroup, Card, Col, Container, Row } from "reactstrap";
 
 const ShoppingListProductCard = (props) => {
-  const onClick = () => {
+  const onAddClick = () => {
     props.handleAddClick(props.product);
   };
+
+  const onRemoveClick = () => {
+    props.handleRemoveClick(props.product)
+  }
 
   return (
     <>
@@ -18,9 +22,9 @@ const ShoppingListProductCard = (props) => {
           </Col>
           <Col xs="2">
             <ButtonGroup size="sm">
-              <Button onClick={onClick}>+</Button>
-              <Button disabled>{props.product.amount}</Button>
-              <Button>-</Button>
+              <Button onClick={onAddClick}>+</Button>
+              <Button disabled>{props.product.quantity}</Button>
+              <Button onClick={onRemoveClick}>-</Button>
             </ButtonGroup>
           </Col>
           <Col xs="2" style={{ color: true ? "red" : null }}>
