@@ -99,6 +99,10 @@ app.get("/rest/productsbymaincategoryId/:mCatId", async (req, res) => {
   APIManager.getProductsByMainCategoryIdFromDb(mCatId, res);
 });
 
+app.get("/rest/countrybymaincategoryId/:mainCatId", async (req, res) => {
+  let mainCatId = Number(req.params.mainCatId);
+  APIManager.getCountriesByMainCategoryIdFromDb(mainCatId, res);
+});
 app.get("/rest/productsbysearchtext/:text", async (req, res) => {
   let text = req.params.text;
   APIManager.getProductsBySearchText(text, res);
