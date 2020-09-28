@@ -35,6 +35,13 @@ const ShoppingListPage = () => {
     setLoad(false);
   };
 
+  const onRemoveClick = (product) => {
+    let index = list.indexOf(product);
+    let newList = [...list.slice(0, index), ...list.slice(index + 1)];
+    localStorage.setItem("shoppingList", JSON.stringify(newList));
+    setLoad(false);
+  };
+
   const getQuantity = (list, product) => {
     return list.reduce(
       (array, item) =>
@@ -43,12 +50,6 @@ const ShoppingListPage = () => {
     );
   };
 
-  const onRemoveClick = (product) => {
-    let index = list.indexOf(product);
-    let newArr = [...list.slice(0, index), ...list.slice(index + 1)];
-    localStorage.setItem("shoppingList", JSON.stringify(newArr));
-    setLoad(false);
-  };
 
   useEffect(() => {
     populateList();
@@ -63,6 +64,7 @@ const ShoppingListPage = () => {
             <ShoppingListProductCard
               key={`${index}${product.name}`}
               product={product}
+              quantity={getQuantity(list, product)}
               handleAddClick={onAddClick}
               handleRemoveClick={onRemoveClick}
             />

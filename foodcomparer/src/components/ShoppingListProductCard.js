@@ -23,7 +23,7 @@ const ShoppingListProductCard = (props) => {
           <Col xs="2">
             <ButtonGroup size="sm">
               <Button onClick={onAddClick}>+</Button>
-              <Button disabled>{props.product.quantity}</Button>
+              <Button disabled>{props.quantity}</Button>
               <Button onClick={onRemoveClick}>-</Button>
             </ButtonGroup>
           </Col>
