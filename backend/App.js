@@ -27,7 +27,7 @@ app.get("/test:store", (req, res) => {
 APIManager.connectToDb();
 
 var schedule = require("node-schedule");
-var j = schedule.scheduleJob("53 10 * * *", function () {
+var j = schedule.scheduleJob("10 10 * * *", function () {
   //'10 * * * *' Execute a cron job when the minute is 10 (e.g. 19:10, 20:10, etc.).
   //'10 10 * * *'Execute a cron job 10:10
   APIManager.getStores(function (err, data) {

@@ -48,7 +48,7 @@ module.exports = class WillysScrubber extends Scrubber {
     },
     promotionPrice: (x) => {
       let promotion = x.potentialPromotions[0]; 
-      return promotion ? promotion.price.value : null;
+      return promotion ? promotion.price.value.toFixed(2) : null;
     }
   };
 };
