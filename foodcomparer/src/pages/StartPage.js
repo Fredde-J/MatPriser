@@ -19,7 +19,6 @@ const StartPage = (props) => {
 
   return (
     <>
-      <br></br>
       <Row>
         <Col>
           <InputGroup className="d-flex justify-content-center">
@@ -34,7 +33,7 @@ const StartPage = (props) => {
       </Row>
 
       <h2 className="d-flex justify-content-center">Populära kategorier</h2>
-      <Row>
+      <Row className="d-flex justify-content-center">
         {categories.categories.map((category, index) => {
           if (category.isPopular === 1) {
             return (
@@ -65,7 +64,7 @@ const StartPage = (props) => {
           >
             Mindre kategorier
           </h2>
-          <Row>
+          <Row className="d-flex justify-content-center">
             {categories.categories.map((category, index) => {
               return (
                 <CatagoryCard

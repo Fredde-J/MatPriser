@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
-import { Card } from "reactstrap";
 import ProductCard from "../components/ProductCard";
 import { ProductContext } from "../ContextProviders/ProductContextProvider";
 

@@ -1,71 +1,60 @@
-import React, {Component, useContext, useEffect, useState} from "react";
-import '../css/ProductCardStyling.css'
-import {
-  Card,
-  CardBody,
-  CardTitle,
-  CardText
-} from "reactstrap";
+import React, {useEffect, useState } from "react";
+import "../css/ProductCardStyling.css";
+import { Card, CardTitle, CardText } from "reactstrap";
+import '../css/ProductCard.css'
 
 
 const ProductCard = (props) => {
-  const listIcon = "/images/listIcon.svg"
+  const listIcon = "/images/listIcon.svg";
   let imgSrc = props.product.photoUrl.replace("tiff", "png");
   const [storeName, setStoreName] = useState([]);
 
   const getStoreName = () => {
     let id = props.product.storeId;
-    if(id === 1){
+    if (id === 1) {
       setStoreName("Coop");
-    }
-    else if(id === 2){
+    } else if (id === 2) {
       setStoreName("Hemköp");
-    }    
-    else if(id === 3){
+    } else if (id === 3) {
       setStoreName("Willys");
     }
-
-  }
-  const addToList = ()=>{
-    console.log(props.product)
-    let products = [props.product]
-    if(localStorage.getItem('shoppingList')===null){
-      localStorage.setItem('shoppingList',JSON.stringify(products))
-    }else{
-      let shoppingListFromLocalStore = localStorage.getItem("shoppingList")
-      shoppingListFromLocalStore = JSON.parse(shoppingListFromLocalStore)
-      shoppingListFromLocalStore.push(props.product)
-      localStorage.setItem('shoppingList', JSON.stringify(shoppingListFromLocalStore))
-      //remove before merge
-      let result = localStorage.getItem('shoppingList')
-      console.log(JSON.parse(result))
-      //
+  };
+  const addToList = () => {
+    console.log(props.product);
+    let products = [props.product];
+    if (localStorage.getItem("shoppingList") === null) {
+      localStorage.setItem("shoppingList", JSON.stringify(products));
+    } else {
+      let shoppingListFromLocalStore = localStorage.getItem("shoppingList");
+      shoppingListFromLocalStore = JSON.parse(shoppingListFromLocalStore);
+      shoppingListFromLocalStore.push(props.product);
+      localStorage.setItem(
+        "shoppingList",
+        JSON.stringify(shoppingListFromLocalStore)
+      );
     }
-    
-  }
-  useEffect(() =>{
-  getStoreName()
-  localStorage.clear()
-  },[])
- 
-  
+  };
+  useEffect(() => {
+    getStoreName();
+  }, []);
+
   return (
     <>
       <Card className="col-5 ml-4 mb-3 d-flex flex-wrap product-card">
         <img
-          class="list-icon"
+          className="list-icon pointer"
           src={listIcon}
           alt="listIcon"
-          onClick={addToList}
+          onClick={ addToList }
         ></img>
-          <img id="product-img" src={imgSrc} alt="Card image cap" />
-        <div class="product-desc">
-          <CardTitle class="card-title">{props.product.name}</CardTitle>
-          <CardText class="card-text">
-            <span class="store-div" id={storeName}>
+        <img id="product-img" src={imgSrc} alt="Card image cap" />
+        <div className="product-desc">
+          <CardTitle className="card-title">{props.product.name}</CardTitle>
+          <CardText className="card-text">
+            <span className="store-div" id={storeName}>
               {storeName}
             </span>
-            <span class="price-div">
+            <span className="price-div">
               {props.product.pricePerItem}kr/st <br />
               {props.product.pricePerUnit}kr/{props.product.unit}
             </span>
@@ -74,7 +63,6 @@ const ProductCard = (props) => {
       </Card>
     </>
   );
-
-}
+};
 
 export default ProductCard;
