@@ -7,6 +7,7 @@ const ProductContextProvider = (props) => {
   const [products, setProducts] = useState([]);
   const [mainCatProducts, setMainCatProducts] = useState([]);
   const [store, setStore] = useState([]);
+  const [similarProducts, setSimilarProducts] = useState([])
   
   const getProducts = async () => {
     axios
@@ -36,19 +37,20 @@ const ProductContextProvider = (props) => {
     });
   }
 
-  const getSimilarProductsById = async (id) => {
-    axios
-    .get("" + id)
-    .then((response) => {
+  const getSimilarProducts = async () => {
+    let error ;
+    var result = await axios.get("http://localhost:4000/rest/similareproducts")
+      .catch(e => error = e);
+    return result.data || {error};
+    /*.then((response) => {
+      console.log("GOT IT")
       return response.data;
     }).then((result) => {
-      setStore(result)
-      console.log(result)
-      console.log("store", result)
+      setSimilarProducts(result)
     })
-    .catch((err) => {
+     .catch((err) => {
       console.error(err);
-    });
+    });*/
   }
 
 
@@ -70,7 +72,6 @@ const ProductContextProvider = (props) => {
 
   useEffect(() => {
     getProducts();
-    //getProductsByMainCatId();
   }, []);
   console.log(mainCatProducts)
 
@@ -78,9 +79,10 @@ const ProductContextProvider = (props) => {
     products,
     store, 
     mainCatProducts,
+    similarProducts,
     getProductsByMainCatId,
     getStoreNameById,
-    getSimilarProductsById,
+    getSimilarProducts,
   };
   return (
     <ProductContext.Provider value={values}>

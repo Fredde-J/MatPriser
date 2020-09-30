@@ -20,6 +20,7 @@ const ProductCard = (props) => {
   let productUnit;
   let promotionPrice;
   let ecoText;
+  let productTest;
 
   if (props.product.unit){
     productUnit = "/"+props.product.unit;
@@ -50,26 +51,28 @@ const ProductCard = (props) => {
     }
 
   }
-  const addToList = ()=>{
-    console.log(props.product)
 
-    //setProductsToList([productContext.getSimilarProductsById(props.product.id),props.product])
+
+  const addToList = async ()=>{
+   console.log(props.product)
+   let products = await productContext.getSimilarProducts();
+   products.push(props.product)
+   console.log(products)
 
     if(localStorage.getItem('shoppingList')===null){
-      localStorage.setItem('shoppingList',JSON.stringify(productsToList))
+      localStorage.setItem('shoppingList',JSON.stringify(products))
     }else{
       let shoppingListFromLocalStore = localStorage.getItem("shoppingList")
       shoppingListFromLocalStore = JSON.parse(shoppingListFromLocalStore)
-     productsToList.forEach(product => {
+      products.forEach(product => {
       shoppingListFromLocalStore.push(product)
       });
-      
       localStorage.setItem('shoppingList', JSON.stringify(shoppingListFromLocalStore))
-      //Remove when product card is done
-      let result = localStorage.getItem('shoppingList')
-      console.log(JSON.parse(result))
-      //
     }
+     //Remove when product card is done
+     let result = localStorage.getItem('shoppingList')
+     console.log(JSON.parse(result))
+     //
     
   }
   useEffect(() =>{
