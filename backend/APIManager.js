@@ -240,8 +240,164 @@ module.exports = class APIManager {
     });
   }
 
-  static getSimilareProductsbyId(productId, res) {
-    con.query(
+  static async getProductById(productId, callback) {
+    con.query("SELECT * FROM product WHERE id = " + productId +" ", (err, result, fields) => {
+      if (err) callback(err, null);
+      else callback(null, result);
+    });
+  }
+
+  static getSimilarProductsbyId(productId, res) {
+    con.query("SELECT * FROM product WHERE id = " + productId +" AND isActive = 1",
+    (err, rows, fields) => {
+      var storeId1 = 0;
+      var storeId2 = 0;
+      if (!err) {
+        var storeId = rows[0].storeId;
+        if(storeId == 1){
+          storeId1 = 2; 
+          storeId2 = 3;        
+        } else if (storeId == 2){
+          storeId1 = 1; 
+          storeId2 = 3;
+        } else{
+          storeId1 = 1; 
+          storeId2 = 2;
+        }
+        let mainCategoryId = rows[0].mainCategoryId;
+        let subCategoryId = rows[0].subCategoryId;
+        let name = rows[0].name;
+
+        con.query(
+          "(SELECT * "+
+          "FROM product "+
+          "WHERE match(name) against('"+name+"' IN BOOLEAN MODE) "+
+          "AND mainCategoryId = "+mainCategoryId+" "+
+          "AND storeId = "+ storeId1 +" "+
+          "AND isActive = 1 "+
+          "ORDER BY pricePerUnit " +
+          "LIMIT 1) "+
+          "UNION "+
+          "(SELECT * "+ 
+          "FROM product "+ 
+          "WHERE match(name) against('"+name+"' IN BOOLEAN MODE) "+
+          "AND mainCategoryId = "+mainCategoryId+" "+
+          "AND storeId = "+ storeId2 +" "+
+          "AND isActive = 1 "+
+          "ORDER BY pricePerUnit " +
+          "LIMIT 1) ",
+          (err, rows, fields) => {
+            if (!err) {
+              if(rows[0] == null){
+                con.query(
+                  "(SELECT * "+
+                  "FROM product "+
+                  "WHERE mainCategoryId = "+mainCategoryId+" "+
+                  "AND ((subCategoryId = "+subCategoryId+" AND "+subCategoryId+" IS NOT NULL) OR ("+subCategoryId+" IS NULL)) "+
+                  "AND storeId = "+ storeId1 +" "+
+                  "AND isActive = 1 "+
+                  "ORDER BY pricePerUnit " +
+                  "LIMIT 1) "+
+                  "UNION "+
+                  "(SELECT * "+ 
+                  "FROM product "+ 
+                  "WHERE mainCategoryId = "+mainCategoryId+" "+                  
+                  "AND ((subCategoryId = "+subCategoryId+" AND "+subCategoryId+" IS NOT NULL) OR ("+subCategoryId+" IS NULL)) "+
+                  "AND storeId = "+ storeId2 +" "+
+                  "AND isActive = 1 "+
+                  "ORDER BY pricePerUnit " +
+                  "LIMIT 1) ",(err, rows, fields) => {
+                    if (!err) {
+                      res.send(rows);
+                    }
+                    else {
+                      console.log(err);
+                    }
+                  }
+                )
+
+              }else{
+                res.send(rows);
+              }
+              
+            } else {
+              console.log(err);
+            }
+          }
+          )
+      } else {
+        console.log(err);
+      }
+      /*if (err) {
+        console.log("ERROR : ", err);
+      } else {
+        product = data;
+      }*/
+     /* while(result.next()){
+        var storeId = result.getInt("storeId");
+        if(storeId == 1){
+          storeId1 = 2; 
+          storeId2 = 3;        
+        } else if (storeId == 2){
+          storeId1 = 1; 
+          storeId2 = 3;
+        } else{
+          storeId1 = 1; 
+          storeId2 = 2;
+        }
+        let mainCategoryId = result.getString("mainCategoryId");
+        let name = result.getString("name");
+      }
+      */
+      /*con.query(
+        "(SELECT * "+
+        "FROM product "+
+        "WHERE match(name) against('Ägg 20-pack' IN BOOLEAN MODE) "+
+        "AND mainCategoryId = "+mainCategoryId+" "+
+        "AND storeId = "+ storeId1 +" "+
+        "LIMIT 1) "+
+        "UNION "+
+        "(SELECT * "+ 
+        "FROM product "+ 
+        "WHERE match(name) against('Ägg 20-pack' IN BOOLEAN MODE) "+
+        "AND mainCategoryId = "+mainCategoryId+" "+
+        "AND storeId = "+ storeId2 +" "+
+        "LIMIT 1) ",
+        (err, rows, fields) => {
+          if (!err) {
+            res.send(rows);
+          } else {
+            console.log(err);
+          }
+        }
+      )*/
+      /*con.query(
+        "(SELECT * "+
+        "FROM product "+
+        "WHERE match(name) against('Ägg 20-pack' IN BOOLEAN MODE) "+
+        "AND mainCategoryId = "+product.mainCategoryId+" "+
+        "AND storeId = "+ storeId1 +" "+
+        "LIMIT 1) "+
+        "UNION "+
+        "(SELECT * "+ 
+        "FROM product "+ 
+        "WHERE match(name) against('Ägg 20-pack' IN BOOLEAN MODE) "+
+        "AND mainCategoryId = "+product.mainCategoryId+" "+
+        "AND storeId = "+ storeId2 +" "+
+        "LIMIT 1) ",
+        (err, rows, fields) => {
+          if (!err) {
+            res.send(rows);
+          } else {
+            console.log(err);
+          }
+        }
+      )*/
+    
+    
+    });
+    
+    /*con.query(
       "SELECT  s.* " +
         "FROM product s JOIN product p  on p.id= " +
         productId +
@@ -257,7 +413,7 @@ module.exports = class APIManager {
           console.log(err);
         }
       }
-    );
+    );*/
   }
 
   static deleteProductsByMainCategoryId(storeId, mainCategoryId, res) {
