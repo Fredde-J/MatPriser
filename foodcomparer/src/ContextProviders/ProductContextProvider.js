@@ -39,7 +39,7 @@ const ProductContextProvider = (props) => {
 
   const getSimilarProducts = async () => {
     let error ;
-    var result = await axios.get("http://localhost:4000/rest/similareproducts")
+    let result = await axios.get("http://localhost:4000/rest/similareproducts")
       .catch(e => error = e);
     return result.data || {error};
     /*.then((response) => {

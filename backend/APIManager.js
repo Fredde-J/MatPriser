@@ -148,6 +148,21 @@ module.exports = class APIManager {
       else callback(null, result);
     });
   }
+
+
+
+  static getSimilareProducts(res) {
+    con.query(
+      "SELECT * FROM product WHERE id = 506158",
+      (err, rows, fields) => {
+        if (!err) {
+          res.send(rows);
+        } else {
+          console.log(err);
+        }
+      }
+    );
+  }
   /*
   static harvestProducts(storeId, mainCategoryId, baseURL, categoryURL) {
     HarvesterFactory.createProducts(storeId, mainCategoryId, baseURL, categoryURL)

@@ -139,3 +139,7 @@ app.get("rest/storename:storeId", async (req, res) => {
 app.delete("/rest/products", async (req, res) => {
   APIManager.deleteProducts(res);
 });
+
+app.get("/rest/similareproducts", async (req, res) => {
+  APIManager.getSimilareProducts(res);
+});

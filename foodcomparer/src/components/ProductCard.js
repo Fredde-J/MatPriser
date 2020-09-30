@@ -14,7 +14,6 @@ const ProductCard = (props) => {
   const listIcon = "/images/listIcon.svg"
   const [storeName, setStoreName] = useState([]);
   const [storeLogo, setStoreLogo] = useState([]);
-  const [productsToList, setProductsToList] = useState([])
   const productContext = useContext(ProductContext)
   let imgSrc = props.product.photoUrl.replace("tiff", "png");
   let productUnit;
@@ -56,7 +55,7 @@ const ProductCard = (props) => {
   const addToList = async ()=>{
    console.log(props.product)
    let products = await productContext.getSimilarProducts();
-   products.push(props.product)
+   products.unshift(props.product)
    console.log(products)
 
     if(localStorage.getItem('shoppingList')===null){
