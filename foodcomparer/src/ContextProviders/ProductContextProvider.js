@@ -70,8 +70,9 @@ const ProductContextProvider = (props) => {
 
   useEffect(() => {
     getProducts();
-    getProductsByMainCatId();
+    //getProductsByMainCatId();
   }, []);
+  console.log(mainCatProducts)
 
   const values = {
     products,
