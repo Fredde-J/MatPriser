@@ -31,7 +31,7 @@ module.exports = class APIManager {
     );
   }
 
-  static getProductsByMainCategoryIdFromDb(mainCategoryId, res) {
+  static async getProductsByMainCategoryIdFromDb(mainCategoryId, res) {
     con.query(
       "SELECT * FROM product WHERE mainCategoryId = " +
         mainCategoryId +
