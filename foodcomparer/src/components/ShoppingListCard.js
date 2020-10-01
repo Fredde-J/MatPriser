@@ -91,7 +91,7 @@ const ShoppingListCard = () => {
   };
 
   useEffect(() => {
-    if (localStorage.getItem("shoppingList")) {
+    if (localStorage.getItem("shoppingList")!==null) {
       getTotalPrice();
     }
   }, []);
