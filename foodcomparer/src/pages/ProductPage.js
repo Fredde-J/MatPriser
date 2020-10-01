@@ -54,10 +54,6 @@ const ProductPage = (props) => {
   });
   const { loading, data, after, more } = state;
 
-  
-  useEffect(() => {
-  }, []);
-
 
     return (
       <div>
