@@ -20,18 +20,23 @@ const ProductCard = (props) => {
   let promotionPrice;
   let ecoText;
   let productTest;
-  var pricePerItem = props.product.pricePerItem.toString();
-  var pricePerUnit = props.product.pricePerUnit.toString();
+  var pricePerItem = props.product.pricePerItem;
+  var pricePerUnit = props.product.pricePerUnit;
 
-  if(pricePerItem.includes('.')){
-    if( pricePerItem.substr(pricePerItem.length-3, 1) != '.'){
-      pricePerItem = pricePerItem+"0";
+  if(pricePerItem){
+    pricePerItem = pricePerItem.toString();
+    if(pricePerItem.includes('.')){
+      if( pricePerItem.substr(pricePerItem.length-3, 1) != '.'){
+        pricePerItem = pricePerItem+"0";
+      }
     }
   }
-
-  if(pricePerUnit.includes('.')){
-    if( pricePerUnit.substr(pricePerUnit.length-3, 1) != '.'){
-      pricePerUnit = pricePerUnit+"0";
+  if(pricePerUnit){
+    pricePerUnit = pricePerUnit.toString();
+    if(pricePerUnit.includes('.')){
+      if( pricePerUnit.substr(pricePerUnit.length-3, 1) != '.'){
+        pricePerUnit = pricePerUnit+"0";
+      }
     }
   }
 
