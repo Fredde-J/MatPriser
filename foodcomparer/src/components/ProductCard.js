@@ -110,7 +110,7 @@ const ProductCard = (props) => {
               }</div></CardText>    
           <CardText class="card-text">
             <div class="flex spaceB price-div priceBox">
-                <div class="flex spaceB dirCol">{props.product.pricePerItem} kr{productUnit} <br />
+                <div class="flex spaceB dirCol">{props.product.pricePerItem} kr <br />
                 <span class="littleText">Jmf-pris {props.product.pricePerUnit} kr{productUnit}</span>
                 </div>
                 {

@@ -61,8 +61,8 @@ const ShoppingListCard = () => {
           {storeItems.map((storeItem, index) => {
             return (
               <li key={index}>
-                {storeItem.name} {storeItem.pricePerItem}kr st /{" "}
-                {storeItem.pricePerUnit}kr per {storeItem.unit}
+                {storeItem.name} : {storeItem.pricePerItem} kr st/
+                {storeItem.pricePerUnit} kr per {storeItem.unit}
               </li>
             );
           })}
