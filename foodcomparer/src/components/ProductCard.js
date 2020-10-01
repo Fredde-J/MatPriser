@@ -20,18 +20,34 @@ const ProductCard = (props) => {
   let promotionPrice;
   let ecoText;
   let productTest;
+  var pricePerItem = props.product.pricePerItem.toString();
+  var pricePerUnit = props.product.pricePerUnit.toString();
+
+  if(pricePerItem.includes('.')){
+    if( pricePerItem.substr(pricePerItem.length-3, 1) != '.'){
+      pricePerItem = pricePerItem+"0";
+    }
+  }
+
+  if(pricePerUnit.includes('.')){
+    if( pricePerUnit.substr(pricePerUnit.length-3, 1) != '.'){
+      pricePerUnit = pricePerUnit+"0";
+    }
+  }
 
   if (props.product.unit){
     productUnit = "/"+props.product.unit;
   }
 
   if(props.product.promotionPrice){
-    promotionPrice = props.product.promotionPrice+" kr";
+    promotionPrice = props.product.promotionPrice +" kr";
   }
 
   if(props.product.isEco === 1){
     ecoText = 'Eko';
   }
+
+  
   
 
   const getStoreName = () => {
@@ -107,11 +123,11 @@ const ProductCard = (props) => {
                 props.product.country === 'Sverige' ?
                 <span><img src="../images/SWE.png" class="flag" height="15vh"></img></span>
                 : ''
-              }</div></CardText>    
+              }</div></CardText>
           <CardText class="card-text">
             <div class="flex spaceB price-div priceBox">
-                <div class="flex spaceB dirCol">{props.product.pricePerItem} kr <br />
-                <span class="littleText">Jmf-pris {props.product.pricePerUnit} kr{productUnit}</span>
+                <div class="flex spaceB dirCol">{pricePerItem} {props.product.unit}<br />
+                <span class="littleText">Jmf-pris {pricePerUnit} {props.product.compareUnit}</span>
                 </div>
                 {
                 props.product.promotionPrice || props.product.promotionConditionLabel ? 
