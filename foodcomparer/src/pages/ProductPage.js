@@ -1,25 +1,48 @@
 import React, { useContext, useEffect, useReducer, useRef, useState } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import { withRouter } from "react-router-dom";
+import { Form, Input, Label } from "reactstrap";
 import ProductCard from "../components/ProductCard";
 import { ProductContext } from "../ContextProviders/ProductContextProvider";
 
 const ProductPage = (props) => {
   let productContext = useContext(ProductContext);
+  const [ecoProducts, setEcoProducts] = useState([])
   const [initData, setInitData] = useState([]);
+  const [onlyEco, setOnlyEco] = useState(false);
 
   useEffect(() => {
      getProducts();
      //console.log( products.getProductsByMainCatId(props.match.params.mCatId))
   }, []);
 
-  // useEffect(() => {
-  //   updateData();
-  // }, );
+  useEffect(() => {
+     updateEcoProducts();
+     console.log("setEco")
+  },[initData] );
 
   const getProducts = async  () => {
    setInitData( await productContext.getProductsByMainCatId(props.match.params.mCatId));
   }
+
+  function updateEcoProducts(){
+    initData.map((product, i)=>{
+      if(product.isEco ==1){
+        setEcoProducts(ecoProducts => [...ecoProducts, product]);
+      }
+    });
+  }
+  
+  const toggleEco =() =>{
+    setOnlyEco(!onlyEco)
+  }
+
+  useEffect(()=>{
+    //setCurrentData(ecoProducts);
+    console.log(ecoProducts.slice(0, 50));
+
+  },[ecoProducts])
+  
 
 
    
@@ -55,8 +78,15 @@ const ProductPage = (props) => {
   const { loading, data, after, more } = state;
 
 
+  if(!onlyEco){
     return (
       <div>
+        <Form id="eco-checkbox-form">
+        <Input type="checkbox" id="ecocheck" onClick={toggleEco} />
+        <Label for="ecocheck" check>
+          Visa endast ekoprodukter
+        </Label>
+        </Form>
         {data[0]
           ? data.map((product, i) => (
               <ProductCard key={product.id + i} product={product} />
@@ -88,6 +118,47 @@ const ProductPage = (props) => {
         )}
       </div>
     );
+  }else{
+    return (
+      <div>
+        <Form id="eco-checkbox-form">
+          <Input type="checkbox" id="ecocheck" onClick={toggleEco} />
+          <Label for="ecocheck" check>
+            Visa endast ekoprodukter
+          </Label>
+        </Form>
+        {data[0]
+          ? data.map((product, i) => (
+              <ProductCard key={product.id + i} product={product} />
+            ))
+          : ecoProducts
+              .slice(0, perPage)
+              .map((product, i) => (
+                <ProductCard key={product.id + i} product={product} />
+              ))}
+
+        {loading && <div>Laddar...</div>}
+
+        {!loading && more && (
+          <div>
+            <button
+              className="load-more-btn"
+              onClick={() => {
+                dispatch({ type: types.start });
+
+                setTimeout(() => {
+                  const newData = ecoProducts.slice(after, after + perPage);
+                  dispatch({ type: types.loaded, newData });
+                }, 1000);
+              }}
+            >
+              Visa Mer
+            </button>
+          </div>
+        )}
+      </div>
+    );
+  }
   
 };
 
