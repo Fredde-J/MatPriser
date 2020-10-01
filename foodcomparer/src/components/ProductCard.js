@@ -78,7 +78,7 @@ const ProductCard = (props) => {
  
   
   return (
-      <Card className="product-card mr-1 ml-1">
+      <Card className="product-card mr-1 ml-1 justify-content-sm-between">
         <div class="cardTop">
           <img
             class="list-icon"
