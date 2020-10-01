@@ -62,17 +62,19 @@ module.exports = class APIManager {
   }
 
   static getProductsBySearchText(text, res) {
-    var clean_text = text.toUpperCase();
-    //con.escape(text);
-    //[ req.body.text ],
+    var clearName = text.toUpperCase().trim().replace('-',' ');
     con.query(
       "SELECT product.*, maincategory.name mainCategoryName " +
         "FROM product, maincategory " +
         "where product.mainCategoryId = maincategory.id " +
-        " and UPPER(product.name) like '%" + 
-        clean_text + 
-        "%' and product.isActive = 1 " +
-        "order by product.mainCategoryId, ISNULL(product.promotionConditionLabel) ASC, product.pricePerUnit",
+        " and UPPER(product.name) like ? "+
+        " and product.isActive = 1 " +
+        " order by CASE " +
+        " WHEN product.name LIKE ? THEN 1 " +
+        " WHEN product.name LIKE ? THEN 3 " +
+        " ELSE 2 " +
+        " END ",
+        [ '%'+clearName+'%',clearName+'%','%'+clearName  ],
       (err, rows, fields) => {
         if (!err) {
           res.send(rows);
@@ -84,6 +86,7 @@ module.exports = class APIManager {
   }
 
   static getProductsBySearchTextAndMainCatId(text, mainCategoryId, res) {
+    var clearName = text.toUpperCase().trim().replace('-',' ');
     con.query(
       "SELECT product.*, maincategory.name mainCategoryName, subcategory.name subCategoryName  " +
         "FROM maincategory, product " +
@@ -92,10 +95,14 @@ module.exports = class APIManager {
         "and maincategory.id = " +
         mainCategoryId +
         " " +
-        " and product.name like '%" +
-        text +
-        "%' and product.isActive = 1 " +
-        "order by product.subCategoryId, ISNULL(product.promotionConditionLabel) ASC, product.pricePerUnit",
+        " and product.name like  ? " +
+        " and product.isActive = 1 " +
+        " order by CASE " +
+        " WHEN product.name LIKE ? THEN 1 " +
+        " WHEN product.name LIKE ? THEN 3 " +
+        " ELSE 2 " +
+        " END ",
+        [ '%'+clearName+'%',clearName+'%','%'+clearName  ],
       (err, rows, fields) => {
         if (!err) {
           res.send(rows);
@@ -107,6 +114,7 @@ module.exports = class APIManager {
   }
 
   static getProductsBySearchTextAndSubCatId(text, subCategoryId, res) {
+    var clearName = text.toUpperCase().trim().replace('-',' ');
     con.query(
       "SELECT product.*, subcategory.name subCategoryName " +
         "FROM product, subcategory " +
@@ -114,9 +122,14 @@ module.exports = class APIManager {
         "and subcategory.id = " +
         subCategoryId +
         " " +
-        " and product.name like '%" +
-        text +
-        "%' and product.isActive = 1",
+        " and product.name like  ? " +
+        " and product.isActive = 1" +
+        " order by CASE " +
+        " WHEN product.name LIKE ? THEN 1 " +
+        " WHEN product.name LIKE ? THEN 3 " +
+        " ELSE 2 " +
+        " END ",
+        [ '%'+clearName+'%',clearName+'%','%'+clearName  ],
       (err, rows, fields) => {
         if (!err) {
           res.send(rows);
