@@ -211,7 +211,7 @@ module.exports = class APIManager {
   static addProductsToDb(storeId, products, mainCategoryId) {
     var jsonArray = products.map((el) => Object.values(el));
     var mysqlQuery =
-      "INSERT INTO `product`(name, storeId, mainCategoryId, brand, photoUrl, isEco, unit, pricePerUnit, pricePerItem, country, url, modifyDate, articleNumber, promotionConditionLabel, promotionType, promotionPrice) VALUES ?";
+    "INSERT INTO `product`(name, storeId, mainCategoryId, brand, photoUrl, isEco, compareUnit, unit, pricePerUnit, pricePerItem, country, url, modifyDate, articleNumber, promotionConditionLabel, promotionType, promotionPrice) VALUES ?";
 
     con.query(mysqlQuery, [jsonArray], (err, results, fields) => {
       if (err) {
