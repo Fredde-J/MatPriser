@@ -286,25 +286,37 @@ module.exports = class APIManager {
 
         con.query(
           "(SELECT * "+
-          "FROM product "+
-          "WHERE match(name) against('"+name+"' IN BOOLEAN MODE) "+
-          "AND mainCategoryId = "+mainCategoryId+" "+
-          "AND storeId = "+ storeId1 +" "+
-          "AND isActive = 1 "+
-          "ORDER BY pricePerUnit " +
-          "LIMIT 1) "+
-          "UNION "+
-          "(SELECT * "+ 
-          "FROM product "+ 
-          "WHERE match(name) against('"+name+"' IN BOOLEAN MODE) "+
-          "AND mainCategoryId = "+mainCategoryId+" "+
-          "AND storeId = "+ storeId2 +" "+
-          "AND isActive = 1 "+
-          "ORDER BY pricePerUnit " +
-          "LIMIT 1) ",
+            "FROM product "+
+            "WHERE match(name) against('"+name+"' IN BOOLEAN MODE) "+
+            "AND mainCategoryId = "+mainCategoryId+" "+
+            "AND storeId = "+ storeId1 +" "+
+            "AND isActive = 1 "+
+            "UNION "+
+            "SELECT * FROM product "+
+            "WHERE mainCategoryId = "+mainCategoryId+" "+
+            "AND ((subCategoryId = "+subCategoryId+" AND "+subCategoryId+" IS NOT NULL) OR ("+subCategoryId+" IS NULL)) "+
+            "AND storeId = "+ storeId1 +" "+
+            "AND isActive = 1 "+
+            "ORDER BY  match(name) against('"+name+"' IN BOOLEAN MODE) desc, pricePerUnit " +
+            "LIMIT 1) "+
+            "UNION "+
+            "(SELECT * "+ 
+            "FROM product "+ 
+            "WHERE match(name) against('"+name+"' IN BOOLEAN MODE) "+
+            "AND mainCategoryId = "+mainCategoryId+" "+
+            "AND storeId = "+ storeId2 +" "+
+            "AND isActive = 1 "+
+            "UNION "+
+            "SELECT * FROM product "+
+            "WHERE mainCategoryId = "+mainCategoryId+" "+
+            "AND ((subCategoryId = "+subCategoryId+" AND "+subCategoryId+" IS NOT NULL) OR ("+subCategoryId+" IS NULL)) "+
+            "AND storeId = "+ storeId2 +" "+
+            "AND isActive = 1 "+
+            "ORDER BY  match(name) against('"+name+"' IN BOOLEAN MODE) desc, pricePerUnit " +
+            "LIMIT 1) ",
           (err, rows, fields) => {
             if (!err) {
-              if(rows[0] == null){
+              /*if(rows[0] == null){
                 con.query(
                   "(SELECT * "+
                   "FROM product "+
@@ -334,7 +346,8 @@ module.exports = class APIManager {
 
               }else{
                 res.send(rows);
-              }
+              }*/
+              res.send(rows);
               
             } else {
               console.log(err);
