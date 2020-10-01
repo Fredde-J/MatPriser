@@ -10,7 +10,7 @@ module.exports = class APIManager {
       password: "",
       database: "mat_pris",
       multipleStatements: true,
-      port:3306
+      port: 3306,
     });
 
     con.connect((err) => {
@@ -19,13 +19,16 @@ module.exports = class APIManager {
     });
   }
   static getProductsFromDb(res) {
-    con.query("SELECT * FROM product order by promotionConditionLabel IS NULL ASC, mainCategoryId, pricePerUnit", (err, rows, fields) => {
-      if (!err) {
-        res.send(rows);
-      } else {
-        console.log(err);
+    con.query(
+      "SELECT * FROM product order by promotionConditionLabel IS NULL ASC, mainCategoryId, pricePerUnit",
+      (err, rows, fields) => {
+        if (!err) {
+          res.send(rows);
+        } else {
+          console.log(err);
+        }
       }
-    });
+    );
   }
 
   static getProductsByMainCategoryIdFromDb(mainCategoryId, res) {
@@ -43,13 +46,30 @@ module.exports = class APIManager {
     );
   }
 
+  static getCountriesByMainCategoryIdFromDb(mainCategoryId, res) {
+    con.query(
+      "SELECT distinct country FROM product WHERE mainCategoryId = " +
+        mainCategoryId +
+        " AND isActive = 1 AND isCountry = 1 order by country",
+      (err, rows, fields) => {
+        if (!err) {
+          res.send(rows);
+        } else {
+          console.log(err);
+        }
+      }
+    );
+  }
+
   static getProductsBySearchText(text, res) {
     con.query(
-      "SELECT product.*, maincategory.name mainCategoryName "+
-      "FROM product, maincategory "+
-      "where product.mainCategoryId = maincategory.id "+
-      " and product.name like '%" + text + "%' and product.isActive = 1 "+
-      "order by product.mainCategoryId, ISNULL(product.promotionConditionLabel) ASC, product.pricePerUnit",
+      "SELECT product.*, maincategory.name mainCategoryName " +
+        "FROM product, maincategory " +
+        "where product.mainCategoryId = maincategory.id " +
+        " and product.name like '%" +
+        text +
+        "%' and product.isActive = 1 " +
+        "order by product.mainCategoryId, ISNULL(product.promotionConditionLabel) ASC, product.pricePerUnit",
       (err, rows, fields) => {
         if (!err) {
           res.send(rows);
@@ -62,13 +82,17 @@ module.exports = class APIManager {
 
   static getProductsBySearchTextAndMainCatId(text, mainCategoryId, res) {
     con.query(
-      "SELECT product.*, maincategory.name mainCategoryName, subcategory.name subCategoryName  "+
-      "FROM maincategory, product "+
-      " LEFT JOIN subcategory ON product.subCategoryId = subcategory.id "+
-      "where product.mainCategoryId = maincategory.id "+
-      "and maincategory.id = "+mainCategoryId+" "+
-      " and product.name like '%" + text + "%' and product.isActive = 1 "+
-      "order by product.subCategoryId, ISNULL(product.promotionConditionLabel) ASC, product.pricePerUnit",
+      "SELECT product.*, maincategory.name mainCategoryName, subcategory.name subCategoryName  " +
+        "FROM maincategory, product " +
+        " LEFT JOIN subcategory ON product.subCategoryId = subcategory.id " +
+        "where product.mainCategoryId = maincategory.id " +
+        "and maincategory.id = " +
+        mainCategoryId +
+        " " +
+        " and product.name like '%" +
+        text +
+        "%' and product.isActive = 1 " +
+        "order by product.subCategoryId, ISNULL(product.promotionConditionLabel) ASC, product.pricePerUnit",
       (err, rows, fields) => {
         if (!err) {
           res.send(rows);
@@ -81,11 +105,15 @@ module.exports = class APIManager {
 
   static getProductsBySearchTextAndSubCatId(text, subCategoryId, res) {
     con.query(
-      "SELECT product.*, subcategory.name subCategoryName "+
-      "FROM product, subcategory "+
-      "where product.subCategoryId = subcategory.id "+
-      "and subcategory.id = "+subCategoryId+" "+
-      " and product.name like '%" + text + "%' and product.isActive = 1",
+      "SELECT product.*, subcategory.name subCategoryName " +
+        "FROM product, subcategory " +
+        "where product.subCategoryId = subcategory.id " +
+        "and subcategory.id = " +
+        subCategoryId +
+        " " +
+        " and product.name like '%" +
+        text +
+        "%' and product.isActive = 1",
       (err, rows, fields) => {
         if (!err) {
           res.send(rows);
@@ -123,6 +151,7 @@ module.exports = class APIManager {
       }
     );
   }
+
   static async getMainCategoriesUrlByStoreId(storeID, callback) {
     con.query(
       "SELECT mainCategoryId, categoryURL FROM storecategoryurl where storeID =" +
@@ -143,10 +172,13 @@ module.exports = class APIManager {
   }
 
   static async getCountries(callback) {
-    con.query("SELECT name, nameEng FROM country order by name", (err, result, fields) => {
-      if (err) callback(err, null);
-      else callback(null, result);
-    });
+    con.query(
+      "SELECT name, nameEng FROM country order by name",
+      (err, result, fields) => {
+        if (err) callback(err, null);
+        else callback(null, result);
+      }
+    );
   }
   /*
   static harvestProducts(storeId, mainCategoryId, baseURL, categoryURL) {
@@ -171,7 +203,7 @@ module.exports = class APIManager {
       } else {
         console.log(
           "storeId: " + storeId + " categoryId: " + mainCategoryId + " succes!"
-        );        
+        );
         this.deleteProductsByMainCategoryId(storeId, mainCategoryId);
         this.updateProductsStatusByMainCategoryId(storeId, mainCategoryId);
         this.updateProductsSubCategoryId(storeId, mainCategoryId);
@@ -208,6 +240,182 @@ module.exports = class APIManager {
     });
   }
 
+  static async getProductById(productId, callback) {
+    con.query("SELECT * FROM product WHERE id = " + productId +" ", (err, result, fields) => {
+      if (err) callback(err, null);
+      else callback(null, result);
+    });
+  }
+
+  static getSimilarProductsbyId(productId, res) {
+    con.query("SELECT * FROM product WHERE id = " + productId +" AND isActive = 1",
+    (err, rows, fields) => {
+      var storeId1 = 0;
+      var storeId2 = 0;
+      if (!err) {
+        var storeId = rows[0].storeId;
+        if(storeId == 1){
+          storeId1 = 2; 
+          storeId2 = 3;        
+        } else if (storeId == 2){
+          storeId1 = 1; 
+          storeId2 = 3;
+        } else{
+          storeId1 = 1; 
+          storeId2 = 2;
+        }
+        let mainCategoryId = rows[0].mainCategoryId;
+        let subCategoryId = rows[0].subCategoryId;
+        let name = rows[0].name;
+
+        con.query(
+          "(SELECT * "+
+          "FROM product "+
+          "WHERE match(name) against('"+name+"' IN BOOLEAN MODE) "+
+          "AND mainCategoryId = "+mainCategoryId+" "+
+          "AND storeId = "+ storeId1 +" "+
+          "AND isActive = 1 "+
+          "ORDER BY pricePerUnit " +
+          "LIMIT 1) "+
+          "UNION "+
+          "(SELECT * "+ 
+          "FROM product "+ 
+          "WHERE match(name) against('"+name+"' IN BOOLEAN MODE) "+
+          "AND mainCategoryId = "+mainCategoryId+" "+
+          "AND storeId = "+ storeId2 +" "+
+          "AND isActive = 1 "+
+          "ORDER BY pricePerUnit " +
+          "LIMIT 1) ",
+          (err, rows, fields) => {
+            if (!err) {
+              if(rows[0] == null){
+                con.query(
+                  "(SELECT * "+
+                  "FROM product "+
+                  "WHERE mainCategoryId = "+mainCategoryId+" "+
+                  "AND ((subCategoryId = "+subCategoryId+" AND "+subCategoryId+" IS NOT NULL) OR ("+subCategoryId+" IS NULL)) "+
+                  "AND storeId = "+ storeId1 +" "+
+                  "AND isActive = 1 "+
+                  "ORDER BY pricePerUnit " +
+                  "LIMIT 1) "+
+                  "UNION "+
+                  "(SELECT * "+ 
+                  "FROM product "+ 
+                  "WHERE mainCategoryId = "+mainCategoryId+" "+                  
+                  "AND ((subCategoryId = "+subCategoryId+" AND "+subCategoryId+" IS NOT NULL) OR ("+subCategoryId+" IS NULL)) "+
+                  "AND storeId = "+ storeId2 +" "+
+                  "AND isActive = 1 "+
+                  "ORDER BY pricePerUnit " +
+                  "LIMIT 1) ",(err, rows, fields) => {
+                    if (!err) {
+                      res.send(rows);
+                    }
+                    else {
+                      console.log(err);
+                    }
+                  }
+                )
+
+              }else{
+                res.send(rows);
+              }
+              
+            } else {
+              console.log(err);
+            }
+          }
+          )
+      } else {
+        console.log(err);
+      }
+      /*if (err) {
+        console.log("ERROR : ", err);
+      } else {
+        product = data;
+      }*/
+     /* while(result.next()){
+        var storeId = result.getInt("storeId");
+        if(storeId == 1){
+          storeId1 = 2; 
+          storeId2 = 3;        
+        } else if (storeId == 2){
+          storeId1 = 1; 
+          storeId2 = 3;
+        } else{
+          storeId1 = 1; 
+          storeId2 = 2;
+        }
+        let mainCategoryId = result.getString("mainCategoryId");
+        let name = result.getString("name");
+      }
+      */
+      /*con.query(
+        "(SELECT * "+
+        "FROM product "+
+        "WHERE match(name) against('Ägg 20-pack' IN BOOLEAN MODE) "+
+        "AND mainCategoryId = "+mainCategoryId+" "+
+        "AND storeId = "+ storeId1 +" "+
+        "LIMIT 1) "+
+        "UNION "+
+        "(SELECT * "+ 
+        "FROM product "+ 
+        "WHERE match(name) against('Ägg 20-pack' IN BOOLEAN MODE) "+
+        "AND mainCategoryId = "+mainCategoryId+" "+
+        "AND storeId = "+ storeId2 +" "+
+        "LIMIT 1) ",
+        (err, rows, fields) => {
+          if (!err) {
+            res.send(rows);
+          } else {
+            console.log(err);
+          }
+        }
+      )*/
+      /*con.query(
+        "(SELECT * "+
+        "FROM product "+
+        "WHERE match(name) against('Ägg 20-pack' IN BOOLEAN MODE) "+
+        "AND mainCategoryId = "+product.mainCategoryId+" "+
+        "AND storeId = "+ storeId1 +" "+
+        "LIMIT 1) "+
+        "UNION "+
+        "(SELECT * "+ 
+        "FROM product "+ 
+        "WHERE match(name) against('Ägg 20-pack' IN BOOLEAN MODE) "+
+        "AND mainCategoryId = "+product.mainCategoryId+" "+
+        "AND storeId = "+ storeId2 +" "+
+        "LIMIT 1) ",
+        (err, rows, fields) => {
+          if (!err) {
+            res.send(rows);
+          } else {
+            console.log(err);
+          }
+        }
+      )*/
+    
+    
+    });
+    
+    /*con.query(
+      "SELECT  s.* " +
+        "FROM product s JOIN product p  on p.id= " +
+        productId +
+        " " +
+        " WHERE REPLACE(REPLACE(s.name, 'Eko', ''),'Klass 1','') like CONCAT('%',trim(REPLACE(REPLACE(p.name, 'Eko', ''),'Klass 1','')),'%') " +
+        " AND s.mainCategoryId = p.mainCategoryId " +
+        " AND s.storeId != p.storeId " +
+        " ORDER BY storeId",
+      (err, rows, fields) => {
+        if (!err) {
+          res.send(rows);
+        } else {
+          console.log(err);
+        }
+      }
+    );*/
+  }
+
   static deleteProductsByMainCategoryId(storeId, mainCategoryId, res) {
     con.query(
       "DELETE FROM product WHERE storeId = " +
@@ -233,10 +441,17 @@ module.exports = class APIManager {
         let countries = data;
         for (let country of countries) {
           con.query(
-            "UPDATE product SET isCountry = 1, country = '"+country.name+"' WHERE storeId = " +
+            "UPDATE product SET isCountry = 1, country = '" +
+              country.name +
+              "' WHERE storeId = " +
               storeId +
-              " AND mainCategoryId = " + mainCategoryId +
-              " AND country LIKE '%"+country.name+"%' OR country LIKE '%"+country.nameEng+"%' ",
+              " AND mainCategoryId = " +
+              mainCategoryId +
+              " AND country LIKE '%" +
+              country.name +
+              "%' OR country LIKE '%" +
+              country.nameEng +
+              "%' ",
             (err) => {
               if (!err) {
                 null;
@@ -300,7 +515,6 @@ module.exports = class APIManager {
       }
     );
   }
-  
 
   static updateProductsSubCategoryByMainCategoryId(
     storeId,
