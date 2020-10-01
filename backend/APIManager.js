@@ -62,12 +62,15 @@ module.exports = class APIManager {
   }
 
   static getProductsBySearchText(text, res) {
+    var clean_text = text.toUpperCase();
+    //con.escape(text);
+    //[ req.body.text ],
     con.query(
       "SELECT product.*, maincategory.name mainCategoryName " +
         "FROM product, maincategory " +
         "where product.mainCategoryId = maincategory.id " +
-        " and product.name like '%" +
-        text +
+        " and UPPER(product.name) like '%" + 
+        clean_text + 
         "%' and product.isActive = 1 " +
         "order by product.mainCategoryId, ISNULL(product.promotionConditionLabel) ASC, product.pricePerUnit",
       (err, rows, fields) => {
