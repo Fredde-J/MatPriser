@@ -25,23 +25,31 @@ const ProductContextProvider = (props) => {
 
 
   const getProductsByMainCatId = async (id) => {
-    axios
-    .get("http://localhost:4000/rest/productsbymaincategoryId/" + id)
-    .then((response) => {
-      return response.data;
-    }).then((result) => {
-      setMainCatProducts(result)
-    })
-    .catch((err) => {
-      console.error(err);
-    });
+    let error;
+    var result = await axios
+      .get("http://localhost:4000/rest/productsbymaincategoryId/" + id)
+      .catch((e) => (error = e));
+      console.log(result.data);
+      return result.data || { error };
+      
+     // setMainCatProducts(result.data);
+    // axios
+    // .get("http://localhost:4000/rest/productsbymaincategoryId/" + id)
+    // .then((response) => {
+    //   return response.data;
+    // }).then((result) => {
+    //   setMainCatProducts(result)
+    // })
+    // .catch((err) => {
+    //   console.error(err);
+    // });
   }
 
   const getSimilarProducts = async () => {
     let error ;
     let result = await axios.get("http://localhost:4000/rest/similareproducts")
       .catch(e => error = e);
-    return result.data || {error};
+    return result.data || { error };
     /*.then((response) => {
       console.log("GOT IT")
       return response.data;

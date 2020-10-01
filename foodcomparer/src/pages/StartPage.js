@@ -37,10 +37,8 @@ const StartPage = (props) => {
         </Col>
       </Row>
 
-      <h2 className="d-flex justify-content-center">Populära kategorier</h2>
-      <Row>
-        {categories.categories.map((category, index) => {
-          if (category.isPopular === 1) {
+      <Row className="d-flex justify-content-center mt-5">
+        {categories.categories.map((category, index) => {          
             return (
               <CatagoryCard
                 key={category + index}
@@ -49,41 +47,10 @@ const StartPage = (props) => {
                 icon={category.picURL}
               ></CatagoryCard>
             );
-          }
         })}
       </Row>
 
-      {!showAllCatagorys ? (
-        <h2
-          className="d-flex justify-content-center"
-          onClick={() => setShowAllCatagorys(true)}
-        >
-          {" "}
-          Fler kategorier
-        </h2>
-      ) : (
-        <>
-          <h2
-            className="d-flex justify-content-center"
-            onClick={() => setShowAllCatagorys(false)}
-          >
-            Mindre kategorier
-          </h2>
-          <Row>
-            {categories.categories.map((category, index) => {
-              if(category.isPopular === 0)
-              return (
-                <CatagoryCard
-                  key={category + index}
-                  name={category.name}
-                  id={category.id}
-                  icon={category.picURL}
-                ></CatagoryCard>
-              );
-            })}
-          </Row>
-        </>
-      )}
+      
     </>
   );
 };

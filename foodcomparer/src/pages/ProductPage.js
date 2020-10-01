@@ -1,26 +1,34 @@
-import React, { useContext, useEffect, useReducer, useState } from "react";
-import InfiniteScroll, { loadFunc } from "react-infinite-scroller";
+import React, { useContext, useEffect, useReducer, useRef, useState } from "react";
+import InfiniteScroll from "react-infinite-scroller";
 import { withRouter } from "react-router-dom";
-import { Card } from "reactstrap";
 import ProductCard from "../components/ProductCard";
 import { ProductContext } from "../ContextProviders/ProductContextProvider";
 
 const ProductPage = (props) => {
-  let products = useContext(ProductContext)
-  let mainCatId = props.match.params.mCatId;
-  const perPage = 10;
+  let productContext = useContext(ProductContext);
+  const [initData, setInitData] = useState([]);
+
+  useEffect(() => {
+     getProducts();
+     //console.log( products.getProductsByMainCatId(props.match.params.mCatId))
+  }, []);
+
+  // useEffect(() => {
+  //   updateData();
+  // }, );
+
+  const getProducts = async  () => {
+   setInitData( await productContext.getProductsByMainCatId(props.match.params.mCatId));
+  }
+
+
+   
+  const perPage = 30;
   const types = {
     start: "START",
     loaded: "LOADED",
   };
-   useEffect(() => {
-     products.getProductsByMainCatId(mainCatId);
-   }, []);
 
-   useEffect(()=> {
-
-   }, [products])
-  //state for infinite scroll
   const reducer = (state, action) => {
     switch (action.type) {
       case types.start:
@@ -38,55 +46,48 @@ const ProductPage = (props) => {
     }
   };
 
-  const [state, dispatch] = useReducer(reducer, {
+  const [state, dispatch] = React.useReducer(reducer, {
     loading: false,
     more: true,
-    data: products.mainCatProducts.slice(0, perPage),
+    data: [],
     after: 0,
   });
   const { loading, data, after, more } = state;
 
-  console.log(data)
 
-  // useEffect(() => {}, [products.mainCatProducts]);
-
-  
-  return (
-    <div>
-      {data[0]
-        ? (data.map((product, i) => (
-            <ProductCard key={product.id + i} product={product} />
-          )))
-        : (products.mainCatProducts
-            .slice(0, perPage)
-            .map((product, i) => (
+    return (
+      <div>
+        {data[0]
+          ? data.map((product, i) => (
               <ProductCard key={product.id + i} product={product} />
-            )))}
+            ))
+          : initData
+              .slice(0, perPage)
+              .map((product, i) => (
+                <ProductCard key={product.id + i} product={product} />
+              ))}
 
-      {loading && <div>Laddar...</div>}
+        {loading && <div>Laddar...</div>}
 
-      {!loading && more && (
-        <div>
-          <button
-            className="load-more-btn"
-            onClick={() => {
-              dispatch({ type: types.start });
+        {!loading && more && (
+          <div>
+            <button
+              className="load-more-btn"
+              onClick={() => {
+                dispatch({ type: types.start });
 
-              setTimeout(() => {
-                const newData = products.mainCatProducts.slice(
-                  after,
-                  after + perPage
-                );
-                dispatch({ type: types.loaded, newData });
-              }, 1000);
-            }}
-          >
-            Visa Fler
-          </button>
-        </div>
-      )}
-    </div>
-  );
+                setTimeout(() => {
+                  const newData = initData.slice(after, after + perPage);
+                  dispatch({ type: types.loaded, newData });
+                }, 1000);
+              }}
+            >
+              Visa Mer
+            </button>
+          </div>
+        )}
+      </div>
+    );
   
 };
 

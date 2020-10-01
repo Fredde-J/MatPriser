@@ -80,7 +80,7 @@ const ProductCard = (props) => {
  
   
   return (
-      <Card className="product-card">
+      <Card className="product-card mr-1 ml-1">
         <div class="cardTop">
           <img
             class="list-icon"
