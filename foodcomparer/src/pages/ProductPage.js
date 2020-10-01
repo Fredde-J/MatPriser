@@ -13,12 +13,10 @@ const ProductPage = (props) => {
 
   useEffect(() => {
      getProducts();
-     //console.log( products.getProductsByMainCatId(props.match.params.mCatId))
   }, []);
 
   useEffect(() => {
      updateEcoProducts();
-     console.log("setEco")
   },[initData] );
 
   const getProducts = async  () => {
@@ -44,8 +42,6 @@ const ProductPage = (props) => {
   },[ecoProducts])
   
 
-
-   
   const perPage = 30;
   const types = {
     start: "START",
