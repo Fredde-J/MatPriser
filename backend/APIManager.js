@@ -10,7 +10,7 @@ module.exports = class APIManager {
       password: "",
       database: "mat_pris",
       multipleStatements: true,
-      port: 3306,
+      port: 3308,
     });
 
     con.connect((err) => {
@@ -181,20 +181,6 @@ module.exports = class APIManager {
     );
   }
 
-
-
-  static getSimilareProducts(res) {
-    con.query(
-      "SELECT * FROM product WHERE id = 506158",
-      (err, rows, fields) => {
-        if (!err) {
-          res.send(rows);
-        } else {
-          console.log(err);
-        }
-      }
-    );
-  }
   /*
   static harvestProducts(storeId, mainCategoryId, baseURL, categoryURL) {
     HarvesterFactory.createProducts(storeId, mainCategoryId, baseURL, categoryURL)

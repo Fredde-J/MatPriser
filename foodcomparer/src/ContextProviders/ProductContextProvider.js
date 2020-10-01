@@ -45,9 +45,9 @@ const ProductContextProvider = (props) => {
     // });
   }
 
-  const getSimilarProducts = async () => {
+  const getSimilarProducts = async (id) => {
     let error ;
-    let result = await axios.get("http://localhost:4000/rest/similareproducts")
+    let result = await axios.get("http://localhost:4000/rest/similareProductsbyId/"+id)
       .catch(e => error = e);
     return result.data || { error };
     /*.then((response) => {
@@ -78,9 +78,7 @@ const ProductContextProvider = (props) => {
     });
   }
 
-  useEffect(() => {
-    getProducts();
-  }, []);
+  
 
   const values = {
     products,

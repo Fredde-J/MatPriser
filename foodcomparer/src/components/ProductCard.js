@@ -53,19 +53,17 @@ const ProductCard = (props) => {
 
 
   const addToList = async ()=>{
-   console.log(props.product)
-   let products = await productContext.getSimilarProducts();
+   let products = await productContext.getSimilarProducts(props.product.id);
    products.unshift(props.product)
-   console.log(products)
 
     if(localStorage.getItem('shoppingList')===null){
-      localStorage.setItem('shoppingList',JSON.stringify(products))
+      let shoppingList = []
+      shoppingList.push(products)
+      localStorage.setItem('shoppingList',JSON.stringify(shoppingList))
     }else{
       let shoppingListFromLocalStore = localStorage.getItem("shoppingList")
       shoppingListFromLocalStore = JSON.parse(shoppingListFromLocalStore)
-      products.forEach(product => {
-      shoppingListFromLocalStore.push(product)
-      });
+      shoppingListFromLocalStore.push(products)
       localStorage.setItem('shoppingList', JSON.stringify(shoppingListFromLocalStore))
     }
      //Remove when product card is done
