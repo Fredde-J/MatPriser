@@ -13,6 +13,7 @@ const ShoppingListCard = () => {
   const [storeItems, setStoreItems] = useState([]);
   const [modal, setModal] = useState(false);
   //the if below will be removed when product card is complete
+  /*
   if (allProducts.products[0] != undefined) {
     let shoppingItems = [
       [allProducts.products[0], allProducts.products[1]],
@@ -20,6 +21,7 @@ const ShoppingListCard = () => {
     ];
     //localStorage.setItem("shoppingList", JSON.stringify(shoppingItems));
   }
+  */
   //*********************************************************************/
 
   const getTotalPrice = () => {
@@ -59,8 +61,8 @@ const ShoppingListCard = () => {
           {storeItems.map((storeItem, index) => {
             return (
               <li key={index}>
-                {storeItem.name}..............{storeItem.pricePerItem}kr st /{" "}
-                {storeItem.pricePerUnit}kr per {storeItem.unit}
+                {storeItem.name} : {storeItem.pricePerItem} kr st/
+                {storeItem.pricePerUnit} kr per {storeItem.unit}
               </li>
             );
           })}

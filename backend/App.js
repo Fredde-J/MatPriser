@@ -140,12 +140,12 @@ app.get("rest/storename:storeId", async (req, res) => {
   APIManager.getStoreName(storeId, res);
 })
 
-app.delete("/rest/products", async (req, res) => {
-  APIManager.deleteProducts(res);
-});
-
 app.get("/rest/similareProductsbyId/:productId", async (req, res) => {
   let productId = Number(req.params.productId);
   APIManager.getSimilarProductsbyId(productId, res);
+});
+
+app.delete("/rest/products", async (req, res) => {
+  APIManager.deleteProducts(res);
 });
 

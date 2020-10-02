@@ -10,7 +10,7 @@ module.exports = class APIManager {
       password: "",
       database: "mat_pris",
       multipleStatements: true,
-      port: 3306,
+      port: 3308,
     });
 
     con.connect((err) => {
@@ -31,7 +31,7 @@ module.exports = class APIManager {
     );
   }
 
-  static getProductsByMainCategoryIdFromDb(mainCategoryId, res) {
+  static async getProductsByMainCategoryIdFromDb(mainCategoryId, res) {
     con.query(
       "SELECT * FROM product WHERE mainCategoryId = " +
         mainCategoryId +
@@ -196,6 +196,7 @@ module.exports = class APIManager {
       }
     );
   }
+
   /*
   static harvestProducts(storeId, mainCategoryId, baseURL, categoryURL) {
     HarvesterFactory.createProducts(storeId, mainCategoryId, baseURL, categoryURL)
