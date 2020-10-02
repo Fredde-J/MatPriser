@@ -26,6 +26,11 @@
   width: 40px;
   
 }
+.list-icon:hover,
+.list-icon:focus {
+  filter: invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%) contrast(97%);
+  cursor: pointer;
+}
 .card-title{
   font-family: "OCR A Std", monospace;
   margin-bottom: 0px; 
