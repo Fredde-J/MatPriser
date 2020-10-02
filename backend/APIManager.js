@@ -10,7 +10,7 @@ module.exports = class APIManager {
       password: "",
       database: "mat_pris",
       multipleStatements: true,
-      port: 3308,
+      port: 3306,
     });
 
     con.connect((err) => {
@@ -36,6 +36,21 @@ module.exports = class APIManager {
       "SELECT * FROM product WHERE mainCategoryId = " +
         mainCategoryId +
         " AND isActive = 1 order by promotionConditionLabel IS NULL ASC, pricePerUnit",
+      (err, rows, fields) => {
+        if (!err) {
+          res.send(rows);
+        } else {
+          console.log(err);
+        }
+      }
+    );
+  }
+
+  static async getProductsBySubCategoryIdFromDb(subCategoryId, res) {
+    con.query(
+      "SELECT * FROM product WHERE subCategoryId = " +
+        subCategoryId +
+        "AND isActive = 1 order by promotionConditionLabel IS NULL ASC, pricePerUnit",
       (err, rows, fields) => {
         if (!err) {
           res.send(rows);

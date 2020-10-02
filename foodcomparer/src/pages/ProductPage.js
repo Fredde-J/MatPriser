@@ -1,16 +1,21 @@
 import React, { useContext, useEffect, useReducer, useRef, useState } from "react";
+
 import InfiniteScroll from "react-infinite-scroller";
-import { withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import ProductCard from "../components/ProductCard";
 import { ProductContext } from "../ContextProviders/ProductContextProvider";
+import { Row, Col } from "reactstrap";
 
 const ProductPage = (props) => {
   let productContext = useContext(ProductContext);
   const [initData, setInitData] = useState([]);
+  const [subcategories, setSubcategories] = useState([]);
+  const [mainCategoryName, setMainCategoryName] = useState([]);
 
   useEffect(() => {
      getProducts();
-     //console.log( products.getProductsByMainCatId(props.match.params.mCatId))
+     getSubCategories();
+     getMainCategoryName();
   }, []);
 
   // useEffect(() => {
@@ -18,10 +23,16 @@ const ProductPage = (props) => {
   // }, );
 
   const getProducts = async  () => {
-   setInitData( await productContext.getProductsByMainCatId(props.match.params.mCatId));
+    setInitData( await productContext.getProductsByMainCatId(props.match.params.mCatId));
   }
 
+  const getSubCategories = async  () => {
+    setSubcategories( await productContext.getSubcategories(props.match.params.mCatId));
+  }
 
+  const getMainCategoryName = async () => {
+    //setMainCategoryName( await productContext.getMainCategoryName(props.match.params.mCatId));
+  }
    
   const perPage = 30;
   const types = {
@@ -57,6 +68,13 @@ const ProductPage = (props) => {
 
     return (
       <div>
+        <div className="col-sm-12 d-flex flex-wrap justify-content-center mb-3">
+          {subcategories[0] ? subcategories.map((subcategory, i) => (
+              <Link to={"/sproducts/"+subcategory.id} key={subcategory.id + i} class="btn  bg-light text-dark mt-2 mr-3 ml-3">{subcategory.name}</Link>
+            )) : null
+          }
+        </div>
+        <Row className="d-flex justify-content-center mt-3">
         {data[0]
           ? data.map((product, i) => (
               <ProductCard key={product.id + i} product={product} />
@@ -86,6 +104,7 @@ const ProductPage = (props) => {
             </button>
           </div>
         )}
+        </Row>
       </div>
     );
   
