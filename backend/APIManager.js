@@ -62,14 +62,19 @@ module.exports = class APIManager {
   }
 
   static getProductsBySearchText(text, res) {
+    var clearName = text.toUpperCase().trim().replace('-',' ');
     con.query(
       "SELECT product.*, maincategory.name mainCategoryName " +
         "FROM product, maincategory " +
         "where product.mainCategoryId = maincategory.id " +
-        " and product.name like '%" +
-        text +
-        "%' and product.isActive = 1 " +
-        "order by product.mainCategoryId, ISNULL(product.promotionConditionLabel) ASC, product.pricePerUnit",
+        " and BINARY UPPER(product.name) like ? "+
+        " and product.isActive = 1 " +
+        " order by CASE " +
+        " WHEN product.name LIKE ? THEN 1 " +
+        " WHEN product.name LIKE ? THEN 3 " +
+        " ELSE 2 " +
+        " END ",
+        [ '%'+clearName+'%',clearName+'%','%'+clearName  ],
       (err, rows, fields) => {
         if (!err) {
           res.send(rows);
@@ -81,6 +86,7 @@ module.exports = class APIManager {
   }
 
   static getProductsBySearchTextAndMainCatId(text, mainCategoryId, res) {
+    var clearName = text.toUpperCase().trim().replace('-',' ');
     con.query(
       "SELECT product.*, maincategory.name mainCategoryName, subcategory.name subCategoryName  " +
         "FROM maincategory, product " +
@@ -89,10 +95,14 @@ module.exports = class APIManager {
         "and maincategory.id = " +
         mainCategoryId +
         " " +
-        " and product.name like '%" +
-        text +
-        "%' and product.isActive = 1 " +
-        "order by product.subCategoryId, ISNULL(product.promotionConditionLabel) ASC, product.pricePerUnit",
+        " and product.name like  ? " +
+        " and product.isActive = 1 " +
+        " order by CASE " +
+        " WHEN product.name LIKE ? THEN 1 " +
+        " WHEN product.name LIKE ? THEN 3 " +
+        " ELSE 2 " +
+        " END ",
+        [ '%'+clearName+'%',clearName+'%','%'+clearName  ],
       (err, rows, fields) => {
         if (!err) {
           res.send(rows);
@@ -104,6 +114,7 @@ module.exports = class APIManager {
   }
 
   static getProductsBySearchTextAndSubCatId(text, subCategoryId, res) {
+    var clearName = text.toUpperCase().trim().replace('-',' ');
     con.query(
       "SELECT product.*, subcategory.name subCategoryName " +
         "FROM product, subcategory " +
@@ -111,9 +122,14 @@ module.exports = class APIManager {
         "and subcategory.id = " +
         subCategoryId +
         " " +
-        " and product.name like '%" +
-        text +
-        "%' and product.isActive = 1",
+        " and product.name like  ? " +
+        " and product.isActive = 1" +
+        " order by CASE " +
+        " WHEN product.name LIKE ? THEN 1 " +
+        " WHEN product.name LIKE ? THEN 3 " +
+        " ELSE 2 " +
+        " END ",
+        [ '%'+clearName+'%',clearName+'%','%'+clearName  ],
       (err, rows, fields) => {
         if (!err) {
           res.send(rows);
@@ -196,7 +212,7 @@ module.exports = class APIManager {
   static addProductsToDb(storeId, products, mainCategoryId) {
     var jsonArray = products.map((el) => Object.values(el));
     var mysqlQuery =
-      "INSERT INTO `product`(name, storeId, mainCategoryId, brand, photoUrl, isEco, unit, pricePerUnit, pricePerItem, country, url, modifyDate, articleNumber, promotionConditionLabel, promotionType, promotionPrice) VALUES ?";
+    "INSERT INTO `product`(name, storeId, mainCategoryId, brand, photoUrl, isEco, compareUnit, unit, pricePerUnit, pricePerItem, country, url, modifyDate, articleNumber, promotionConditionLabel, promotionType, promotionPrice) VALUES ?";
 
     con.query(mysqlQuery, [jsonArray], (err, results, fields) => {
       if (err) {
@@ -271,25 +287,39 @@ module.exports = class APIManager {
 
         con.query(
           "(SELECT * "+
-          "FROM product "+
-          "WHERE match(name) against('"+name+"' IN BOOLEAN MODE) "+
-          "AND mainCategoryId = "+mainCategoryId+" "+
-          "AND storeId = "+ storeId1 +" "+
-          "AND isActive = 1 "+
-          "ORDER BY pricePerUnit " +
-          "LIMIT 1) "+
-          "UNION "+
-          "(SELECT * "+ 
-          "FROM product "+ 
-          "WHERE match(name) against('"+name+"' IN BOOLEAN MODE) "+
-          "AND mainCategoryId = "+mainCategoryId+" "+
-          "AND storeId = "+ storeId2 +" "+
-          "AND isActive = 1 "+
-          "ORDER BY pricePerUnit " +
-          "LIMIT 1) ",
+            "FROM product "+
+            "WHERE match(name) against('"+name+"' IN BOOLEAN MODE) "+
+            "AND mainCategoryId = "+mainCategoryId+" "+
+            "AND ((subCategoryId = "+subCategoryId+" AND "+subCategoryId+" IS NOT NULL) OR ("+subCategoryId+" IS NULL)) "+
+            "AND storeId = "+ storeId1 +" "+
+            "AND isActive = 1 "+
+            "UNION "+
+            "SELECT * FROM product "+
+            "WHERE mainCategoryId = "+mainCategoryId+" "+
+            "AND ((subCategoryId = "+subCategoryId+" AND "+subCategoryId+" IS NOT NULL) OR ("+subCategoryId+" IS NULL)) "+
+            "AND storeId = "+ storeId1 +" "+
+            "AND isActive = 1 "+
+            "ORDER BY  match(name) against('"+name+"' IN BOOLEAN MODE) desc, pricePerUnit " +
+            "LIMIT 1) "+
+            "UNION "+
+            "(SELECT * "+ 
+            "FROM product "+ 
+            "WHERE match(name) against('"+name+"' IN BOOLEAN MODE) "+
+            "AND mainCategoryId = "+mainCategoryId+" "+
+            "AND ((subCategoryId = "+subCategoryId+" AND "+subCategoryId+" IS NOT NULL) OR ("+subCategoryId+" IS NULL)) "+
+            "AND storeId = "+ storeId2 +" "+
+            "AND isActive = 1 "+
+            "UNION "+
+            "SELECT * FROM product "+
+            "WHERE mainCategoryId = "+mainCategoryId+" "+
+            "AND ((subCategoryId = "+subCategoryId+" AND "+subCategoryId+" IS NOT NULL) OR ("+subCategoryId+" IS NULL)) "+
+            "AND storeId = "+ storeId2 +" "+
+            "AND isActive = 1 "+
+            "ORDER BY  match(name) against('"+name+"' IN BOOLEAN MODE) desc, pricePerUnit " +
+            "LIMIT 1) ",
           (err, rows, fields) => {
             if (!err) {
-              if(rows[0] == null){
+              /*if(rows[0] == null){
                 con.query(
                   "(SELECT * "+
                   "FROM product "+
@@ -319,7 +349,8 @@ module.exports = class APIManager {
 
               }else{
                 res.send(rows);
-              }
+              }*/
+              res.send(rows);
               
             } else {
               console.log(err);
