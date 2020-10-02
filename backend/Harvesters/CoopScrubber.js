@@ -22,18 +22,62 @@ module.exports = class CoopScrubber extends Scrubber {
       return imgURL.substring(0, n+6)+'/fl_progressive,q_90,c_lpad,g_center,h_240,w_240'+imgURL.substring(n+6);
     },
     isEco: x => x.name.includes("Eko") ? 1: 0,
+    compareUnit: (x) => {
+      let promotionComparisonPrice = x.promotionComparisonPrice ? x.promotionComparisonPrice.formattedValue : null;
+      let comparisonPriceUnit = x.comparisonPrice.formattedValue;
+      if(promotionComparisonPrice !== null){
+        if(promotionComparisonPrice.includes("kr/kg"))
+        { return 'kr/kg'; }
+        else if(promotionComparisonPrice.includes("kr/g"))
+        { return 'kr/g' ;}
+        else if(promotionComparisonPrice.includes("kr/st") ||  x.comparisonPrice.formattedValue.includes("kr/styck") 
+          || x.comparisonPrice.formattedValue.includes("kr/H87"))
+        { return 'kr/st'; }
+        else if(promotionComparisonPrice.includes("kr/lit"))
+        { return 'kr/l'; }
+      }
+      else if (comparisonPriceUnit == "/g" || comparisonPriceUnit == "/G" 
+                  || comparisonPriceUnit == "/g"  ||comparisonPriceUnit == "/GRM" 
+                  || comparisonPriceUnit == "gram ungefärlig vikt"){
+        return 'kr/gr';
+      }else if (comparisonPriceUnit == "/kg" || comparisonPriceUnit == "/KG" || comparisonPriceUnit == "kg"){
+        return 'kr/kg';
+      }else if (comparisonPriceUnit == "/l" || comparisonPriceUnit == "/L" || comparisonPriceUnit == "LTR"){
+        return 'kr/l';
+      }else if (comparisonPriceUnit == "/ml" || comparisonPriceUnit == "/ML" || comparisonPriceUnit == "MLT"){
+        return 'kr/ml';
+      }else if (comparisonPriceUnit == "H87" || comparisonPriceUnit == "ST"){
+        return 'kr/st';
+      }
+      else if (comparisonPriceUnit == 'undefined' || comparisonPriceUnit == null) {
+        return 'kr';
+      }
+      else{
+        return 'kr/'+x.packageSizeUnit;
+      }
+    },
     unit: x => {
-      /* ' g', 'GRM', 'g', 'gram/bit ungefärlig vikt', 'gram ungefärlig vikt', 'gram/st ungefärlig vikt' */     
-        if (x.packageSizeUnit == " g" || x.packageSizeUnit == "G" || x.packageSizeUnit == "g" 
+         
+     /*   if (x.packageSizeUnit == " g" || x.packageSizeUnit == "G" || x.packageSizeUnit == "g" 
           ||x.packageSizeUnit == "GRM" 
           || x.packageSizeUnit == "gram ungefärlig vikt"){
           return 'gr';
         }
         else {
           return x.packageSizeUnit;
-        }
+        }*/
+        return 'kr/st';
     },      
-    pricePerUnit: x => parseFloat(x.comparisonPrice.value),
+    pricePerUnit: x => {
+      let prCompPrice = x.promotionComparisonPrice ? x.promotionComparisonPrice.formattedValue : null;
+      if(prCompPrice){
+        prCompPrice = prCompPrice.replace(' kr/kg', '');
+        prCompPrice = prCompPrice.replace(' kr/lit', '');
+        prCompPrice = prCompPrice.trim(' ','');
+        return parseFloat(prCompPrice).toFixed(2);
+      }
+      else{ return parseFloat(x.comparisonPrice.value).toFixed(2)}
+    },
     pricePerItem: x => x.price.value,
     country: x => {
       let manufacturer = x.manufacturer ? x.manufacturer : null;

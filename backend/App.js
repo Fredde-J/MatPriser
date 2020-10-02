@@ -99,6 +99,10 @@ app.get("/rest/productsbymaincategoryId/:mCatId", async (req, res) => {
   APIManager.getProductsByMainCategoryIdFromDb(mCatId, res);
 });
 
+app.get("/rest/countrybymaincategoryId/:mainCatId", async (req, res) => {
+  let mainCatId = Number(req.params.mainCatId);
+  APIManager.getCountriesByMainCategoryIdFromDb(mainCatId, res);
+});
 app.get("/rest/productsbysearchtext/:text", async (req, res) => {
   let text = req.params.text;
   APIManager.getProductsBySearchText(text, res);
@@ -136,6 +140,12 @@ app.get("rest/storename:storeId", async (req, res) => {
   APIManager.getStoreName(storeId, res);
 })
 
+app.get("/rest/similareProductsbyId/:productId", async (req, res) => {
+  let productId = Number(req.params.productId);
+  APIManager.getSimilarProductsbyId(productId, res);
+});
+
 app.delete("/rest/products", async (req, res) => {
   APIManager.deleteProducts(res);
 });
+

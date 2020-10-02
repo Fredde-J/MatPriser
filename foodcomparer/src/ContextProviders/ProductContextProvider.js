@@ -7,6 +7,7 @@ const ProductContextProvider = (props) => {
   const [products, setProducts] = useState([]);
   const [mainCatProducts, setMainCatProducts] = useState([]);
   const [store, setStore] = useState([]);
+  const [similarProducts, setSimilarProducts] = useState([])
   
   const getProducts = async () => {
     axios
@@ -24,17 +25,43 @@ const ProductContextProvider = (props) => {
 
 
   const getProductsByMainCatId = async (id) => {
-    axios
-    .get("http://localhost:4000/rest/productsbymaincategoryId/" + id)
-    .then((response) => {
+    let error;
+    var result = await axios
+      .get("http://localhost:4000/rest/productsbymaincategoryId/" + id)
+      .catch((e) => (error = e));
+      console.log(result.data);
+      return result.data || { error };
+      
+     // setMainCatProducts(result.data);
+    // axios
+    // .get("http://localhost:4000/rest/productsbymaincategoryId/" + id)
+    // .then((response) => {
+    //   return response.data;
+    // }).then((result) => {
+    //   setMainCatProducts(result)
+    // })
+    // .catch((err) => {
+    //   console.error(err);
+    // });
+  }
+
+  const getSimilarProducts = async (id) => {
+    let error ;
+    let result = await axios.get("http://localhost:4000/rest/similareProductsbyId/"+id)
+      .catch(e => error = e);
+    return result.data || { error };
+    /*.then((response) => {
+      console.log("GOT IT")
       return response.data;
     }).then((result) => {
-      setMainCatProducts(result)
+      setSimilarProducts(result)
     })
-    .catch((err) => {
+     .catch((err) => {
       console.error(err);
-    });
+    });*/
   }
+
+
 
   const getStoreNameById = async (id) => {
     axios
@@ -51,17 +78,16 @@ const ProductContextProvider = (props) => {
     });
   }
 
-  useEffect(() => {
-    getProducts();
-    getProductsByMainCatId();
-  }, []);
+  
 
   const values = {
     products,
     store, 
     mainCatProducts,
+    similarProducts,
     getProductsByMainCatId,
-    getStoreNameById
+    getStoreNameById,
+    getSimilarProducts,
   };
   return (
     <ProductContext.Provider value={values}>
