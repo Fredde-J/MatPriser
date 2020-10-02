@@ -14,17 +14,30 @@ module.exports = class WillysScrubber extends Scrubber {
     brand: (x) => x.manufacturer,
     photoUrl: (x) => x.image && x.image.url,
     isEco: (x) => x.labels.includes("ecological") ? 1: 0,
-    unit: (x) => x.comparePriceUnit,
+    compareUnit: (x) =>{
+      if (x.comparePriceUnit == null) {
+        return 'kr';
+      }
+      else{
+        return 'kr/'+x.comparePriceUnit;
+      }
+    },
+    unit: (x) => x.priceUnit,
     pricePerUnit: (x) => { 
       let comparePrice = x.comparePrice ? x.comparePrice : null;
+      let promotionComparePrice = x.potentialPromotions[0] ? x.potentialPromotions[0].comparePrice : null;
+      if (promotionComparePrice !== null){
+        comparePrice = promotionComparePrice;
+      }
+      
       if(comparePrice !== null ){
         comparePrice = comparePrice.replace('kr','');
         comparePrice = comparePrice.replace(/\s/g,'');
         comparePrice = comparePrice.replace(',', ".");
       }
-      return x.comparePrice ? parseFloat(comparePrice) : null;
+      return x.comparePrice ? parseFloat(comparePrice).toFixed(2) : null;
     },
-    pricePerItem: (x) => x.priceValue,
+    pricePerItem: (x) => parseFloat(x.priceNoUnit.replace(',', ".")).toFixed(2),
     country: async (x) => {
       // Seems we need detailed product info for this...
       // (one fetch per product - lots of extra time :( )
@@ -48,7 +61,7 @@ module.exports = class WillysScrubber extends Scrubber {
     },
     promotionPrice: (x) => {
       let promotion = x.potentialPromotions[0]; 
-      return promotion ? promotion.price.value : null;
+      return promotion ? promotion.price.value.toFixed(2) : null;
     }
   };
 };
