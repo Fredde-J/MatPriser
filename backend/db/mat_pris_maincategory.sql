@@ -38,7 +38,7 @@ CREATE TABLE `maincategory` (
 
 LOCK TABLES `maincategory` WRITE;
 /*!40000 ALTER TABLE `maincategory` DISABLE KEYS */;
-INSERT INTO `maincategory` VALUES (1,'Mjölk',1,'/images/milk.png',0),(2,'Frukt',1,'/images/fruit.png',1),(3,'Grönsaker',1,'/images/vegtables.png',1),(4,'Bröd, kakor',1,'/images/bread.png',0),(5,'Kaffe',1,'/images/coffe.png',0),(6,'Hem',0,'/images/house.png',0),(7,'Kött',1,'/images/meat.png',0),(8,'Fisk, skaldjur',1,'/images/fish.svg',0),(9,'Vegetariskt',1,'/images/vegan.jpg',0),(19,'Ost',0,'/images/cheese.png',0),(20,'Ägg',0,'/images/egg.png',0);
+INSERT INTO `maincategory` VALUES (1,'Mjölk',1,'/images/milk.png',0),(2,'Frukt',1,'/images/fruit.png',1),(3,'Grönsaker',1,'/images/vegtables.png',1),(4,'Bröd, kakor',1,'/images/bread.png',0),(5,'Kaffe',1,'/images/coffe.png',0),(6,'Hem',1,'/images/house.png',0),(7,'Kött',1,'/images/meat.png',0),(8,'Fisk, skaldjur',1,'/images/fish.svg',0),(9,'Vegetariskt',1,'/images/vegan.jpg',0),(19,'Ost',1,'/images/cheese.png',0),(20,'Ägg',1,'/images/egg.png',0);
 /*!40000 ALTER TABLE `maincategory` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-09-30 12:34:32
+-- Dump completed on 2020-10-01 22:33:47
