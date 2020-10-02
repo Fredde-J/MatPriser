@@ -289,6 +289,7 @@ module.exports = class APIManager {
             "FROM product "+
             "WHERE match(name) against('"+name+"' IN BOOLEAN MODE) "+
             "AND mainCategoryId = "+mainCategoryId+" "+
+            "AND ((subCategoryId = "+subCategoryId+" AND "+subCategoryId+" IS NOT NULL) OR ("+subCategoryId+" IS NULL)) "+
             "AND storeId = "+ storeId1 +" "+
             "AND isActive = 1 "+
             "UNION "+
@@ -304,6 +305,7 @@ module.exports = class APIManager {
             "FROM product "+ 
             "WHERE match(name) against('"+name+"' IN BOOLEAN MODE) "+
             "AND mainCategoryId = "+mainCategoryId+" "+
+            "AND ((subCategoryId = "+subCategoryId+" AND "+subCategoryId+" IS NOT NULL) OR ("+subCategoryId+" IS NULL)) "+
             "AND storeId = "+ storeId2 +" "+
             "AND isActive = 1 "+
             "UNION "+
