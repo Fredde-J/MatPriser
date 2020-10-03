@@ -2,15 +2,11 @@ const fetch = require("node-fetch");
 const Scrubber = require("./Scrubber");
 
 module.exports = class WillysScrubber extends Scrubber {
-  constructor(mainCategoryId) {
-    super(mainCategoryId);
-    this.mainCategoryId = mainCategoryId;
-  }
   //name, storeId, categoryId, brand, photoUrl, isEco, unit, pricePerUnit, pricePerItem, country, url, modifyDate, articleNumber 
   static translateSchema = {
     name: (x) => x.name,
     storeId: (x) => 3, // testvärde!
-    mainCategoryId: (x) => this.mainCategoryId, // testvärde!
+    mainCategoryId: (x) => null, // testvärde!
     brand: (x) => x.manufacturer,
     photoUrl: (x) => x.image && x.image.url,
     isEco: (x) => x.labels.includes("ecological") ? 1: 0,
@@ -62,6 +58,7 @@ module.exports = class WillysScrubber extends Scrubber {
     promotionPrice: (x) => {
       let promotion = x.potentialPromotions[0]; 
       return promotion ? promotion.price.value.toFixed(2) : null;
-    }
+    },
+    storeCategoryUrlId: (x) => null
   };
 };
