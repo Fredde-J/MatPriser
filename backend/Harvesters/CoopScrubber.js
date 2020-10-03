@@ -2,15 +2,11 @@ const fetch = require('node-fetch');
 const Scrubber = require('./Scrubber');
 
 module.exports = class CoopScrubber extends Scrubber {
-  constructor(mainCategoryId) {
-    super(mainCategoryId);
-    this.mainCategoryId = mainCategoryId;
-  }
   //name, storeId, mainCategoryId, brand, photoUrl, isEco, unit, pricePerUnit, pricePerItem, country, url, modifyDate, articleNumber 
   static translateSchema = {
     name: x => x.name,
     storeId: (x) => 1, // CoopStoreId
-    mainCategoryId: (x) => this.mainCategoryId, // testvärde!
+    mainCategoryId: (x) => null, // testvärde!
     brand: x => x.manufacturer,
     photoUrl: x => {
       //https://res.cloudinary.com/coopsverige/image/upload/374319.png
@@ -97,6 +93,7 @@ module.exports = class CoopScrubber extends Scrubber {
       return promotion ? promotion.description : null;
     },
     promotionType: x => null,
-    promotionPrice: x => null
+    promotionPrice: x => null,
+    storeCategoryUrlId: (x) => null
   }
 }
