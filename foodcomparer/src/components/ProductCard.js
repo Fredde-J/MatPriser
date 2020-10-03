@@ -1,78 +1,152 @@
-import React, {Component, useContext, useEffect, useState} from "react";
+import React, {useEffect, useState, useContext} from "react";
+import { ProductContext} from "../ContextProviders/ProductContextProvider"
 import '../css/ProductCardStyling.css'
 import {
   Card,
-  CardBody,
   CardTitle,
   CardText
 } from "reactstrap";
-
+import willysLogo from "../images/willys.jpg";
+import coopLogo from "../images/coop4.png";
+import hemkopLogo from "../images/hemkop.jpg";
 
 const ProductCard = (props) => {
   const listIcon = "/images/listIcon.svg"
-  let imgSrc = props.product.photoUrl.replace("tiff", "png");
   const [storeName, setStoreName] = useState([]);
+  const [storeLogo, setStoreLogo] = useState([]);
+  const productContext = useContext(ProductContext)
+  let imgSrc = props.product.photoUrl.replace("tiff", "png");
+  let productUnit;
+  let promotionPrice;
+  let ecoText;
+  let productTest;
+  var pricePerItem = props.product.pricePerItem;
+  var pricePerUnit = props.product.pricePerUnit;
+
+  if(pricePerItem){
+    pricePerItem = pricePerItem.toString();
+    if(pricePerItem.includes('.')){
+      if( pricePerItem.substr(pricePerItem.length-3, 1) != '.'){
+        pricePerItem = pricePerItem+"0";
+      }
+    }
+  }
+  if(pricePerUnit){
+    pricePerUnit = pricePerUnit.toString();
+    if(pricePerUnit.includes('.')){
+      if( pricePerUnit.substr(pricePerUnit.length-3, 1) != '.'){
+        pricePerUnit = pricePerUnit+"0";
+      }
+    }
+  }
+
+  if (props.product.unit){
+    productUnit = "/"+props.product.unit;
+  }
+
+  if(props.product.promotionPrice){
+    promotionPrice = props.product.promotionPrice +" kr";
+  }
+
+  if(props.product.isEco === 1){
+    ecoText = 'Eko';
+  }
+
+  
+  
 
   const getStoreName = () => {
-    let id = props.product.storeId;
-    if(id === 1){
+    let storeId = props.product.storeId;
+    if(storeId === 1){
       setStoreName("Coop");
+      setStoreLogo(coopLogo);
     }
-    else if(id === 2){
+    else if(storeId === 2){
       setStoreName("Hemköp");
+      setStoreLogo(hemkopLogo);
     }    
-    else if(id === 3){
+    else if(storeId === 3){
       setStoreName("Willys");
+      setStoreLogo(willysLogo);
     }
 
   }
-  const addToList = ()=>{
-    console.log(props.product)
-    let products = [props.product]
+
+
+  const addToList = async ()=>{
+   let products = await productContext.getSimilarProducts(props.product.id);
+   products.unshift(props.product)
+
     if(localStorage.getItem('shoppingList')===null){
-      localStorage.setItem('shoppingList',JSON.stringify(products))
+      let shoppingList = []
+      shoppingList.push(products)
+      localStorage.setItem('shoppingList',JSON.stringify(shoppingList))
     }else{
       let shoppingListFromLocalStore = localStorage.getItem("shoppingList")
       shoppingListFromLocalStore = JSON.parse(shoppingListFromLocalStore)
-      shoppingListFromLocalStore.push(props.product)
+      shoppingListFromLocalStore.push(products)
       localStorage.setItem('shoppingList', JSON.stringify(shoppingListFromLocalStore))
-      //remove before merge
-      let result = localStorage.getItem('shoppingList')
-      console.log(JSON.parse(result))
-      //
     }
+     //Remove when product card is done
+     let result = localStorage.getItem('shoppingList')
+     console.log(JSON.parse(result))
+     //
     
   }
   useEffect(() =>{
   getStoreName()
-  localStorage.clear()
   },[])
  
   
   return (
-    <>
-      <Card className="col-5 ml-4 mb-3 d-flex flex-wrap product-card">
-        <img
-          class="list-icon"
-          src={listIcon}
-          alt="listIcon"
-          onClick={addToList}
-        ></img>
-          <img id="product-img" src={imgSrc} alt="Card image cap" />
+      <Card className="product-card mr-1 ml-1 justify-content-sm-between">
+        <div class="cardTop">
+          <img
+            class="list-icon"
+            src={listIcon}
+            alt="listIcon"
+            onClick={addToList}
+          ></img>
+          <img class="storeLogo" src={storeLogo} height="50vh"></img>
+        </div>
+        <div class="flex mediaBox">
+          <div class="cardMedia">
+            <img id="product-img" src={imgSrc} alt="Card image cap" />
+          </div>
+        </div>
         <div class="product-desc">
-          <CardTitle class="card-title">{props.product.name}</CardTitle>
+          <CardTitle class="card-title">             
+              {ecoText? <div class="ecoBox"><span class="eco">{ecoText}</span></div> : ''}
+              {props.product.name}
+              </CardTitle>
+          <CardText><div class="countrylabel">{
+                props.product.isCountry === 1?
+                <span>Ursprungsland: {props.product.country}</span>
+                : ''
+              }
+              {
+                props.product.country === 'Sverige' ?
+                <span><img src="../images/SWE.png" class="flag" height="15vh"></img></span>
+                : ''
+              }</div></CardText>
           <CardText class="card-text">
-            <span class="store-div" id={storeName}>
-              {storeName}
-            </span>
-            <span class="price-div">
-              {props.product.pricePerItem}kr/st <br />
-              {props.product.pricePerUnit}kr/{props.product.unit}
-            </span>
+            <div class="flex spaceB price-div priceBox">
+                <div class="flex spaceB dirCol">{pricePerItem} {props.product.unit}<br />
+                <span class="littleText">Jmf-pris {pricePerUnit} {props.product.compareUnit}</span>
+                </div>
+                {
+                props.product.promotionPrice || props.product.promotionConditionLabel ? 
+                  <div class="discountPrice dirCol">
+                    <div class='whiteBox littleText'>{props.product.promotionConditionLabel}</div>
+                    <div>{promotionPrice}</div>
+                    {props.product.promotionType === 'LOYALTY' ? 'Medlemspris' : '' }
+                  </div> 
+                : ''
+                }
+            </div>
           </CardText>
         </div>
       </Card>
-    </>
   );
 
 }
