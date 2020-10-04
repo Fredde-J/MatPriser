@@ -293,6 +293,10 @@ module.exports = class APIManager {
         if(rows[0] !== null){
        
           var storeId = rows[0].storeId;
+          let mainCategoryId = rows[0].mainCategoryId;
+          let subCategoryId = rows[0].subCategoryId;
+          let name = rows[0].name;
+
           if(storeId == 1){
             storeId1 = 2; 
             storeId2 = 3;        
@@ -303,10 +307,7 @@ module.exports = class APIManager {
             storeId1 = 1; 
             storeId2 = 2;
           }
-          let mainCategoryId = rows[0].mainCategoryId;
-          let subCategoryId = rows[0].subCategoryId;
-          let name = rows[0].name;
-
+          
           con.query(
             "(SELECT * "+
               "FROM product "+
@@ -380,7 +381,7 @@ module.exports = class APIManager {
             }
             )
         }
-        console.log('null');
+        //console.log('null');
       } else {
         console.log(err);
       }
