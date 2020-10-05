@@ -16,7 +16,7 @@ const ProductPage = (props) => {
   const [initData, setInitData] = useState([]);
   const [onlyEco, setOnlyEco] = useState(false);
   const [more, setMore] = useState(true);
-  const [loading, setLoading] = useState(false);
+  const [less, setLess] = useState(false);
   const [start, setstart] = useState(0);
   const [finish, setFinish] = useState(perPage)
 
@@ -39,63 +39,34 @@ const ProductPage = (props) => {
   console.log(start, finish)
 
   const nextPage = () => {
-    //setLoading(true);
+    setLess(true);
     setstart(finish);
-   // setFinish(finish + perPage)
-    if (finish + perPage > initData.length){
+    if (!onlyEco && finish + perPage > initData.length ){
       setFinish(initData.length)
       setMore(false);
-    }else{
+    }else if(onlyEco && finish + perPage > initData.filter((product) => product.isEco == 1).length){
+      setFinish(initData.filter((product) => product.isEco == 1).length);
+      setMore(false);
+    }
+    else{
       setFinish(finish+perPage)
     }
-      setMore(initData[start + finish] != undefined);
     window.scrollTo(0, 0);
-    //setLoading(false)
-
   };
+  console.log(initData.filter((product) => product.isEco == 1).length);
+
   const previousPage = () => {
-    setstart(start-(finish-start))
-    setFinish(finish-perPage)
+     if (finish-perPage <= perPage) {
+       setFinish(perPage);
+       setstart(0);
+       setLess(false)
+     } else {
+       setFinish(finish - perPage);
+    setstart(start - (finish - start));
+     }
+    setMore(true);
     window.scrollTo(0, 0);
   }
-
-  // useEffect(()=> {
-  //   setLoading(false)
-
-  // }, [after])
-
-
-  // setLoading(false);
-
-  // const types = {
-  //   start: "START",
-  //   loaded: "LOADED",
-  // };
-
-  // const reducer = (state, action) => {
-  //   switch (action.type) {
-  //     case types.start:
-  //       return { ...state, loading: true };
-  //     case types.loaded:
-  //       return {
-  //         ...state,
-  //         loading: false,
-  //         data: [...state.data, ...action.newData],
-  //         more: action.newData.length === perPage,
-  //         after: state.after + action.newData.length,
-  //       };
-  //     default:
-  //       throw new Error("Don't understand action");
-  //   }
-  // };
-
-  // const [state, dispatch] = React.useReducer(reducer, {
-  //   loading: false,
-  //   more: true,
-  //   data: [],
-  //   after: 0,
-  // });
-  // const { loading, data, after, more } = state;
 
   return (
     <div>
@@ -117,12 +88,12 @@ const ProductPage = (props) => {
             .map((product, i) => (
               <ProductCard key={product.id + i} product={product} />
             ))}
-      {/* {loading && <div>Laddar...</div>} */}
-      {/* {!loading && more && ( */}
       <div>
-        <button className="switch-page-btn" onClick={() => previousPage()}>
-          Föregående
-        </button>
+        {less && (
+          <button className="switch-page-btn" onClick={() => previousPage()}>
+            Föregående
+          </button>
+        )}
         {more && (
           <button className="switch-page-btn" onClick={() => nextPage()}>
             Nästa
