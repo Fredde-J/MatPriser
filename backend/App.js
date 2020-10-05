@@ -128,7 +128,7 @@ app.get("/rest/maincategories", async (req, res) => {
   APIManager.getMainCategories(res);
 });
 
-pp.get("/rest/maincategoryname/:mainCategoryId", async (req, res) => {
+app.get("/rest/maincategoryname/:mainCategoryId", async (req, res) => {
   let mainCategoryId = Number(req.params.mainCategoryId);
   APIManager.getMainCategoryName(mainCategoryId, res);
 });
