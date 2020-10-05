@@ -10,7 +10,7 @@ module.exports = class APIManager {
       password: "",
       database: "mat_pris",
       multipleStatements: true,
-      port: 3306,
+      port: 3307,
     });
 
     con.connect((err) => {
@@ -36,6 +36,21 @@ module.exports = class APIManager {
       "SELECT * FROM product WHERE mainCategoryId = " +
         mainCategoryId +
         " AND isActive = 1 order by promotionConditionLabel IS NULL ASC, pricePerUnit",
+      (err, rows, fields) => {
+        if (!err) {
+          res.send(rows);
+        } else {
+          console.log(err);
+        }
+      }
+    );
+  }
+
+  static async getProductsBySubCategoryIdFromDb(subCategoryId, res) {
+    con.query(
+      "SELECT * FROM product WHERE subCategoryId = " +
+        subCategoryId +
+        "AND isActive = 1 order by promotionConditionLabel IS NULL ASC, pricePerUnit",
       (err, rows, fields) => {
         if (!err) {
           res.send(rows);
@@ -278,6 +293,10 @@ module.exports = class APIManager {
         if(rows[0] !== null){
        
           var storeId = rows[0].storeId;
+          let mainCategoryId = rows[0].mainCategoryId;
+          let subCategoryId = rows[0].subCategoryId;
+          let name = rows[0].name;
+
           if(storeId == 1){
             storeId1 = 2; 
             storeId2 = 3;        
@@ -288,10 +307,7 @@ module.exports = class APIManager {
             storeId1 = 1; 
             storeId2 = 2;
           }
-          let mainCategoryId = rows[0].mainCategoryId;
-          let subCategoryId = rows[0].subCategoryId;
-          let name = rows[0].name;
-
+          
           con.query(
             "(SELECT * "+
               "FROM product "+
@@ -365,7 +381,7 @@ module.exports = class APIManager {
             }
             )
         }
-        console.log('null');
+        //console.log('null');
       } else {
         console.log(err);
       }
