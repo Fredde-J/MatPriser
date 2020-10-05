@@ -14,6 +14,12 @@ const ShoppingListPage = () => {
     )
       return setList([]);
     let ls = JSON.parse(localStorage.getItem("shoppingList"));
+    ls = ls.map(items => {
+      return items[0]
+    })
+    /*
+    loopa igenom shoppinglist, där den innehåller array i array. I andra array, hämta objektet i index 0
+    */
     setList(ls);
   };
 
@@ -41,6 +47,10 @@ const ShoppingListPage = () => {
     localStorage.setItem("shoppingList", JSON.stringify(newList));
     setLoad(false);
   };
+
+  /*
+
+  */
 
   const getQuantity = (list, product) => {
     return list.reduce(
