@@ -56,13 +56,18 @@ const ShoppingListCard = (props) => {
       return <p>Du har inga varor från denna butik</p>;
     } else {
       return (
-        <ul>
+        <ul style={{listStyleType:"none"}} >
           {storeItems.map((storeItem, index) => {
             return (
-              <li key={index}>
-                {storeItem.name} : {storeItem.pricePerItem} kr st/
-                {storeItem.pricePerUnit} kr per {storeItem.unit}
+              <div class="row">
+              <li key={index} class="col">
+                {storeItem.name}: 
+                
               </li>
+              <li class="col text-right">
+              {storeItem.pricePerItem} kr st/{storeItem.pricePerUnit} kr per {storeItem.unit}
+              </li>
+              </div>
             );
           })}
         </ul>
@@ -148,9 +153,9 @@ const ShoppingListCard = (props) => {
       </Card>
 
       <div>
-        <Modal isOpen={modal} toggle={toggle}>
+        <Modal isOpen={modal} toggle={toggle} size="lg">
           <ModalHeader toggle={toggle}>Inköpslista</ModalHeader>
-          <ModalBody>{getStoreItems()}</ModalBody>
+          <ModalBody class="container">{getStoreItems()}</ModalBody>
         </Modal>
       </div>
     </>
