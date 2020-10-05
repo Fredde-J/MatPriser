@@ -19,12 +19,12 @@ const ProductPage = (props) => {
   const [start, setstart] = useState(0);
   const [finish, setFinish] = useState(perPage)
   const [subcategories, setSubcategories] = useState([]);
-  const [mainCategoryName, setMainCategoryName] = useState([]);
+  // const [mainCategoryName, setMainCategoryName] = useState([]);
 
   useEffect(() => {
      getProducts();
      getSubCategories();
-     getMainCategoryName();
+    //  getMainCategoryName();
   }, []);
 
   const getProducts = async () => {
@@ -37,17 +37,15 @@ const ProductPage = (props) => {
     setSubcategories( await productContext.getSubcategories(props.match.params.mCatId));
   }
 
-  const getMainCategoryName = async () => {
-    //setMainCategoryName( await productContext.getMainCategoryName(props.match.params.mCatId));
-  }
+  // const getMainCategoryName = async () => {
+  //   //setMainCategoryName( await productContext.getMainCategoryName(props.match.params.mCatId));
+  // }
    
   const toggleEco = () => {
     setOnlyEco(!onlyEco);
     setstart(0);
     setFinish(perPage);
   };
-  console.log(initData)
-  console.log(start, finish)
 
   const nextPage = () => {
     setLess(true);
@@ -64,7 +62,6 @@ const ProductPage = (props) => {
     }
     window.scrollTo(0, 0);
   };
-  console.log(initData.filter((product) => product.isEco === 1).length);
 
   const previousPage = () => {
      if (finish-perPage <= perPage) {
@@ -86,7 +83,8 @@ const ProductPage = (props) => {
           {subcategories[0]
             ? subcategories.map((subcategory, i) => (
                 <Link
-                  to={"/sproducts/" + subcategory.id}
+                  to={{pathname: "/sproducts/" + subcategory.id,
+                state: {products: initData}}}
                   key={String.valueOf(subcategory.id) + i}
                   className="btn  bg-light text-dark mt-2 mr-3 ml-3"
                 >
