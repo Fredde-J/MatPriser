@@ -14,12 +14,9 @@ const ShoppingListPage = () => {
     )
       return setList([]);
     let ls = JSON.parse(localStorage.getItem("shoppingList"));
-    ls = ls.map(items => {
-      return items[0]
-    })
-    /*
-    loopa igenom shoppinglist, där den innehåller array i array. I andra array, hämta objektet i index 0
-    */
+    ls = ls.map((items) => {
+      return items[0];
+    });
     setList(ls);
   };
 
@@ -33,12 +30,29 @@ const ShoppingListPage = () => {
     let shoppingListLocalStorage = JSON.parse(
       localStorage.getItem("shoppingList")
     );
-    shoppingListLocalStorage.push(product);
+    let foundObject = false;
+    const foundArray = shoppingListLocalStorage.reduce((items) => {
+      items.forEach((item) => {
+        if (item.id === product.id) {
+          return (foundObject = true);
+        }
+      });
+      if (foundObject === true) {
+        foundObject = false;
+        return items;
+      }
+    });
+
+    shoppingListLocalStorage.push(foundArray);
+    localStorage.setItem("shoppingList",
+      JSON.stringify(shoppingListLocalStorage))
+    setLoad(false);
+    /*     shoppingListLocalStorage.push(product);
     localStorage.setItem(
       "shoppingList",
       JSON.stringify(shoppingListLocalStorage)
     );
-    setLoad(false);
+    setLoad(false); */
   };
 
   const onRemoveClick = (product) => {
@@ -59,7 +73,6 @@ const ShoppingListPage = () => {
       0
     );
   };
-
 
   useEffect(() => {
     populateList();
