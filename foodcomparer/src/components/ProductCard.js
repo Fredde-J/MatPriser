@@ -82,52 +82,52 @@ const ProductCard = (props) => {
   
   return (
       <Card className="product-card mr-1 ml-1">
-        <div class="cardTop">
+        <span className="cardTop">
           <img
-            class="list-icon"
+            className="list-icon"
             src={listIcon}
             alt="listIcon"
             onClick={addToList}
           ></img>
-          <img class="storeLogo" src={storeLogo} height="50vh"></img>
-        </div>
-        <div class="flex mediaBox">
-          <div class="cardMedia">
+          <img className="storeLogo" src={storeLogo} height="50vh"></img>
+        </span>
+        <span className="flex mediaBox">
+          <span className="cardMedia">
             <img id="product-img" src={imgSrc} alt="Card image cap" />
-          </div>
-        </div>
-        <div class="product-desc">
-          <CardTitle class="card-title">             
-              {ecoText? <div class="ecoBox"><span class="eco">{ecoText}</span></div> : ''}
+          </span>
+        </span>
+        <span className="product-desc">
+          <CardTitle className="card-title">             
+              {ecoText? <span className="ecoBox"><span className="eco">{ecoText}</span></span> : ''}
               {props.product.name}
               </CardTitle>
-          <CardText><div class="countrylabel">{
+          <CardText><span className="countrylabel">{
                 props.product.isCountry === 1?
                 <span>Ursprungsland: {props.product.country}</span>
                 : ''
               }
               {
                 props.product.country === 'Sverige' ?
-                <span><img src="../images/SWE.png" class="flag" height="15vh"></img></span>
+                <span><img src="../images/SWE.png" className="flag" height="15vh"></img></span>
                 : ''
-              }</div></CardText>    
-          <CardText class="card-text">
-            <div class="flex spaceB price-div priceBox">
-                <div class="flex spaceB dirCol">{props.product.pricePerItem} kr{productUnit} <br />
-                <span class="littleText">Jmf-pris {props.product.pricePerUnit} kr{productUnit}</span>
-                </div>
+              }</span></CardText>    
+          <CardText className="card-text">
+            <span className="flex spaceB price-div priceBox">
+                <span className="flex spaceB dirCol">{props.product.pricePerItem} kr{productUnit} <br />
+                <span className="littleText">Jmf-pris {props.product.pricePerUnit} kr{productUnit}</span>
+                </span>
                 {
                 props.product.promotionPrice || props.product.promotionConditionLabel ? 
-                  <div class="discountPrice dirCol">
-                    <div class='whiteBox littleText'>{props.product.promotionConditionLabel}</div>
-                    <div>{promotionPrice}</div>
+                  <span className="discountPrice dirCol">
+                    <span className='whiteBox littleText'>{props.product.promotionConditionLabel}</span>
+                    <span>{promotionPrice}</span>
                     {props.product.promotionType === 'LOYALTY' ? 'Medlemspris' : '' }
-                  </div> 
+                  </span> 
                 : ''
                 }
-            </div>
+            </span>
           </CardText>
-        </div>
+        </span>
       </Card>
   );
 
