@@ -5,9 +5,11 @@ export const ProductContext = React.createContext();
 
 const ProductContextProvider = (props) => {
   const [products, setProducts] = useState([]);
+  const [subCategoryProducts, setSubCategoryProducts] = useState([]);
   const [mainCatProducts, setMainCatProducts] = useState([]);
   const [store, setStore] = useState([]);
   const [similarProducts, setSimilarProducts] = useState([])
+  const [subcategories, setSubcategories] = useState([]);
   
   const getProducts = async () => {
     axios
@@ -45,9 +47,18 @@ const ProductContextProvider = (props) => {
     // });
   }
 
-  const getSimilarProducts = async () => {
+  const getProductsBySubCatId = async (subCatId) => {
+    let error;
+    var result = await axios
+      .get("http://localhost:4000/rest/getProductsBySubCategoryIdFromDb/" + subCatId)
+      .catch((e) => (error = e));
+      console.log(result.data);
+      return result.data || { error };
+  }
+
+  const getSimilarProducts = async (id) => {
     let error ;
-    var result = await axios.get("http://localhost:4000/rest/similareproducts")
+    let result = await axios.get("http://localhost:4000/rest/similareProductsbyId/"+id)
       .catch(e => error = e);
     return result.data || { error };
     /*.then((response) => {
@@ -59,6 +70,13 @@ const ProductContextProvider = (props) => {
      .catch((err) => {
       console.error(err);
     });*/
+  }
+
+  const getSubcategories = async (mainCatId) => {
+    let error;
+    let result = await axios.get("http://localhost:4000/rest/subcategories/"+mainCatId)
+    .catch(e => error = e);
+      return result.data || { error };
   }
 
 
@@ -78,18 +96,20 @@ const ProductContextProvider = (props) => {
     });
   }
 
-  useEffect(() => {
-    getProducts();
-  }, []);
+  
 
   const values = {
     products,
     store, 
     mainCatProducts,
     similarProducts,
+    subcategories,
+    subCategoryProducts,
     getProductsByMainCatId,
     getStoreNameById,
     getSimilarProducts,
+    getSubcategories,
+    getProductsBySubCatId
   };
   return (
     <ProductContext.Provider value={values}>

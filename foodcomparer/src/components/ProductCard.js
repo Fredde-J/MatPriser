@@ -14,25 +14,45 @@ const ProductCard = (props) => {
   const listIcon = "/images/listIcon.svg"
   const [storeName, setStoreName] = useState([]);
   const [storeLogo, setStoreLogo] = useState([]);
-  const [productsToList, setProductsToList] = useState([])
   const productContext = useContext(ProductContext)
   let imgSrc = props.product.photoUrl.replace("tiff", "png");
   let productUnit;
   let promotionPrice;
   let ecoText;
   let productTest;
+  var pricePerItem = props.product.pricePerItem;
+  var pricePerUnit = props.product.pricePerUnit;
+
+  if(pricePerItem){
+    pricePerItem = pricePerItem.toString();
+    if(pricePerItem.includes('.')){
+      if( pricePerItem.substr(pricePerItem.length-3, 1) !== '.'){
+        pricePerItem = pricePerItem+"0";
+      }
+    }
+  }
+  if(pricePerUnit){
+    pricePerUnit = pricePerUnit.toString();
+    if(pricePerUnit.includes('.')){
+      if( pricePerUnit.substr(pricePerUnit.length-3, 1) !== '.'){
+        pricePerUnit = pricePerUnit+"0";
+      }
+    }
+  }
 
   if (props.product.unit){
     productUnit = "/"+props.product.unit;
   }
 
   if(props.product.promotionPrice){
-    promotionPrice = props.product.promotionPrice+" kr";
+    promotionPrice = props.product.promotionPrice +" kr";
   }
 
   if(props.product.isEco === 1){
     ecoText = 'Eko';
   }
+
+  
   
 
   const getStoreName = () => {
@@ -54,19 +74,17 @@ const ProductCard = (props) => {
 
 
   const addToList = async ()=>{
-   console.log(props.product)
-   let products = await productContext.getSimilarProducts();
-   products.push(props.product)
-   console.log(products)
+   let products = await productContext.getSimilarProducts(props.product.id);
+   products.unshift(props.product)
 
     if(localStorage.getItem('shoppingList')===null){
-      localStorage.setItem('shoppingList',JSON.stringify(products))
+      let shoppingList = []
+      shoppingList.push(products)
+      localStorage.setItem('shoppingList',JSON.stringify(shoppingList))
     }else{
       let shoppingListFromLocalStore = localStorage.getItem("shoppingList")
       shoppingListFromLocalStore = JSON.parse(shoppingListFromLocalStore)
-      products.forEach(product => {
-      shoppingListFromLocalStore.push(product)
-      });
+      shoppingListFromLocalStore.push(products)
       localStorage.setItem('shoppingList', JSON.stringify(shoppingListFromLocalStore))
     }
      //Remove when product card is done
@@ -81,7 +99,7 @@ const ProductCard = (props) => {
  
   
   return (
-      <Card className="product-card mr-1 ml-1">
+      <Card className="product-card mr-1 ml-1 justify-content-sm-between">
         <span className="cardTop">
           <img
             className="list-icon"
@@ -110,11 +128,11 @@ const ProductCard = (props) => {
                 props.product.country === 'Sverige' ?
                 <span><img src="../images/SWE.png" className="flag" height="15vh"></img></span>
                 : ''
-              }</span></CardText>    
+              }</span></CardText>
           <CardText className="card-text">
             <span className="flex spaceB price-div priceBox">
-                <span className="flex spaceB dirCol">{props.product.pricePerItem} kr{productUnit} <br />
-                <span className="littleText">Jmf-pris {props.product.pricePerUnit} kr{productUnit}</span>
+                <span className="flex spaceB dirCol">{pricePerItem} {props.product.unit}<br />
+                <span className="littleText">Jmf-pris {pricePerUnit} {props.product.compareUnit}</span>
                 </span>
                 {
                 props.product.promotionPrice || props.product.promotionConditionLabel ? 
