@@ -9,7 +9,7 @@ import React, {
 import InfiniteScroll from "react-infinite-scroller";
 import { Link, withRouter } from "react-router-dom";
 import ProductCard from "../components/ProductCard";
-import { ProductContext } from "../ContextProviders/";
+import { ProductContext } from "../ContextProviders/ProductContextProvider";
 import { Row, Col } from "reactstrap";
 
 const ProductPage = (props) => {
