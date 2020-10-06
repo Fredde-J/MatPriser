@@ -9,6 +9,7 @@ import {
   Col,
 } from "reactstrap";
 import CatagoryCard from "../components/CatagoryCard";
+import SearchBar from "../components/Searchbar";
 //import searchIcon from "/images/searchIcon.svg";
 import { CategoryContext } from "../ContextProviders/CategoryContextProvider";
 
@@ -26,14 +27,7 @@ const StartPage = (props) => {
       <br></br>
       <Row>
         <Col>
-          <InputGroup className="d-flex justify-content-center">
-            <InputGroupAddon addonType="append">
-              <Input placeholder="sök" />
-            </InputGroupAddon>
-            <Button>
-              <img src={searchIcon} alt="searchIcon"></img>
-            </Button>
-          </InputGroup>
+          <SearchBar />
         </Col>
       </Row>
 
