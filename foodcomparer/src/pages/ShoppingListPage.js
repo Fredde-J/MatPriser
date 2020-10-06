@@ -22,12 +22,6 @@ const ShoppingListPage = () => {
     setList(ls);
   };
 
-  const onButtonClickClearStorage = () => {
-    //REMOVE BEFORE MERGE
-    localStorage.clear();
-    setLoad(false);
-  };
-
   const onAddClick = async (product) => {
     let products = await productContext.getSimilarProducts(product.id);
     products.unshift(product);
@@ -113,22 +107,8 @@ const ShoppingListPage = () => {
     );
   };
 
-  //REMOVE AND ALL OF ITS REFERENCES BEFORE MERGE
-  const ClearLocalStorage = () => {
-    return (
-      <button
-        onClick={() => {
-          onButtonClickClearStorage();
-        }}
-      >
-        Clear LocalStorage (DEV ONLY)
-      </button>
-    );
-  };
-
   return (
     <>
-      <ClearLocalStorage />
       <ShoppingListCard refresh={load} />
       <br />
       {load && <PrintProducts />}
