@@ -4,7 +4,6 @@ import willys from "../images/willys.jpg";
 import coop from "../images/coop4.png";
 import hemkop from "../images/hemkop.jpg";
 
-
 const ShoppingListCard = () => {
   const [coopTotalPrice, setcoopTotalPrice] = useState(0);
   const [willysTotalPrice, setwillysTotalPrice] = useState(0);
@@ -22,7 +21,7 @@ const ShoppingListCard = () => {
 
     itemsFromLocalStorage.forEach((items) => {
       items.forEach((item) => {
-        if (item.promotionPrice!==null) {
+        if (item.promotionPrice !== null) {
           if (item.storeId === 1) {
             coopPrices += item.promotionPrice;
           } else if (item.storeId === 2) {
@@ -51,27 +50,41 @@ const ShoppingListCard = () => {
       return <p>Du har inga varor från denna butik</p>;
     } else {
       return (
-        <ul style={{listStyleType:"none"}} >
+        <ul style={{ listStyleType: "none" }}>
           {storeItems.map((storeItem, index) => {
             return (
               <div class="row">
-              <li key={index} class="col-3">
-                {storeItem.name}: 
-              </li>
-              <li class="col-3 text-center">
-               antal: {storeItem.amount} st
-              </li>
-              {!storeItem.promotionType ? (<li></li>):(<li class="col-3 text-center text-danger">{storeItem.promotionType}</li>)}
-              {!storeItem.promotionPrice ? (
-                 <li class="col text-right">
-                 {storeItem.pricePerItem}{storeItem.unit } {storeItem.pricePerUnit} {storeItem.compareUnit}
+                <li key={index} class="col-3">
+                  {storeItem.name}:
+                </li>
+                <li class="col-3 text-center">antal: {storeItem.amount} st</li>
+                {!storeItem.promotionType ? (
+                  <li></li>
+                ) : (
+                  <li class="col-2 text-center text-danger">
+                    {storeItem.promotionType}
                   </li>
-              ):(
-                <li class="col text-right text-danger">
-                {storeItem.promotionPrice}{storeItem.unit } {storeItem.pricePerUnit} {storeItem.compareUnit}
-                 </li> 
-              )}
-             
+                )}
+                {!storeItem.promotionConditionLabel ? (
+                  <li></li>
+                ) : (
+                  <li class="col-2 text-center text-danger">
+                    {storeItem.promotionConditionLabel}
+                  </li>
+                )}
+                {!storeItem.promotionPrice ? (
+                  <li class="col text-right">
+                    {storeItem.pricePerItem}
+                    {storeItem.unit} {storeItem.pricePerUnit}{" "}
+                    {storeItem.compareUnit}
+                  </li>
+                ) : (
+                  <li class="col text-right text-danger">
+                    {storeItem.promotionPrice}
+                    {storeItem.unit} {storeItem.pricePerUnit}{" "}
+                    {storeItem.compareUnit}
+                  </li>
+                )}
               </div>
             );
           })}
@@ -102,7 +115,7 @@ const ShoppingListCard = () => {
   };
 
   useEffect(() => {
-    if (localStorage.getItem("shoppingList")!==null) {
+    if (localStorage.getItem("shoppingList") !== null) {
       getTotalPrice();
     }
   }, []);
