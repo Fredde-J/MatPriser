@@ -108,7 +108,7 @@ const ProductPage = (props) => {
             </Form>
           </div>
         </Card>
-        <Row className="d-flex justify-content-between mt-3">
+        <Row className="d-flex justify-content-center mt-3">
           {!onlyEco
             ? initData
                 .slice(start, finish)
