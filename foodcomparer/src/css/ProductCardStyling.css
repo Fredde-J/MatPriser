@@ -115,9 +115,12 @@
   text-align: right;
   display: flex;
 }
-.load-more-btn{
-  width: 100%;
+.switch-page-btn{
+  width: 50%;
   height: 50px;
+}
+#eco-checkbox-div{
+  width: 100%;
 }
 
 @media screen and (max-width: 600px) {

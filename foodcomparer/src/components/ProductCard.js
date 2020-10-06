@@ -9,6 +9,7 @@ import {
 import willysLogo from "../images/willys.jpg";
 import coopLogo from "../images/coop4.png";
 import hemkopLogo from "../images/hemkop.jpg";
+import { setGlobalCssModule } from "reactstrap/lib/utils";
 
 const ProductCard = (props) => {
   const listIcon = "/images/listIcon.svg"
@@ -19,14 +20,16 @@ const ProductCard = (props) => {
   let productUnit;
   let promotionPrice;
   let ecoText;
-  let productTest;
   var pricePerItem = props.product.pricePerItem;
   var pricePerUnit = props.product.pricePerUnit;
+  let productsToLs = []
+  let shoppingListFromLocalStore;
+  let products;
 
   if(pricePerItem){
     pricePerItem = pricePerItem.toString();
     if(pricePerItem.includes('.')){
-      if( pricePerItem.substr(pricePerItem.length-3, 1) != '.'){
+      if( pricePerItem.substr(pricePerItem.length-3, 1) !== '.'){
         pricePerItem = pricePerItem+"0";
       }
     }
@@ -34,7 +37,7 @@ const ProductCard = (props) => {
   if(pricePerUnit){
     pricePerUnit = pricePerUnit.toString();
     if(pricePerUnit.includes('.')){
-      if( pricePerUnit.substr(pricePerUnit.length-3, 1) != '.'){
+      if( pricePerUnit.substr(pricePerUnit.length-3, 1) !== '.'){
         pricePerUnit = pricePerUnit+"0";
       }
     }
@@ -51,9 +54,6 @@ const ProductCard = (props) => {
   if(props.product.isEco === 1){
     ecoText = 'Eko';
   }
-
-  
-  
 
   const getStoreName = () => {
     let storeId = props.product.storeId;
@@ -74,24 +74,43 @@ const ProductCard = (props) => {
 
 
   const addToList = async ()=>{
-   let products = await productContext.getSimilarProducts(props.product.id);
+   console.log(props.product.id)
+   products = await productContext.getSimilarProducts(props.product.id);
    products.unshift(props.product)
+   products.forEach((product)=>{
+    product.amount = 1;
+  })
 
     if(localStorage.getItem('shoppingList')===null){
-      let shoppingList = []
-      shoppingList.push(products)
-      localStorage.setItem('shoppingList',JSON.stringify(shoppingList))
+      productsToLs.push(products)
+      localStorage.setItem('shoppingList',JSON.stringify(productsToLs)) 
     }else{
-      let shoppingListFromLocalStore = localStorage.getItem("shoppingList")
+      shoppingListFromLocalStore = localStorage.getItem("shoppingList")
       shoppingListFromLocalStore = JSON.parse(shoppingListFromLocalStore)
+      shoppingListFromLocalStore.forEach((items)=>{
+       for (let i = items.length - 1; i >= 0 ; i--) {
+         if(products[i]===undefined){
+           console.log("product has been removed")
+         }
+         else if(items[i].id===products[i].id){
+          console.log("same")
+          items[i].amount++;
+          products.splice(i,1)
+         }
+
+       }
+      })
+      if(products[0]!==null&&products[0]!==undefined){
       shoppingListFromLocalStore.push(products)
+      }
       localStorage.setItem('shoppingList', JSON.stringify(shoppingListFromLocalStore))
+
     }
      //Remove when product card is done
      let result = localStorage.getItem('shoppingList')
      console.log(JSON.parse(result))
      //
-    
+     productsToLs=[];
   }
   useEffect(() =>{
   getStoreName()
@@ -100,52 +119,52 @@ const ProductCard = (props) => {
   
   return (
       <Card className="product-card mr-1 ml-1 justify-content-sm-between">
-        <div class="cardTop">
+        <span className="cardTop">
           <img
-            class="list-icon"
+            className="list-icon"
             src={listIcon}
             alt="listIcon"
             onClick={addToList}
           ></img>
-          <img class="storeLogo" src={storeLogo} height="50vh"></img>
-        </div>
-        <div class="flex mediaBox">
-          <div class="cardMedia">
+          <img className="storeLogo" src={storeLogo} height="50vh"></img>
+        </span>
+        <span className="flex mediaBox">
+          <span className="cardMedia">
             <img id="product-img" src={imgSrc} alt="Card image cap" />
-          </div>
-        </div>
-        <div class="product-desc">
-          <CardTitle class="card-title">             
-              {ecoText? <div class="ecoBox"><span class="eco">{ecoText}</span></div> : ''}
+          </span>
+        </span>
+        <span className="product-desc">
+          <CardTitle className="card-title">             
+              {ecoText? <span className="ecoBox"><span className="eco">{ecoText}</span></span> : ''}
               {props.product.name}
               </CardTitle>
-          <CardText><div class="countrylabel">{
+          <CardText><span className="countrylabel">{
                 props.product.isCountry === 1?
                 <span>Ursprungsland: {props.product.country}</span>
                 : ''
               }
               {
                 props.product.country === 'Sverige' ?
-                <span><img src="../images/SWE.png" class="flag" height="15vh"></img></span>
+                <span><img src="../images/SWE.png" className="flag" height="15vh"></img></span>
                 : ''
-              }</div></CardText>
-          <CardText class="card-text">
-            <div class="flex spaceB price-div priceBox">
-                <div class="flex spaceB dirCol">{pricePerItem} {props.product.unit}<br />
-                <span class="littleText">Jmf-pris {pricePerUnit} {props.product.compareUnit}</span>
-                </div>
+              }</span></CardText>
+          <CardText className="card-text">
+            <span className="flex spaceB price-div priceBox">
+                <span className="flex spaceB dirCol">{pricePerItem} {props.product.unit}<br />
+                <span className="littleText">Jmf-pris {pricePerUnit} {props.product.compareUnit}</span>
+                </span>
                 {
                 props.product.promotionPrice || props.product.promotionConditionLabel ? 
-                  <div class="discountPrice dirCol">
-                    <div class='whiteBox littleText'>{props.product.promotionConditionLabel}</div>
-                    <div>{promotionPrice}</div>
+                  <span className="discountPrice dirCol">
+                    <span className='whiteBox littleText'>{props.product.promotionConditionLabel}</span>
+                    <span>{promotionPrice}</span>
                     {props.product.promotionType === 'LOYALTY' ? 'Medlemspris' : '' }
-                  </div> 
+                  </span> 
                 : ''
                 }
-            </div>
+            </span>
           </CardText>
-        </div>
+        </span>
       </Card>
   );
 };

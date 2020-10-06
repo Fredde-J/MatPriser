@@ -3,7 +3,6 @@ import { Card, Row, Col, Modal, ModalHeader, ModalBody } from "reactstrap";
 import willys from "../images/willys.jpg";
 import coop from "../images/coop4.png";
 import hemkop from "../images/hemkop.jpg";
-import { ProductContext } from "../ContextProviders/ProductContextProvider";
 
 const ShoppingListCard = (props) => {
   const [coopTotalPrice, setcoopTotalPrice] = useState(0);
@@ -11,17 +10,6 @@ const ShoppingListCard = (props) => {
   const [hemkopTotalPrice, sethemkopTotalPrice] = useState(0);
   const [storeItems, setStoreItems] = useState([]);
   const [modal, setModal] = useState(false);
-  //the if below will be removed when product card is complete
-  /*
-  if (allProducts.products[0] != undefined) {
-    let shoppingItems = [
-      [allProducts.products[0], allProducts.products[1]],
-      [allProducts.products[4904], allProducts.products[2305]],
-    ];
-    //localStorage.setItem("shoppingList", JSON.stringify(shoppingItems));
-  }
-  */
-  //*********************************************************************/
 
   const getTotalPrice = () => {
     let itemsFromLocalStorage = JSON.parse(
@@ -33,7 +21,15 @@ const ShoppingListCard = (props) => {
 
     itemsFromLocalStorage.forEach((items) => {
       items.forEach((item) => {
-        if (item.pricePerItem) {
+        if (item.promotionPrice !== null) {
+          if (item.storeId === 1) {
+            coopPrices += item.promotionPrice;
+          } else if (item.storeId === 2) {
+            hemkopPrices += item.promotionPrice;
+          } else if (item.storeId === 3) {
+            willysPrices += item.promotionPrice;
+          }
+        } else {
           if (item.storeId === 1) {
             coopPrices += item.pricePerItem;
           } else if (item.storeId === 2) {
@@ -41,8 +37,6 @@ const ShoppingListCard = (props) => {
           } else if (item.storeId === 3) {
             willysPrices += item.pricePerItem;
           }
-        } else {
-          console.error("pricePerItem is null or undefined");
         }
       });
     });
@@ -56,17 +50,41 @@ const ShoppingListCard = (props) => {
       return <p>Du har inga varor från denna butik</p>;
     } else {
       return (
-        <ul style={{listStyleType:"none"}} >
+        <ul style={{ listStyleType: "none" }}>
           {storeItems.map((storeItem, index) => {
             return (
               <div class="row">
-              <li key={index} class="col">
-                {storeItem.name}: 
-                
-              </li>
-              <li class="col text-right">
-              {storeItem.pricePerItem} kr st/{storeItem.pricePerUnit} kr per {storeItem.unit}
-              </li>
+                <li key={index} class="col-3">
+                  {storeItem.name}:
+                </li>
+                <li class="col-3 text-center">antal: {storeItem.amount} st</li>
+                {!storeItem.promotionType ? (
+                  <li></li>
+                ) : (
+                  <li class="col-2 text-center text-danger">
+                    {storeItem.promotionType}
+                  </li>
+                )}
+                {!storeItem.promotionConditionLabel ? (
+                  <li></li>
+                ) : (
+                  <li class="col-2 text-center text-danger">
+                    {storeItem.promotionConditionLabel}
+                  </li>
+                )}
+                {!storeItem.promotionPrice ? (
+                  <li class="col text-right">
+                    {storeItem.pricePerItem}
+                    {storeItem.unit} {storeItem.pricePerUnit}{" "}
+                    {storeItem.compareUnit}
+                  </li>
+                ) : (
+                  <li class="col text-right text-danger">
+                    {storeItem.promotionPrice}
+                    {storeItem.unit} {storeItem.pricePerUnit}{" "}
+                    {storeItem.compareUnit}
+                  </li>
+                )}
               </div>
             );
           })}
@@ -97,7 +115,7 @@ const ShoppingListCard = (props) => {
   };
 
   useEffect(() => {
-    if (localStorage.getItem("shoppingList")!==null) {
+    if (localStorage.getItem("shoppingList") !== null) {
       getTotalPrice();
     }
   }, []);
@@ -153,7 +171,7 @@ const ShoppingListCard = (props) => {
       </Card>
 
       <div>
-        <Modal isOpen={modal} toggle={toggle} size="lg">
+        <Modal isOpen={modal} toggle={toggle} size="xl">
           <ModalHeader toggle={toggle}>Inköpslista</ModalHeader>
           <ModalBody class="container">{getStoreItems()}</ModalBody>
         </Modal>

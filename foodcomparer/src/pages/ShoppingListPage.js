@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { withRouter } from "react-router-dom";
 import ShoppingListCard from "../components/ShoppingListCard";
 import ShoppingListProductCard from "../components/ShoppingListProductCard";
+import { ProductContext } from "../ContextProviders/ProductContextProvider";
 
 const ShoppingListPage = () => {
   const [list, setList] = useState([]);
   const [load, setLoad] = useState(false);
+  const productContext = useContext(ProductContext);
 
   const populateList = () => {
     if (
@@ -26,52 +28,67 @@ const ShoppingListPage = () => {
     setLoad(false);
   };
 
-  const onAddClick = (product) => {
-    let shoppingListLocalStorage = JSON.parse(
-      localStorage.getItem("shoppingList")
-    );
-    let foundObject = false;
-    const foundArray = shoppingListLocalStorage.reduce((items) => {
-      items.forEach((item) => {
-        if (item.id === product.id) {
-          return (foundObject = true);
-        }
-      });
-      if (foundObject === true) {
-        foundObject = false;
-        return items;
-      }
+  const onAddClick = async (product) => {
+    let products = await productContext.getSimilarProducts(product.id);
+    products.unshift(product);
+    products.forEach((_product) => {
+      _product.amount = 1;
     });
 
-    shoppingListLocalStorage.push(foundArray);
-    localStorage.setItem("shoppingList",
-      JSON.stringify(shoppingListLocalStorage))
-    setLoad(false);
-    /*     shoppingListLocalStorage.push(product);
+    let shoppingListFromLocalStore = JSON.parse(
+      localStorage.getItem("shoppingList")
+    );
+    shoppingListFromLocalStore.forEach((items) => {
+      for (let i = items.length - 1; i >= 0; i--) {
+        if (products[i] === undefined) {
+        } else if (items[i].id === products[i].id) {
+          items[i].amount++;
+          products.splice(i, 1);
+        }
+      }
+    });
+    if (products[0] !== null && products[0] !== undefined) {
+      shoppingListFromLocalStore.push(products);
+    }
     localStorage.setItem(
       "shoppingList",
-      JSON.stringify(shoppingListLocalStorage)
+      JSON.stringify(shoppingListFromLocalStore)
     );
-    setLoad(false); */
-  };
-
-  const onRemoveClick = (product) => {
-    let index = list.indexOf(product);
-    let newList = [...list.slice(0, index), ...list.slice(index + 1)];
-    localStorage.setItem("shoppingList", JSON.stringify(newList));
     setLoad(false);
   };
 
-  /*
+  const onRemoveClick = async (product) => {
+    let products = await productContext.getSimilarProducts(product.id);
+    products.unshift(product);
+    products.forEach((_product) => {
+      _product.amount = 1;
+    });
 
-  */
-
-  const getQuantity = (list, product) => {
-    return list.reduce(
-      (array, item) =>
-        item.articleNumber === product.articleNumber ? array + 1 : array,
-      0
+    let shoppingListFromLocalStore = JSON.parse(
+      localStorage.getItem("shoppingList")
     );
+    shoppingListFromLocalStore.forEach((items) => {
+      for (let i = items.length - 1; i >= 0; i--) {
+        if (products[i] === undefined) {
+        } else if (items[i].id === products[i].id) {
+          items[i].amount--;
+          products.splice(i, 1);
+        }
+      }
+    });
+    if (products[0] !== null && products[0] !== undefined) {
+      shoppingListFromLocalStore.push(products);
+    }
+    let filteredShoppingList = shoppingListFromLocalStore.filter(items => {
+      if (items.every(item => item.amount > 0)) {
+        return items
+      }
+    })
+    localStorage.setItem(
+      "shoppingList",
+      JSON.stringify(filteredShoppingList)
+    );
+    setLoad(false);
   };
 
   useEffect(() => {
@@ -87,7 +104,6 @@ const ShoppingListPage = () => {
             <ShoppingListProductCard
               key={`${index}${product.name}`}
               product={product}
-              quantity={getQuantity(list, product)}
               handleAddClick={onAddClick}
               handleRemoveClick={onRemoveClick}
             />
@@ -113,7 +129,7 @@ const ShoppingListPage = () => {
   return (
     <>
       <ClearLocalStorage />
-      <ShoppingListCard load={load} />
+      <ShoppingListCard />
       <br />
       {load && <PrintProducts />}
     </>
