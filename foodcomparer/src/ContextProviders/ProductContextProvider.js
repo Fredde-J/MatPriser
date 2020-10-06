@@ -108,6 +108,15 @@ const ProductContextProvider = (props) => {
       });
   };
 
+  const getProductsByName = async (text) => {
+    let error;
+    let result = await axios
+      .get("http://localhost:4000/rest/productsbysearchtext/" + text)
+      .catch((e) => (error = e));
+    console.log(result.data);
+    return result.data || { error };
+  };
+
   const values = {
     products,
     store,
@@ -122,6 +131,7 @@ const ProductContextProvider = (props) => {
     getSubcategories,
     getProductsBySubCatId,
     getMainCategoryName,
+    getProductsByName,
   };
   return (
     <ProductContext.Provider value={values}>

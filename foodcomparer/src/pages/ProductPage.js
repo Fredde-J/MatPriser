@@ -1,22 +1,10 @@
-<<<<<<< HEAD
 import React, { useContext, useEffect, useState } from "react";
-import { withRouter } from "react-router-dom";
-import { Card,Row,Col } from "reactstrap";
-import ProductCard from "../components/ProductCard";
-import { ProductContext } from "../ContextProviders/ProductContextProvider";
-import SearchBar from "../components/SearchBar";
-=======
-import React, {
-  useContext,
-  useEffect,
-  useState,
-} from "react";
-import { Link, withRouter } from "react-router-dom";
+import { Link, withRouter, useLocation } from "react-router-dom";
 import { Form, Input, Label } from "reactstrap";
 import ProductCard from "../components/ProductCard";
 import { ProductContext } from "../ContextProviders/ProductContextProvider";
 import { Row, Col } from "reactstrap";
->>>>>>> dev
+const queryString = require("query-string");
 
 const ProductPage = (props) => {
   let productContext = useContext(ProductContext);
@@ -26,31 +14,69 @@ const ProductPage = (props) => {
   const [more, setMore] = useState(true);
   const [less, setLess] = useState(false);
   const [start, setstart] = useState(0);
-  const [finish, setFinish] = useState(perPage)
+  const [finish, setFinish] = useState(perPage);
   const [subcategories, setSubcategories] = useState([]);
+  const location = useLocation();
   // const [mainCategoryName, setMainCategoryName] = useState([]);
 
   useEffect(() => {
-    console.log(location.search)
-    getProducts();
-    getSubCategories();
-    getMainCategoryName();
+    let parsedQuery = queryString.parse(location.search);
+    console.log(parsedQuery);
+    if (
+      parsedQuery.maincategory !== undefined &&
+      parsedQuery.subcategory === undefined
+    ) {
+      getMainProducts();
+      getSubCategories();
+    } else if (parsedQuery.subcategory !== undefined) {
+      getSubProducts();
+    } else if (parsedQuery.text !== undefined) {
+      getProductsByText();
+    }
+
+    // getMainCategoryName();
   }, []);
 
-  const getProducts = async () => {
+  useEffect(() => {
+    console.log("initdata", initData)
+  }, [initData])
+
+  const getMainProducts = async () => {
     setInitData(
-      await productContext.getProductsByMainCatId(props.match.params.mCatId)
+      await productContext.getProductsByMainCatId(
+        queryString.parse(location.search).maincategory
+      )
     );
   };
 
-  const getSubCategories = async  () => {
-    setSubcategories( await productContext.getSubcategories(props.match.params.mCatId));
-  }
+  const getSubProducts = async () => {
+    setInitData(
+      await productContext.getProductsBySubCatId(
+        queryString.parse(location.search).subcategory
+      )
+    );
+  };
 
-  const getMainCategoryName = async () => {
+  const getProductsByText = async () => {
+    setInitData(
+      await productContext.getProductsByName(
+        queryString.parse(location.search).text
+      )
+    );
+  };
+
+  const getSubCategories = async () => {
+    setSubcategories(
+      await productContext.getSubcategories(
+        queryString.parse(location.search).maincategory
+      )
+    );
+  };
+
+  /*   const getMainCategoryName = async () => {
     //setMainCategoryName( await productContext.getMainCategoryName(props.match.params.mCatId));
-  }
-   
+  }; */
+
   const toggleEco = () => {
     setOnlyEco(!onlyEco);
     setstart(0);
@@ -60,56 +86,49 @@ const ProductPage = (props) => {
   const nextPage = () => {
     setLess(true);
     setstart(finish);
-    if (!onlyEco && finish + perPage > initData.length ){
-      setFinish(initData.length)
+    if (!onlyEco && finish + perPage > initData.length) {
+      setFinish(initData.length);
       setMore(false);
-    }else if(onlyEco && finish + perPage > initData.filter((product) => product.isEco === 1).length){
+    } else if (
+      onlyEco &&
+      finish + perPage >
+        initData.filter((product) => product.isEco === 1).length
+    ) {
       setFinish(initData.filter((product) => product.isEco === 1).length);
       setMore(false);
-    }
-    else{
-      setFinish(finish+perPage)
+    } else {
+      setFinish(finish + perPage);
     }
     window.scrollTo(0, 0);
   };
 
   const previousPage = () => {
-     if (finish-perPage <= perPage) {
-       setFinish(perPage);
-       setstart(0);
-       setLess(false)
-     } else {
-       setFinish(finish - perPage);
-    setstart(start - (finish - start));
-     }
+    if (finish - perPage <= perPage) {
+      setFinish(perPage);
+      setstart(0);
+      setLess(false);
+    } else {
+      setFinish(finish - perPage);
+      setstart(start - (finish - start));
+    }
     setMore(true);
     window.scrollTo(0, 0);
-  }
+  };
 
   return (
     <div>
-<<<<<<< HEAD
-      <Row>
-        <Col>
-        <SearchBar/>
-        </Col>
-      </Row>
-      <br></br>
-      {products.mainCatProducts.slice(0,50).map((product, i) => {
-        return (
-          <div>
-            <ProductCard key={product.id + i} product={product} />
-          </div>
-        );
-      })}
-=======
       <div>
         <div className="col-sm-12 d-flex flex-wrap justify-content-center mb-3">
           {subcategories[0]
             ? subcategories.map((subcategory, i) => (
                 <Link
-                  to={{pathname: "/sproducts/" + subcategory.id,
-                state: {products: initData}}}
+                  to={{
+                    pathname: `/products/search?maincategory=${
+                      queryString.parse(location.search).maincategory
+                    }&subcategory=${subcategory.id}`,
+                    state: { products: initData },
+                  }}
+                  onClick={() => {getSubProducts()}}
                   key={String.valueOf(subcategory.id) + i}
                   className="btn  bg-light text-dark mt-2 mr-3 ml-3"
                 >
@@ -129,13 +148,19 @@ const ProductPage = (props) => {
             ? initData
                 .slice(start, finish)
                 .map((product, i) => (
-                  <ProductCard key={String.valueOf(product.id) + i} product={product} />
+                  <ProductCard
+                    key={String.valueOf(product.id) + i}
+                    product={product}
+                  />
                 ))
             : initData
                 .filter((product) => product.isEco == 1)
                 .slice(start, finish)
                 .map((product, i) => (
-                  <ProductCard key={String.valueOf(product.id) + i} product={product} />
+                  <ProductCard
+                    key={String.valueOf(product.id) + i}
+                    product={product}
+                  />
                 ))}
         </Row>
         {less && (
@@ -150,7 +175,6 @@ const ProductPage = (props) => {
         )}
       </div>
       {/* )} */}
->>>>>>> dev
     </div>
   );
 };

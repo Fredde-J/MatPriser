@@ -11,7 +11,7 @@ const CatagoryCard = (props) => {
   const history = useHistory();
 
   const goToProducts = () => {
-    history.push("/products/"+props.id)
+    history.push("/products/search?maincategory="+props.id)
   }
   
   

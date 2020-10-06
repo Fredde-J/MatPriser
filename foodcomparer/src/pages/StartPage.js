@@ -13,12 +13,9 @@ const StartPage = (props) => {
   const [showAllCatagorys, setShowAllCatagorys] = useState(false);
   const categories = useContext(CategoryContext);
 
-<<<<<<< HEAD
-=======
   useEffect(() =>{
      
     },[showAllCatagorys])
->>>>>>> dev
 
   return (
     <>
