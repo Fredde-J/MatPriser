@@ -9,6 +9,7 @@ import {
 import willysLogo from "../images/willys.jpg";
 import coopLogo from "../images/coop4.png";
 import hemkopLogo from "../images/hemkop.jpg";
+import { setGlobalCssModule } from "reactstrap/lib/utils";
 
 const ProductCard = (props) => {
   const listIcon = "/images/listIcon.svg"
@@ -22,6 +23,8 @@ const ProductCard = (props) => {
   let productTest;
   var pricePerItem = props.product.pricePerItem;
   var pricePerUnit = props.product.pricePerUnit;
+  let productsToLs = []
+  let shoppingListFromLocalStore;
 
   if(pricePerItem){
     pricePerItem = pricePerItem.toString();
@@ -78,20 +81,37 @@ const ProductCard = (props) => {
    products.unshift(props.product)
 
     if(localStorage.getItem('shoppingList')===null){
-      let shoppingList = []
-      shoppingList.push(products)
-      localStorage.setItem('shoppingList',JSON.stringify(shoppingList))
+      products.forEach((product)=>{
+        product.amount = 1;
+      })
+      productsToLs.push(products)
+      localStorage.setItem('shoppingList',JSON.stringify(productsToLs))
+      
     }else{
-      let shoppingListFromLocalStore = localStorage.getItem("shoppingList")
+      shoppingListFromLocalStore = localStorage.getItem("shoppingList")
       shoppingListFromLocalStore = JSON.parse(shoppingListFromLocalStore)
-      shoppingListFromLocalStore.push(products)
+      shoppingListFromLocalStore.forEach((items)=>{
+       for (let i = items.length - 1; i <= 0 ; i--) {
+         if(items[i].id===products[i].id){
+          items[i].amount++ 
+          products.splice(i,1)
+         }
+
+       }
+      })
+      //console.log(productsToLs[0])
+      if(products[0]!==null&&products[0]!==undefined){
+      shoppingListFromLocalStore.push(productsToLs)
+      }
       localStorage.setItem('shoppingList', JSON.stringify(shoppingListFromLocalStore))
+
+      console.log(productsToLs) 
     }
      //Remove when product card is done
      let result = localStorage.getItem('shoppingList')
      console.log(JSON.parse(result))
      //
-    
+     productsToLs=[];
   }
   useEffect(() =>{
   getStoreName()
