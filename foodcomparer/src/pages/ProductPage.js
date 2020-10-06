@@ -22,9 +22,9 @@ const ProductPage = (props) => {
   // const [mainCategoryName, setMainCategoryName] = useState([]);
 
   useEffect(() => {
-     getProducts();
-     getSubCategories();
-    //  getMainCategoryName();
+    getProducts();
+    getSubCategories();
+    getMainCategoryName();
   }, []);
 
   const getProducts = async () => {
@@ -37,9 +37,9 @@ const ProductPage = (props) => {
     setSubcategories( await productContext.getSubcategories(props.match.params.mCatId));
   }
 
-  // const getMainCategoryName = async () => {
-  //   //setMainCategoryName( await productContext.getMainCategoryName(props.match.params.mCatId));
-  // }
+  const getMainCategoryName = async () => {
+    //setMainCategoryName( await productContext.getMainCategoryName(props.match.params.mCatId));
+  }
    
   const toggleEco = () => {
     setOnlyEco(!onlyEco);
