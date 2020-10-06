@@ -20,7 +20,6 @@ const ProductCard = (props) => {
   let productUnit;
   let promotionPrice;
   let ecoText;
-  let productTest;
   var pricePerItem = props.product.pricePerItem;
   var pricePerUnit = props.product.pricePerUnit;
   let productsToLs = []
@@ -74,9 +73,9 @@ const ProductCard = (props) => {
   }
 
 
-  const addToList = async (id)=>{
-   console.log(id)
-   products = await productContext.getSimilarProducts(id);
+  const addToList = async ()=>{
+   console.log(props.product.id)
+   products = await productContext.getSimilarProducts(props.product.id);
    products.unshift(props.product)
    products.forEach((product)=>{
     product.amount = 1;
@@ -90,9 +89,8 @@ const ProductCard = (props) => {
       shoppingListFromLocalStore = JSON.parse(shoppingListFromLocalStore)
       shoppingListFromLocalStore.forEach((items)=>{
        for (let i = items.length - 1; i >= 0 ; i--) {
-        console.log("in Loop");
-         if(products[i].id=undefined){
-           console.log("product id is undefined")
+         if(products[i]===undefined){
+           console.log("product has been removed")
          }
          else if(items[i].id===products[i].id){
           console.log("same")
@@ -126,7 +124,7 @@ const ProductCard = (props) => {
             className="list-icon"
             src={listIcon}
             alt="listIcon"
-            onClick={()=>{addToList(props.product.id)}}
+            onClick={addToList}
           ></img>
           <img className="storeLogo" src={storeLogo} height="50vh"></img>
         </span>
