@@ -129,7 +129,7 @@ const ShoppingListPage = () => {
   return (
     <>
       <ClearLocalStorage />
-      <ShoppingListCard />
+      <ShoppingListCard refresh={load} />
       <br />
       {load && <PrintProducts />}
     </>
