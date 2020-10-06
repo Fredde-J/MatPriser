@@ -167,7 +167,6 @@ const ProductCard = (props) => {
         </span>
       </Card>
   );
-
-}
+};
 
 export default ProductCard;

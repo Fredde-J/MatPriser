@@ -4,7 +4,7 @@ import willys from "../images/willys.jpg";
 import coop from "../images/coop4.png";
 import hemkop from "../images/hemkop.jpg";
 
-const ShoppingListCard = () => {
+const ShoppingListCard = (props) => {
   const [coopTotalPrice, setcoopTotalPrice] = useState(0);
   const [willysTotalPrice, setwillysTotalPrice] = useState(0);
   const [hemkopTotalPrice, sethemkopTotalPrice] = useState(0);
@@ -23,19 +23,19 @@ const ShoppingListCard = () => {
       items.forEach((item) => {
         if (item.promotionPrice !== null) {
           if (item.storeId === 1) {
-            coopPrices += item.promotionPrice;
+            coopPrices += (item.promotionPrice * item.amount);
           } else if (item.storeId === 2) {
-            hemkopPrices += item.promotionPrice;
+            hemkopPrices += item.promotionPrice * item.amount;
           } else if (item.storeId === 3) {
-            willysPrices += item.promotionPrice;
+            willysPrices += item.promotionPrice * item.amount;
           }
         } else {
           if (item.storeId === 1) {
-            coopPrices += item.pricePerItem;
+            coopPrices += item.pricePerItem * item.amount;
           } else if (item.storeId === 2) {
-            hemkopPrices += item.pricePerItem;
+            hemkopPrices += item.pricePerItem * item.amount;
           } else if (item.storeId === 3) {
-            willysPrices += item.pricePerItem;
+            willysPrices += item.pricePerItem * item.amount;
           }
         }
       });
@@ -118,7 +118,7 @@ const ShoppingListCard = () => {
     if (localStorage.getItem("shoppingList") !== null) {
       getTotalPrice();
     }
-  }, []);
+  }, [props.refresh]);
 
   return (
     <>

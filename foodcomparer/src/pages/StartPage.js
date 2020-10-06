@@ -13,7 +13,7 @@ import CatagoryCard from "../components/CatagoryCard";
 import { CategoryContext } from "../ContextProviders/CategoryContextProvider";
 
 const StartPage = (props) => {
-  const searchIcon ="/images/searchIcon.svg"
+  const searchIcon = "/images/searchIcon.svg";
   const [showAllCatagorys, setShowAllCatagorys] = useState(false);
   const categories = useContext(CategoryContext);
 
