@@ -55,9 +55,6 @@ const ProductCard = (props) => {
     ecoText = 'Eko';
   }
 
-  
-  
-
   const getStoreName = () => {
     let storeId = props.product.storeId;
     if(storeId === 1){
