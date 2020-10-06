@@ -63,10 +63,12 @@ const ShoppingListCard = () => {
               <div class="row">
               <li key={index} class="col">
                 {storeItem.name}: 
-                
+              </li>
+              <li class="col text-center">
+               antal: {storeItem.amount}
               </li>
               <li class="col text-right">
-              {storeItem.pricePerItem} kr st/{storeItem.pricePerUnit} kr per {storeItem.unit}
+              {storeItem.pricePerItem} kr st/{storeItem.pricePerUnit} {storeItem.unit}
               </li>
               </div>
             );
