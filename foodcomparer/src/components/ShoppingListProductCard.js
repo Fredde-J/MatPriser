@@ -1,28 +1,34 @@
 import React from "react";
 import { Button, ButtonGroup, Card, Col, Container, Row } from "reactstrap";
 
-const ShoppingListProductCard = ({
-  product: { name, brand, amount, price, onSale }, //ES6 destructuring
-}) => {
+const ShoppingListProductCard = (props) => {
+  const onAddClick = () => {
+    props.handleAddClick(props.product);
+  };
+
+  const onRemoveClick = () => {
+    props.handleRemoveClick(props.product)
+  }
+
   return (
     <>
       <Card body>
         <Row>
           <Col xs="8">
             <Container>
-              <Row>{name}</Row>
-              <Row>{brand}</Row>
+              <Row>{props.product.name}</Row>
+              <Row>{props.product.brand}</Row>
             </Container>
           </Col>
           <Col xs="2">
             <ButtonGroup size="sm">
-              <Button>+</Button>
-              <Button disabled>{amount}</Button>
-              <Button>-</Button>
+              <Button onClick={onAddClick}>+</Button>
+              <Button disabled>{props.quantity}</Button>
+              <Button onClick={onRemoveClick}>-</Button>
             </ButtonGroup>
           </Col>
-          <Col xs="2" style={{ color: onSale ? "red" : null }}>
-            {price} kr
+          <Col xs="2" style={{ color: true ? "red" : null }}>
+            {props.product.pricePerItem} kr
           </Col>
         </Row>
       </Card>
