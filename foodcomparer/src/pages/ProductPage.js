@@ -4,7 +4,7 @@ import React, {
   useState,
 } from "react";
 import { Link, withRouter } from "react-router-dom";
-import { Form, Input, Label } from "reactstrap";
+import { Card, Form, Input, Label } from "reactstrap";
 import ProductCard from "../components/ProductCard";
 import { ProductContext } from "../ContextProviders/ProductContextProvider";
 import { Row, Col } from "reactstrap";
@@ -19,7 +19,7 @@ const ProductPage = (props) => {
   const [start, setstart] = useState(0);
   const [finish, setFinish] = useState(perPage)
   const [subcategories, setSubcategories] = useState([]);
-  // const [mainCategoryName, setMainCategoryName] = useState([]);
+  const [mainCategoryName, setMainCategoryName] = useState([]);
 
   useEffect(() => {
     getProducts();
@@ -38,7 +38,7 @@ const ProductPage = (props) => {
   }
 
   const getMainCategoryName = async () => {
-    //setMainCategoryName( await productContext.getMainCategoryName(props.match.params.mCatId));
+    setMainCategoryName( await productContext.getMainCategoryName(props.match.params.mCatId));
   }
    
   const toggleEco = () => {
@@ -78,28 +78,37 @@ const ProductPage = (props) => {
 
   return (
     <div>
-      <div>
-        <div className="col-sm-12 d-flex flex-wrap justify-content-center mb-3">
-          {subcategories[0]
-            ? subcategories.map((subcategory, i) => (
-                <Link
-                  to={{pathname: "/sproducts/" + subcategory.id,
-                state: {products: initData}}}
-                  key={String.valueOf(subcategory.id) + i}
-                  className="btn  bg-light text-dark mt-2 mr-3 ml-3"
-                >
-                  {subcategory.name}
-                </Link>
+        <Card>
+          <div className="card-header col-sm-12 d-flex flex-wrap justify-content-left mb-1">{mainCategoryName[0]
+              ? mainCategoryName.map((mainCategory, i) => (
+                <h2>{mainCategory.name}</h2>
               ))
-            : null}
-        </div>
-        <Form id="eco-checkbox-form">
-          <Input type="checkbox" id="ecocheck" onClick={toggleEco} />
-          <Label for="ecocheck" check>
-            Visa endast ekoprodukter
-          </Label>
-        </Form>
-        <Row className="d-flex justify-content-center mt-3">
+              : null
+            }</div>
+          <div className="d-flex flex-wrap justify-content-center mb-3">
+            {subcategories[0]
+              ? subcategories.map((subcategory, i) => (
+                  <Link
+                    to={{pathname: "/sproducts/" + subcategory.id,
+                  state: {products: initData}}}
+                    key={String.valueOf(subcategory.id) + i}
+                    className="btn  bg-light text-dark mt-2 mr-3 ml-3"
+                  >
+                    {subcategory.name}
+                  </Link>
+                ))
+              : null}
+          </div>
+          <div className="d-flex flex-wrap justify-content-left mb-1 ml-5">
+            <Form id="eco-checkbox-form">
+              <Input type="checkbox" id="ecocheck" onClick={toggleEco} />
+              <Label for="ecocheck" check>
+                Visa endast ekoprodukter
+              </Label>
+            </Form>
+          </div>
+        </Card>
+        <Row className="d-flex justify-content-between mt-3">
           {!onlyEco
             ? initData
                 .slice(start, finish)
@@ -123,7 +132,6 @@ const ProductPage = (props) => {
             Nästa
           </button>
         )}
-      </div>
       {/* )} */}
     </div>
   );
