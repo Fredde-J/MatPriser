@@ -78,11 +78,11 @@ const SubCatProductPage = (props) => {
               />
             ))
         : mainCatProducts
-            .slice(start, finish)
             .filter(
               (product) => product.subCategoryId == props.match.params.subCatId
             )
             .filter((product) => product.isEco == 1)
+            .slice(start, finish)
             .map((product, i) => (
               <ProductCard
                 key={String.valueOf(product.id) + i}
