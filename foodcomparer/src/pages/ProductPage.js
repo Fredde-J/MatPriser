@@ -16,30 +16,34 @@ const ProductPage = (props) => {
   const [start, setstart] = useState(0);
   const [finish, setFinish] = useState(perPage);
   const [subcategories, setSubcategories] = useState([]);
+  const [loading, setLoading] = useState(true);
   const location = useLocation();
   // const [mainCategoryName, setMainCategoryName] = useState([]);
 
   useEffect(() => {
     let parsedQuery = queryString.parse(location.search);
-    console.log(parsedQuery);
     if (
       parsedQuery.maincategory !== undefined &&
       parsedQuery.subcategory === undefined
     ) {
       getMainProducts();
       getSubCategories();
+      setLoading(true);
     } else if (parsedQuery.subcategory !== undefined) {
       getSubProducts();
+      setLoading(true);
     } else if (parsedQuery.text !== undefined) {
       getProductsByText();
+      setLoading(true);
     }
 
     // getMainCategoryName();
-  }, []);
+  }, [loading]);
 
   useEffect(() => {
-    console.log("initdata", initData)
-  }, [initData])
+    console.log(queryString.parse(location.search));
+    console.log("updated");
+  }, [queryString.parse(location.search)]);
 
   const getMainProducts = async () => {
     setInitData(
@@ -50,9 +54,16 @@ const ProductPage = (props) => {
   };
 
   const getSubProducts = async () => {
+    let newArr = [];
+    let mainProducts = await productContext.getProductsByMainCatId(
+      queryString.parse(location.search).maincategory
+    );
+    console.log("main", mainProducts);
     setInitData(
-      await productContext.getProductsBySubCatId(
-        queryString.parse(location.search).subcategory
+      mainProducts.filter(
+        (product) =>
+          product.subCategoryId ==
+          queryString.parse(location.search).subcategory
       )
     );
   };
@@ -128,7 +139,6 @@ const ProductPage = (props) => {
                     }&subcategory=${subcategory.id}`,
                     state: { products: initData },
                   }}
-                  onClick={() => {getSubProducts()}}
                   key={String.valueOf(subcategory.id) + i}
                   className="btn  bg-light text-dark mt-2 mr-3 ml-3"
                 >

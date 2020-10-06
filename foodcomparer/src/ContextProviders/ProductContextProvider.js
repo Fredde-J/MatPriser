@@ -31,7 +31,6 @@ const ProductContextProvider = (props) => {
     var result = await axios
       .get("http://localhost:4000/rest/productsbymaincategoryId/" + id)
       .catch((e) => (error = e));
-    console.log(result.data);
     return result.data || { error };
 
     // setMainCatProducts(result.data);
@@ -52,18 +51,6 @@ const ProductContextProvider = (props) => {
     let result = await axios
       .get("http://localhost:4000/rest/maincategoryname/" + mainCatId)
       .catch((e) => (error = e));
-    return result.data || { error };
-  };
-
-  const getProductsBySubCatId = async (subCatId) => {
-    let error;
-    var result = await axios
-      .get(
-        "http://localhost:4000/rest/getProductsBySubCategoryIdFromDb/" +
-          subCatId
-      )
-      .catch((e) => (error = e));
-    console.log(result.data);
     return result.data || { error };
   };
 
@@ -113,7 +100,6 @@ const ProductContextProvider = (props) => {
     let result = await axios
       .get("http://localhost:4000/rest/productsbysearchtext/" + text)
       .catch((e) => (error = e));
-    console.log(result.data);
     return result.data || { error };
   };
 
@@ -129,7 +115,6 @@ const ProductContextProvider = (props) => {
     getStoreNameById,
     getSimilarProducts,
     getSubcategories,
-    getProductsBySubCatId,
     getMainCategoryName,
     getProductsByName,
   };
