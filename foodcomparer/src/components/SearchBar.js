@@ -1,24 +1,35 @@
-import React from "react"
-import {InputGroup,
-    InputGroupAddon,
-    Button,
-    Input,} from "reactstrap"
+import React from "react";
+import { useHistory } from "react-router-dom";
+import { InputGroup, InputGroupAddon, Button, Input } from "reactstrap";
 
-const SearchBar = ()=>{
-    const searchIcon ="/images/searchIcon.svg"
+const SearchBar = () => {
+  const history = useHistory();
+  const searchIcon = "/images/searchIcon.svg";
+  const goToProductPage = () => {
+    const inputValue = document.getElementById("input-field").value;
+    history.push("/products/search?text=" + inputValue);
+  };
+  const handleEnterKeyDown = (e) => {
+    if (e.key === "Enter") {
+      goToProductPage();
+    }
+  };
 
-    return(
-        <>
-         <InputGroup className="d-flex justify-content-center">
-            <InputGroupAddon addonType="append">
-              <Input placeholder="sök" />
-            </InputGroupAddon>
-            <Button>
-              <img src={searchIcon} alt="searchIcon"></img>
-            </Button>
-          </InputGroup>
-        </>
-
-    );
-}
-export default SearchBar
+  return (
+    <>
+      <InputGroup className="d-flex justify-content-center">
+        <InputGroupAddon addonType="append">
+          <Input
+            placeholder="sök"
+            id="input-field"
+            onKeyDown={handleEnterKeyDown}
+          />
+        </InputGroupAddon>
+        <Button onClick={goToProductPage}>
+          <img src={searchIcon} alt="searchIcon"></img>
+        </Button>
+      </InputGroup>
+    </>
+  );
+};
+export default SearchBar;

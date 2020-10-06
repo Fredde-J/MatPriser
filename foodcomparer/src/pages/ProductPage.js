@@ -40,11 +40,6 @@ const ProductPage = (props) => {
     // getMainCategoryName();
   }, [loading]);
 
-  useEffect(() => {
-    console.log(queryString.parse(location.search));
-    console.log("updated");
-  }, [queryString.parse(location.search)]);
-
   const getMainProducts = async () => {
     setInitData(
       await productContext.getProductsByMainCatId(
