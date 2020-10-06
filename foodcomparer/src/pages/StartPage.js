@@ -29,7 +29,6 @@ const StartPage = (props) => {
 
   return (
     <>
-      <br></br>
       <Row>
         <Col>
           <SearchBar />
