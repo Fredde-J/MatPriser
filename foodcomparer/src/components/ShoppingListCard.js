@@ -4,7 +4,7 @@ import willys from "../images/willys.jpg";
 import coop from "../images/coop4.png";
 import hemkop from "../images/hemkop.jpg";
 
-const ShoppingListCard = (props) => {
+const ShoppingListCard = () => {
   const [coopTotalPrice, setcoopTotalPrice] = useState(0);
   const [willysTotalPrice, setwillysTotalPrice] = useState(0);
   const [hemkopTotalPrice, sethemkopTotalPrice] = useState(0);
