@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
 //import listIcon from "/images/listIcon.svg";
 import {Nav, NavItem, Navbar, NavbarText } from "reactstrap";
 
 import { pointer } from "../css/Header.css";
 const Header = (props) => {
+  const [items, setItems] = useState("");
   const goTohomepage = () => {
     props.history.push("/");
   };
@@ -12,6 +13,16 @@ const Header = (props) => {
     props.history.push("/shoppinglist");
   };
   const listIcon = "/images/listIcon.svg";
+  const calculateNotificationItems = () => {
+    const ls = JSON.parse(localStorage.getItem("shoppingList"));
+    if (ls === undefined || ls === null || ls.length === 0) return setItems('');
+    else {
+      setItems(ls.length)
+    }
+  }
+  useEffect(() => {
+    calculateNotificationItems()
+  }, [])
   return (
     <>
       <Navbar style={{ backgroundColor: "rgb(250, 246, 184)" }}>
@@ -34,6 +45,7 @@ const Header = (props) => {
             style={{ width: 70 }}
             onClick={goToShoppingList}
           ></img>
+          <span className="badge">{items}</span>
         </NavbarText>
       </Navbar>
     </>
