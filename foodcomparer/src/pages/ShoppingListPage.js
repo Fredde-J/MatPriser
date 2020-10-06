@@ -48,6 +48,7 @@ const ShoppingListPage = () => {
       <ShoppingListCard />
       <br />
       <PrintProducts />
+      <button onClick={()=>{localStorage.clear()}}>clear localStorage</button>
     </>
   );
 };

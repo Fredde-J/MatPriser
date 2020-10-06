@@ -27,7 +27,7 @@ app.get("/test:store", (req, res) => {
 APIManager.connectToDb();
 
 var schedule = require("node-schedule");
-var j = schedule.scheduleJob("53 10 * * *", function () {
+var j = schedule.scheduleJob("00 02 * * *", function () {
   //'10 * * * *' Execute a cron job when the minute is 10 (e.g. 19:10, 20:10, etc.).
   //'10 10 * * *'Execute a cron job 10:10
   APIManager.getStores(function (err, data) {
@@ -45,21 +45,24 @@ var j = schedule.scheduleJob("53 10 * * *", function () {
           } else {
             categories = data;
             for (let category of categories) {
-              //APIManager.harvestProducts(store.id, category.mainCategoryId, store.baseURL, category.categoryURL);
               HarvesterFactory.createProducts(
                 store.id,
                 category.mainCategoryId,
                 store.baseURL,
-                category.categoryURL
+                category.categoryURL,
+                category.id
               )
                 .then((result) => {
                   APIManager.addProductsToDb(
                     store.id,
-                    result,
-                    category.mainCategoryId
+                    category.mainCategoryId,
+                    category.id,
+                    result
                   );
                 })
-                .then()
+                .then(                  
+
+                )
                 .catch((err) => {
                   console.error(err);
                 });
@@ -71,24 +74,9 @@ var j = schedule.scheduleJob("53 10 * * *", function () {
   });
 });
 
- /* let storeId = Number(req.params.store);
-    HarvesterFactory.createCategories(storeId,categoryUrl)
-  .then((result) => {
-      res.status(300).json(result);
-    })
-    .then(console.log("Printing categories to backend using factory"))
-    .catch((err) => {
-      console.error(err);
-    });
-});*/
-
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
-
-/*app.post("/harvest/getproducts/:store", async (req, res) => {
-  APIManager.harvestProducts(req, res);
-});*/
 
 app.get("/rest/products", async (req, res) => {
   APIManager.getProductsFromDb(res);
@@ -124,6 +112,11 @@ app.get("/rest/maincategories", async (req, res) => {
   APIManager.getMainCategories(res);
 });
 
+app.get("/rest/maincategoryname/:mainCategoryId", async (req, res) => {
+  let mainCategoryId = Number(req.params.mainCategoryId);
+  APIManager.getMainCategoryName(mainCategoryId, res);
+});
+
 app.get("/rest/subcategories/:mainCategoryId", async (req, res) => {
   let mainCategoryId = Number(req.params.mainCategoryId);
   APIManager.getAllSubCategoriesByMainCategoryId(mainCategoryId, res);
@@ -140,12 +133,7 @@ app.get("rest/storename:storeId", async (req, res) => {
   APIManager.getStoreName(storeId, res);
 })
 
-app.delete("/rest/products", async (req, res) => {
-  APIManager.deleteProducts(res);
-});
-
 app.get("/rest/similareProductsbyId/:productId", async (req, res) => {
   let productId = Number(req.params.productId);
   APIManager.getSimilarProductsbyId(productId, res);
 });
-
