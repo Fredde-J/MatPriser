@@ -68,41 +68,49 @@ const ProductPage = (props) => {
 
   return (
     <div>
-        <Card>
-          
-          <div className="d-flex flex-wrap justify-content-left mb-1 ml-5">
-            <Form id="eco-checkbox-form">
-              <Input type="checkbox" id="ecocheck" onClick={toggleEco} />
-              <Label for="ecocheck" check>
-                Visa endast ekoprodukter
-              </Label>
-            </Form>
-          </div>
-        </Card>
-        <Row className="d-flex justify-content-center mt-3">
-          {!onlyEco
-            ? initData
-                .slice(start, finish)
-                .map((product, i) => (
-                  <ProductCard key={String.valueOf(product.id) + i} product={product} />
-                ))
-            : initData
-                .filter((product) => product.isEco == 1)
-                .slice(start, finish)
-                .map((product, i) => (
-                  <ProductCard key={String.valueOf(product.id) + i} product={product} />
-                ))}
-        </Row>
-        {less && (
-          <button className="switch-page-btn" onClick={() => previousPage()}>
-            Föregående
-          </button>
-        )}
-        {more && (
-          <button className="switch-page-btn" onClick={() => nextPage()}>
-            Nästa
-          </button>
-        )}
+      <Card>
+        <div className="card-header col-sm-12 d-flex flex-wrap justify-content-left mb-1">
+          <h2>{props.match.params.text}</h2>
+        </div>
+        <div className="d-flex flex-wrap justify-content-left mb-1 ml-5">
+          <Form id="eco-checkbox-form">
+            <Input type="checkbox" id="ecocheck" onClick={toggleEco} />
+            <Label for="ecocheck" check>
+              Visa endast ekoprodukter
+            </Label>
+          </Form>
+        </div>
+      </Card>
+      <Row className="d-flex justify-content-center mt-3">
+        {!onlyEco
+          ? initData
+              .slice(start, finish)
+              .map((product, i) => (
+                <ProductCard
+                  key={String.valueOf(product.id) + i}
+                  product={product}
+                />
+              ))
+          : initData
+              .filter((product) => product.isEco == 1)
+              .slice(start, finish)
+              .map((product, i) => (
+                <ProductCard
+                  key={String.valueOf(product.id) + i}
+                  product={product}
+                />
+              ))}
+      </Row>
+      {less && (
+        <button className="switch-page-btn" onClick={() => previousPage()}>
+          Föregående
+        </button>
+      )}
+      {more && (
+        <button className="switch-page-btn" onClick={() => nextPage()}>
+          Nästa
+        </button>
+      )}
       {/* )} */}
     </div>
   );

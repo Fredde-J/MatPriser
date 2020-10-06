@@ -7,7 +7,9 @@ const SearchBar = () => {
   const searchIcon = "/images/searchIcon.svg";
   const goToProductPage = () => {
     const inputValue = document.getElementById("input-field").value;
-    history.push("/tproducts/" + inputValue);
+    if (inputValue !== "") {
+      history.push("/tproducts/" + inputValue);
+    }
   };
   const handleEnterKeyDown = (e) => {
     if (e.key === "Enter") {
