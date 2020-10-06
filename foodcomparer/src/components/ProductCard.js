@@ -25,6 +25,7 @@ const ProductCard = (props) => {
   var pricePerUnit = props.product.pricePerUnit;
   let productsToLs = []
   let shoppingListFromLocalStore;
+  let products;
 
   if(pricePerItem){
     pricePerItem = pricePerItem.toString();
@@ -76,36 +77,39 @@ const ProductCard = (props) => {
   }
 
 
-  const addToList = async ()=>{
-   let products = await productContext.getSimilarProducts(props.product.id);
+  const addToList = async (id)=>{
+   console.log(id)
+   products = await productContext.getSimilarProducts(id);
    products.unshift(props.product)
+   products.forEach((product)=>{
+    product.amount = 1;
+  })
 
     if(localStorage.getItem('shoppingList')===null){
-      products.forEach((product)=>{
-        product.amount = 1;
-      })
       productsToLs.push(products)
-      localStorage.setItem('shoppingList',JSON.stringify(productsToLs))
-      
+      localStorage.setItem('shoppingList',JSON.stringify(productsToLs)) 
     }else{
       shoppingListFromLocalStore = localStorage.getItem("shoppingList")
       shoppingListFromLocalStore = JSON.parse(shoppingListFromLocalStore)
       shoppingListFromLocalStore.forEach((items)=>{
-       for (let i = items.length - 1; i <= 0 ; i--) {
-         if(items[i].id===products[i].id){
-          items[i].amount++ 
+       for (let i = items.length - 1; i >= 0 ; i--) {
+        console.log("in Loop");
+         if(products[i].id=undefined){
+           console.log("product id is undefined")
+         }
+         else if(items[i].id===products[i].id){
+          console.log("same")
+          items[i].amount++;
           products.splice(i,1)
          }
 
        }
       })
-      //console.log(productsToLs[0])
       if(products[0]!==null&&products[0]!==undefined){
-      shoppingListFromLocalStore.push(productsToLs)
+      shoppingListFromLocalStore.push(products)
       }
       localStorage.setItem('shoppingList', JSON.stringify(shoppingListFromLocalStore))
 
-      console.log(productsToLs) 
     }
      //Remove when product card is done
      let result = localStorage.getItem('shoppingList')
@@ -125,7 +129,7 @@ const ProductCard = (props) => {
             class="list-icon"
             src={listIcon}
             alt="listIcon"
-            onClick={addToList}
+            onClick={()=>{addToList(props.product.id)}}
           ></img>
           <img class="storeLogo" src={storeLogo} height="50vh"></img>
         </div>
