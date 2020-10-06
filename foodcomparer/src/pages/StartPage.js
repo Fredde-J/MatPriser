@@ -20,7 +20,12 @@ const StartPage = (props) => {
 
   useEffect(() =>{
      
-    },[showAllCatagorys])
+  }, [showAllCatagorys])
+  const clearLocalStorageBtn = () => {
+    localStorage.clear();
+    console.log("localstorage has been cleared")
+    //REMOVE ALL REFERENCES OF ME BEFORE REVIEW, row 24-28 and 38
+  }
 
   return (
     <>
@@ -29,6 +34,9 @@ const StartPage = (props) => {
         <Col>
           <SearchBar />
         </Col>
+      </Row>
+      <Row>
+        <button onClick={clearLocalStorageBtn}>Clear Localstorage (Do after pulling dev)</button> {/*REMOVE BEFORE REVIEW*/}
       </Row>
 
       <Row className="d-flex justify-content-center mt-5">
