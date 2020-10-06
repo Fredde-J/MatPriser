@@ -7,6 +7,7 @@ import Header from "./components/Header";
 import CategorysContextProvider from "./ContextProviders/CategoryContextProvider";
 import ProductContextProvider from "./ContextProviders/ProductContextProvider";
 import ProductPage from "./pages/ProductPage";
+import SubCatProductPage from "./pages/SubCatProductPage";
 
 function App() {
   return (
@@ -19,8 +20,13 @@ function App() {
               <br />
               <Switch>
                 <Route exact path="/" component={StartPage} />
-                <Route exact path="/products/:mCatId" component={ProductPage} />
-              <Route exact path="/shoppinglist" component={ShoppingListPage}/>
+                <Route exact path="/products/search" component={ProductPage} />
+                {/* <Route exact path="/sproducts/:subCatId" component={SubCatProductPage} /> */}
+                <Route
+                  exact
+                  path="/shoppinglist"
+                  component={ShoppingListPage}
+                />
               </Switch>
             </main>
           </ProductContextProvider>

@@ -27,7 +27,7 @@ app.get("/test:store", (req, res) => {
 APIManager.connectToDb();
 
 var schedule = require("node-schedule");
-var j = schedule.scheduleJob("53 10 * * *", function () {
+var j = schedule.scheduleJob("19 10 * * *", function () {
   //'10 * * * *' Execute a cron job when the minute is 10 (e.g. 19:10, 20:10, etc.).
   //'10 10 * * *'Execute a cron job 10:10
   APIManager.getStores(function (err, data) {
@@ -50,16 +50,20 @@ var j = schedule.scheduleJob("53 10 * * *", function () {
                 store.id,
                 category.mainCategoryId,
                 store.baseURL,
-                category.categoryURL
+                category.categoryURL,
+                category.id
               )
                 .then((result) => {
                   APIManager.addProductsToDb(
                     store.id,
-                    result,
-                    category.mainCategoryId
+                    category.mainCategoryId,
+                    category.id,
+                    result
                   );
                 })
-                .then()
+                .then(                  
+
+                )
                 .catch((err) => {
                   console.error(err);
                 });
@@ -124,6 +128,11 @@ app.get("/rest/maincategories", async (req, res) => {
   APIManager.getMainCategories(res);
 });
 
+app.get("/rest/maincategoryname/:mainCategoryId", async (req, res) => {
+  let mainCategoryId = Number(req.params.mainCategoryId);
+  APIManager.getMainCategoryName(mainCategoryId, res);
+});
+
 app.get("/rest/subcategories/:mainCategoryId", async (req, res) => {
   let mainCategoryId = Number(req.params.mainCategoryId);
   APIManager.getAllSubCategoriesByMainCategoryId(mainCategoryId, res);
@@ -140,12 +149,7 @@ app.get("rest/storename:storeId", async (req, res) => {
   APIManager.getStoreName(storeId, res);
 })
 
-app.delete("/rest/products", async (req, res) => {
-  APIManager.deleteProducts(res);
-});
-
 app.get("/rest/similareProductsbyId/:productId", async (req, res) => {
   let productId = Number(req.params.productId);
   APIManager.getSimilarProductsbyId(productId, res);
 });
-
