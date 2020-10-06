@@ -22,9 +22,9 @@ const ProductPage = (props) => {
   const [mainCategoryName, setMainCategoryName] = useState([]);
 
   useEffect(() => {
-     getProducts();
-     getSubCategories();
-     getMainCategoryName();
+    getProducts();
+    getSubCategories();
+    getMainCategoryName();
   }, []);
 
   const getProducts = async () => {
