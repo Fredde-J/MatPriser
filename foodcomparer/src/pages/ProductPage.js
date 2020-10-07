@@ -8,6 +8,7 @@ import { Card, Form, Input, Label } from "reactstrap";
 import ProductCard from "../components/ProductCard";
 import { ProductContext } from "../ContextProviders/ProductContextProvider";
 import { Row, Col } from "reactstrap";
+import "../css/ProductPageStyling.css";
 
 const ProductPage = (props) => {
   let productContext = useContext(ProductContext);
@@ -69,8 +70,8 @@ const ProductPage = (props) => {
        setstart(0);
        setLess(false)
      } else {
-       setFinish(finish - perPage);
-    setstart(start - (finish - start));
+       setFinish(start);
+    setstart(start - perPage);
      }
     setMore(true);
     window.scrollTo(0, 0);

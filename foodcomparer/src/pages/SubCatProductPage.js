@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
 import { Col, Form, Input, Label } from "reactstrap";
 import ProductCard from "../components/ProductCard";
-import { ProductContext } from "../ContextProviders/ProductContextProvider";
+import "../css/ProductPageStyling.css";
 
 const SubCatProductPage = (props) => {
   const [mainCatProducts, setMainCatProducts] = useState([]);
@@ -12,44 +12,62 @@ const SubCatProductPage = (props) => {
   const [less, setLess] = useState(false);
   const [start, setstart] = useState(0);
   const [finish, setFinish] = useState(perPage);
+  const [productLength, setProductLength] = useState();
+  const [ecoProductLength, setEcoProductLength] = useState();
 
   useEffect(() => {
     setMainCatProducts(props.history.location.state.products);
-  });
+  },[]);
 
-  useEffect(()=> {
-    checkIsMore();
+  useEffect(() => {
+
+    setProductLength(
+      mainCatProducts.filter(
+        (product) => product.subCategoryId == props.match.params.subCatId
+      ).length
+    );
+
+    setEcoProductLength(
+      mainCatProducts.filter(
+        (product) => product.subCategoryId == props.match.params.subCatId
+      ).filter((product) => product.isEco === 1).length
+    );
+
   }, [mainCatProducts])
   
    const toggleEco = () => {
      setOnlyEco(!onlyEco);
      setstart(0);
      setFinish(perPage);
+     setLess(false);
+     checkIsMore();
    };
 
+ 
    const checkIsMore = () => {
-     if(mainCatProducts
-            .filter(
-              (product) => product.subCategoryId == props.match.params.subCatId
-            ) < perPage){
-              setMore(false);
-            }
+      if (onlyEco && finish + perPage >= ecoProductLength ) {
+        setMore(false);
+      }
    }
 
    const nextPage = () => {
      setLess(true);
      setstart(finish);
-     if (!onlyEco && finish + perPage > mainCatProducts.length) {
-       setFinish(mainCatProducts.length);
+     if (
+       !onlyEco &&
+       finish + perPage > productLength
+     ) 
+     {
+       setFinish(productLength);
        setMore(false);
-     } else if (
+     } 
+     else if 
+     (
        onlyEco &&
-       finish + perPage >
-         mainCatProducts.filter((product) => product.isEco === 1).length
-     ) {
-       setFinish(
-         mainCatProducts.filter((product) => product.isEco === 1).length
-       );
+       finish + perPage > ecoProductLength
+     ) 
+     {
+       setFinish(ecoProductLength);
        setMore(false);
      } else {
        setFinish(finish + perPage);
@@ -58,17 +76,25 @@ const SubCatProductPage = (props) => {
    };
 
    const previousPage = () => {
+      setMore(true);
+     console.log(start, finish)
      if (finish - perPage <= perPage) {
        setFinish(perPage);
        setstart(0);
        setLess(false);
      } else {
-       setFinish(finish - perPage);
-       setstart(start - (finish - start));
+       setFinish(start);
+       setstart(start - perPage);
      }
-     setMore(true);
      window.scrollTo(0, 0);
    };
+   console.log(
+     mainCatProducts
+       .filter((product) => product.isEco === 1)
+       .filter(
+         (product) => product.subCategoryId == props.match.params.subCatId
+       ).length
+   );
 
   return (
     <div>
@@ -102,7 +128,7 @@ const SubCatProductPage = (props) => {
                 product={product}
               />
             ))}
-      <div className="col-12">
+      <div className="col-12 page-buttons">
         {less && (
           <button className="switch-page-btn" onClick={() => previousPage()}>
             Föregående
