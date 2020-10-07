@@ -4,6 +4,7 @@ import "../css/ShoppingListProductCard.css";
 
 const ShoppingListProductCard = (props) => {
   const imgSrc = props.product.photoUrl.replace("tiff", "png");
+  const gotSale = props.product.promotionPrice ? true : false
   const storeName =
     props.product.storeId === 1
       ? "Coop"
@@ -42,16 +43,30 @@ const ShoppingListProductCard = (props) => {
               </Col>
             </Row>
           </Col>
-          <Col xs="2">
+          <Col xs="2" className="d-flex align-items-center">
             <ButtonGroup size="sm">
               <Button onClick={onRemoveClick}>-</Button>
               <Button disabled>{props.product.amount}</Button>
               <Button onClick={onAddClick}>+</Button>
             </ButtonGroup>
           </Col>
-          <Col xs="2" style={{ color: false ? "red" : null }}>
+          {gotSale && (
+            <Col
+              xs="2"
+              style={{ color: 'red'}}
+              className="d-flex align-items-center"
+            >
+              {props.product.promotionPrice} {props.product.unit}
+            </Col>
+          ) }
+          { !gotSale &&           
+          <Col
+            xs="2"
+            className="d-flex align-items-center"
+          >
             {props.product.pricePerItem} {props.product.unit}
           </Col>
+          }
         </Row>
       </Card>
     </>
