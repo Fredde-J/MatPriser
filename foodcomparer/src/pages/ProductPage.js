@@ -99,7 +99,7 @@ const ProductPage = (props) => {
         <Card className="row">
           <div className="card-header col-sm-12 d-flex flex-wrap justify-content-left mb-1">{mainCategoryName[0]
               ? mainCategoryName.map((mainCategory, i) => (
-                <h2>{mainCategory.name}</h2>
+                <h2 key={`${mainCategory.id}${mainCategory.name}+${i}`}>{mainCategory.name}</h2>
               ))
               : null
             }</div>
