@@ -3,6 +3,7 @@ import { withRouter } from "react-router-dom";
 import ShoppingListCard from "../components/ShoppingListCard";
 import ShoppingListProductCard from "../components/ShoppingListProductCard";
 import { ProductContext } from "../ContextProviders/ProductContextProvider";
+import {Button} from "reactstrap"
 
 const ShoppingListPage = () => {
   const [list, setList] = useState([]);
@@ -73,6 +74,11 @@ const ShoppingListPage = () => {
     setLoad(false);
   };
 
+  const clearLocalStore = ()=>{
+    localStorage.clear();
+    setLoad(false)
+  }
+
   useEffect(() => {
     populateList();
     setLoad(true);
@@ -100,6 +106,9 @@ const ShoppingListPage = () => {
       <ShoppingListCard refresh={load} />
       <br />
       {load && <PrintProducts />}
+      <br />
+      <Button onClick={clearLocalStore}>Rensa inköps lista</Button>
+      <br />
     </>
   );
 };
