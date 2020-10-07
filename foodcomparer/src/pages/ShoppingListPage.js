@@ -3,7 +3,7 @@ import { withRouter } from "react-router-dom";
 import ShoppingListCard from "../components/ShoppingListCard";
 import ShoppingListProductCard from "../components/ShoppingListProductCard";
 import { ProductContext } from "../ContextProviders/ProductContextProvider";
-import {Button} from "reactstrap"
+import { Button } from "reactstrap";
 
 const ShoppingListPage = () => {
   const [list, setList] = useState([]);
@@ -32,13 +32,18 @@ const ShoppingListPage = () => {
     );
     shoppingListFromLocalStore.forEach((items) => {
       for (let i = items.length - 1; i >= 0; i--) {
-        if (products[i] === undefined) {
-        } else if (items[i].id === products[i].id) {
-          items[i].amount++;
+        for (let j = products.length - 1; j >= 0; j--) {
+          if (products[i] === undefined) {
+            console.log("product has been removed");
+          } else if (items[i].id === products[j].id) {
+            console.log("same", products[j].id, items[i].id);
+            items[i].amount++;
+            products.splice(j, 1);
+          }
         }
       }
     });
-  
+
     localStorage.setItem(
       "shoppingList",
       JSON.stringify(shoppingListFromLocalStore)
@@ -55,29 +60,31 @@ const ShoppingListPage = () => {
     );
     shoppingListFromLocalStore.forEach((items) => {
       for (let i = items.length - 1; i >= 0; i--) {
-        if (products[i] === undefined) {
-        } else if (items[i].id === products[i].id) {
-          items[i].amount--;
+        for (let j = products.length - 1; j >= 0; j--) {
+          if (products[i] === undefined) {
+            console.log("product has been removed");
+          } else if (items[i].id === products[j].id) {
+            console.log("same", products[j].id, items[i].id);
+            items[i].amount--;
+            products.splice(j, 1);
+          }
         }
       }
     });
-   
-    let filteredShoppingList = shoppingListFromLocalStore.filter(items => {
-      if (items.every(item => item.amount > 0)) {
-        return items
+
+    let filteredShoppingList = shoppingListFromLocalStore.filter((items) => {
+      if (items.every((item) => item.amount > 0)) {
+        return items;
       }
-    })
-    localStorage.setItem(
-      "shoppingList",
-      JSON.stringify(filteredShoppingList)
-    );
+    });
+    localStorage.setItem("shoppingList", JSON.stringify(filteredShoppingList));
     setLoad(false);
   };
 
-  const clearLocalStore = ()=>{
+  const clearLocalStore = () => {
     localStorage.clear();
-    setLoad(false)
-  }
+    setLoad(false);
+  };
 
   useEffect(() => {
     populateList();
