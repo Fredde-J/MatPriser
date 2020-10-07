@@ -1,0 +1,13 @@
+*{
+  box-sizing: border-box;
+}
+.switch-page-btn{
+  width: 50%;
+  height: 50px;
+}
+.page-buttons{
+  width: 100%;
+}
+#eco-checkbox-div{
+  width: 100%;
+}
