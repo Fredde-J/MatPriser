@@ -2,12 +2,26 @@
   box-sizing: border-box;
 }
 .switch-page-btn{
-  width: 50%;
-  height: 50px;
+  width: 45%;
+  height: 45px;
 }
-.page-buttons{
-  width: 100%;
+.page-btn-div{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 50%;
+  height: 45px;
+  margin-left: 25%;
+  margin-bottom: 10px;
+  margin-top: 5px;
 }
 #eco-checkbox-div{
   width: 100%;
+}
+#next-btn{
+  margin-left: auto;
+
+}
+#prev-btn{
+  
 }

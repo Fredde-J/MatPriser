@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
-import { Col, Form, Input, Label } from "reactstrap";
+import { Button, Col, Form, Input, Label } from "reactstrap";
 import ProductCard from "../components/ProductCard";
 import "../css/ProductPageStyling.css";
 
@@ -128,16 +128,16 @@ const SubCatProductPage = (props) => {
                 product={product}
               />
             ))}
-      <div className="col-12 page-buttons">
+      <div className="page-btn-div">
         {less && (
-          <button className="switch-page-btn" onClick={() => previousPage()}>
+          <Button className="switch-page-btn" id="prev-btn" onClick={() => previousPage()}>
             Föregående
-          </button>
+          </Button>
         )}
         {more && (
-          <button className="switch-page-btn" onClick={() => nextPage()}>
+          <Button className="switch-page-btn" id="next-btn" onClick={() => nextPage()}>
             Nästa
-          </button>
+          </Button>
         )}
       </div>
     </div>
