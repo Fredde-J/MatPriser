@@ -27,7 +27,7 @@ const ShoppingListProductCard = (props) => {
             </ButtonGroup>
           </Col>
           <Col xs="2" style={{ color: false ? "red" : null }}>
-            {props.product.pricePerItem} kr
+            {props.product.pricePerItem} {props.product.unit}
           </Col>
         </Row>
       </Card>
