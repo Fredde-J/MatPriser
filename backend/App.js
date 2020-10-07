@@ -117,6 +117,11 @@ app.get("/rest/maincategoryname/:mainCategoryId", async (req, res) => {
   APIManager.getMainCategoryName(mainCategoryId, res);
 });
 
+app.get("/rest/subcategoryname/:subCategoryId", async (req, res) => {
+  let subCategoryId = Number(req.params.subCategoryId);
+  APIManager.getSubCategoryName(subCategoryId, res);
+});
+
 app.get("/rest/subcategories/:mainCategoryId", async (req, res) => {
   let mainCategoryId = Number(req.params.mainCategoryId);
   APIManager.getAllSubCategoriesByMainCategoryId(mainCategoryId, res);
