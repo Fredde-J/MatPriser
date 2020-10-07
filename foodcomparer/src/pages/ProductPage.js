@@ -7,7 +7,7 @@ import { Link, withRouter } from "react-router-dom";
 import { Card, Form, Input, Label } from "reactstrap";
 import ProductCard from "../components/ProductCard";
 import { ProductContext } from "../ContextProviders/ProductContextProvider";
-import { Row, Col } from "reactstrap";
+import { Row, Button } from "reactstrap";
 import "../css/ProductPageStyling.css";
 
 const ProductPage = (props) => {
@@ -96,61 +96,79 @@ const ProductPage = (props) => {
 
   return (
     <div>
-        <Card className="row">
-          <div className="card-header col-sm-12 d-flex flex-wrap justify-content-left mb-1">{mainCategoryName[0]
-              ? mainCategoryName.map((mainCategory, i) => (
+      <Card className="row">
+        <div className="card-header col-sm-12 d-flex flex-wrap justify-content-left mb-1">
+          {mainCategoryName[0]
+            ? mainCategoryName.map((mainCategory, i) => (
                 <h2>{mainCategory.name}</h2>
               ))
-              : null
-            }</div>
-          <div className="d-flex flex-wrap justify-content-center mb-3">
-            {subcategories[0]
-              ? subcategories.map((subcategory, i) => (
-                  <Link
-                    to={{pathname: "/sproducts/" + subcategory.id,
-                  state: {products: initData}}}
-                    key={String.valueOf(subcategory.id) + i}
-                    className="btn  bg-light text-dark mt-2 mr-3 ml-3"
-                  >
-                    {subcategory.name}
-                  </Link>
-                ))
-              : null}
-          </div>
-          <div className="d-flex flex-wrap justify-content-left mb-1 ml-5">
-            <Form id="eco-checkbox-form">
-              <Input type="checkbox" id="ecocheck" onClick={toggleEco} />
-              <Label for="ecocheck" check>
-                Visa endast ekoprodukter
-              </Label>
-            </Form>
-          </div>
-        </Card>
-        <Row className="d-flex justify-content-center mt-3">
-          {!onlyEco
-            ? initData
-                .slice(start, finish)
-                .map((product, i) => (
-                  <ProductCard key={String.valueOf(product.id) + i} product={product} />
-                ))
-            : initData
-                .filter((product) => product.isEco == 1)
-                .slice(start, finish)
-                .map((product, i) => (
-                  <ProductCard key={String.valueOf(product.id) + i} product={product} />
-                ))}
-        </Row>
+            : null}
+        </div>
+        <div className="d-flex flex-wrap justify-content-center mb-3">
+          {subcategories[0]
+            ? subcategories.map((subcategory, i) => (
+                <Link
+                  to={{
+                    pathname: "/sproducts/" + subcategory.id,
+                    state: { products: initData },
+                  }}
+                  key={String.valueOf(subcategory.id) + i}
+                  className="btn  bg-light text-dark mt-2 mr-3 ml-3"
+                >
+                  {subcategory.name}
+                </Link>
+              ))
+            : null}
+        </div>
+        <div className="d-flex flex-wrap justify-content-left mb-1 ml-5">
+          <Form id="eco-checkbox-form">
+            <Input type="checkbox" id="ecocheck" onClick={toggleEco} />
+            <Label for="ecocheck" check>
+              Visa endast ekoprodukter
+            </Label>
+          </Form>
+        </div>
+      </Card>
+      <Row className="d-flex justify-content-center mt-3">
+        {!onlyEco
+          ? initData
+              .slice(start, finish)
+              .map((product, i) => (
+                <ProductCard
+                  key={String.valueOf(product.id) + i}
+                  product={product}
+                />
+              ))
+          : initData
+              .filter((product) => product.isEco == 1)
+              .slice(start, finish)
+              .map((product, i) => (
+                <ProductCard
+                  key={String.valueOf(product.id) + i}
+                  product={product}
+                />
+              ))}
+      </Row>
+      <div className="page-btn-div">
         {less && (
-          <button className="switch-page-btn" onClick={() => previousPage()}>
+          <Button
+            className="switch-page-btn"
+            id="prev-btn"
+            onClick={() => previousPage()}
+          >
             Föregående
-          </button>
+          </Button>
         )}
         {more && (
-          <button className="switch-page-btn" onClick={() => nextPage()}>
+          <Button
+            className="switch-page-btn"
+            id="next-btn"
+            onClick={() => nextPage()}
+          >
             Nästa
-          </button>
+          </Button>
         )}
-      {/* )} */}
+      </div>
     </div>
   );
 };
