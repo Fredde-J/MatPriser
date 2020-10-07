@@ -19,7 +19,7 @@ const ShoppingListProductCard = (props) => {
           <Col xs="8">
             <Row>
               <Col xs="2">
-                <img id="product-img-icon" src={imgSrc} height="5vh" />
+                <img id="product-img-icon" src={imgSrc} height="5vh" alt="product icon" />
               </Col>
               <Col xs="10">
                 <Row>
