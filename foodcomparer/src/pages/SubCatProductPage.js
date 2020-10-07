@@ -40,12 +40,17 @@ const SubCatProductPage = (props) => {
      setstart(0);
      setFinish(perPage);
      setLess(false);
-     checkIsMore();
+     
    };
+   useEffect(() => {
+     checkIsMore();
+   }, [onlyEco])
 
  
    const checkIsMore = () => {
-      if (onlyEco && finish + perPage >= ecoProductLength ) {
+     console.log(finish + perPage, ecoProductLength, onlyEco)
+      if (onlyEco && finish + perPage > ecoProductLength ) {
+        console.log("hej");
         setMore(false);
       }
    }
@@ -88,13 +93,6 @@ const SubCatProductPage = (props) => {
      }
      window.scrollTo(0, 0);
    };
-   console.log(
-     mainCatProducts
-       .filter((product) => product.isEco === 1)
-       .filter(
-         (product) => product.subCategoryId == props.match.params.subCatId
-       ).length
-   );
 
   return (
     <div>

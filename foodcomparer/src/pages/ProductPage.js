@@ -28,6 +28,20 @@ const ProductPage = (props) => {
     getMainCategoryName();
   }, []);
 
+   useEffect(() => {
+     checkIsMore();
+   }, [onlyEco]);
+
+    const checkIsMore = () => {
+      if (
+        onlyEco &&
+        finish + perPage >
+          initData.filter((product) => product.isEco === 1).length
+      ) {
+        setMore(false);
+      }
+    };
+
   const getProducts = async () => {
     setInitData(
       await productContext.getProductsByMainCatId(props.match.params.mCatId)
@@ -46,6 +60,7 @@ const ProductPage = (props) => {
     setOnlyEco(!onlyEco);
     setstart(0);
     setFinish(perPage);
+    setLess(false);
   };
 
   const nextPage = () => {
