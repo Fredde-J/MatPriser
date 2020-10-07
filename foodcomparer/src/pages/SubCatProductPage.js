@@ -42,16 +42,18 @@ const SubCatProductPage = (props) => {
      setLess(false);
      
    };
-   useEffect(() => {
+   useEffect(()=> {
      checkIsMore();
-   }, [onlyEco])
+   },[onlyEco, productLength, ecoProductLength])
 
  
    const checkIsMore = () => {
-     console.log(finish + perPage, ecoProductLength, onlyEco)
-      if (onlyEco && finish + perPage > ecoProductLength ) {
-        console.log("hej");
+     console.log(finish + perPage, productLength, more)
+      if (!onlyEco && finish + perPage >= productLength || onlyEco && finish + perPage >= ecoProductLength) {
+        console.log("hej")
         setMore(false);
+      }else{
+        setMore(true);
       }
    }
 

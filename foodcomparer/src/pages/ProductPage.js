@@ -30,15 +30,17 @@ const ProductPage = (props) => {
 
    useEffect(() => {
      checkIsMore();
-   }, [onlyEco]);
+   }, [onlyEco, initData]);
 
     const checkIsMore = () => {
-      if (
+      if (!onlyEco && finish + perPage > initData.length ||
         onlyEco &&
         finish + perPage >
           initData.filter((product) => product.isEco === 1).length
       ) {
         setMore(false);
+      }else{
+        setMore(true);
       }
     };
 
