@@ -49,7 +49,7 @@ const SubCatProductPage = (props) => {
  
    const checkIsMore = () => {
      console.log(finish + perPage, productLength, more)
-      if (!onlyEco && finish + perPage >= productLength || onlyEco && finish + perPage >= ecoProductLength) {
+      if (!onlyEco && perPage>= productLength || onlyEco && perPage >= ecoProductLength) {
         console.log("hej")
         setMore(false);
       }else{

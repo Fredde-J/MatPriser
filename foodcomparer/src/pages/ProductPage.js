@@ -33,9 +33,9 @@ const ProductPage = (props) => {
    }, [onlyEco, initData]);
 
     const checkIsMore = () => {
-      if (!onlyEco && finish + perPage > initData.length ||
+      if (!onlyEco && perPage > initData.length ||
         onlyEco &&
-        finish + perPage >
+        perPage >
           initData.filter((product) => product.isEco === 1).length
       ) {
         setMore(false);
