@@ -3,12 +3,13 @@ import { withRouter } from "react-router-dom";
 import ShoppingListCard from "../components/ShoppingListCard";
 import ShoppingListProductCard from "../components/ShoppingListProductCard";
 import { ProductContext } from "../ContextProviders/ProductContextProvider";
-import {Button} from "reactstrap"
+import { Button } from "reactstrap";
 
 const ShoppingListPage = () => {
   const [list, setList] = useState([]);
   const [load, setLoad] = useState(false);
   const productContext = useContext(ProductContext);
+  const [toggle, setToggle] = useState(false);
 
   const populateList = () => {
     if (
@@ -32,13 +33,18 @@ const ShoppingListPage = () => {
     );
     shoppingListFromLocalStore.forEach((items) => {
       for (let i = items.length - 1; i >= 0; i--) {
-        if (products[i] === undefined) {
-        } else if (items[i].id === products[i].id) {
-          items[i].amount++;
+        for (let j = products.length - 1; j >= 0; j--) {
+          if (products[i] === undefined) {
+            console.log("product has been removed");
+          } else if (items[i].id === products[j].id) {
+            console.log("same", products[j].id, items[i].id);
+            items[i].amount++;
+            products.splice(j, 1);
+          }
         }
       }
     });
-  
+
     localStorage.setItem(
       "shoppingList",
       JSON.stringify(shoppingListFromLocalStore)
@@ -55,29 +61,32 @@ const ShoppingListPage = () => {
     );
     shoppingListFromLocalStore.forEach((items) => {
       for (let i = items.length - 1; i >= 0; i--) {
-        if (products[i] === undefined) {
-        } else if (items[i].id === products[i].id) {
-          items[i].amount--;
+        for (let j = products.length - 1; j >= 0; j--) {
+          if (products[i] === undefined) {
+            console.log("product has been removed");
+          } else if (items[i].id === products[j].id) {
+            console.log("same", products[j].id, items[i].id);
+            items[i].amount--;
+            products.splice(j, 1);
+          }
         }
       }
     });
-   
-    let filteredShoppingList = shoppingListFromLocalStore.filter(items => {
-      if (items.every(item => item.amount > 0)) {
-        return items
+
+    let filteredShoppingList = shoppingListFromLocalStore.filter((items) => {
+      if (items.every((item) => item.amount > 0)) {
+        return items;
       }
-    })
-    localStorage.setItem(
-      "shoppingList",
-      JSON.stringify(filteredShoppingList)
-    );
+    });
+    localStorage.setItem("shoppingList", JSON.stringify(filteredShoppingList));
     setLoad(false);
   };
 
-  const clearLocalStore = ()=>{
+  const clearLocalStore = () => {
     localStorage.clear();
-    setLoad(false)
-  }
+    setLoad(false);
+    setToggle(false);
+  };
 
   useEffect(() => {
     populateList();
@@ -107,7 +116,36 @@ const ShoppingListPage = () => {
       <br />
       {load && <PrintProducts />}
       <br />
-      <Button onClick={clearLocalStore}>Rensa inköps lista</Button>
+      <div className="row justify-content-md-center ">
+        {!toggle ? (
+          <Button
+            color="danger"
+            className="col-3"
+            onClick={() => {
+              setToggle(true);
+            }}
+          >
+            Rensa inköps lista
+          </Button>
+        ) : (
+          <div className="row justify-content-md-center ">
+            <h4 className="col-12 text-center">
+              Vill du verkligen ta bort inköps listan?
+            </h4>
+            <Button color="danger" className="mr-3" onClick={clearLocalStore}>
+              Ja
+            </Button>
+            <Button
+              color="danger"
+              onClick={() => {
+                setToggle(false);
+              }}
+            >
+              Nej
+            </Button>
+          </div>
+        )}
+      </div>
       <br />
     </>
   );

@@ -54,10 +54,10 @@ const ShoppingListCard = (props) => {
           {storeItems.map((storeItem, index) => {
             return (
               <div className="row" key={`${storeItem.name}${storeItem.id}+${index}`}>
-                <li key={index} className="col-3">
+                <li key={index} className="col-4">
                   {storeItem.name}:
                 </li>
-                <li className="col-3 text-center">antal: {storeItem.amount} st</li>
+                <li className="col-2 text-center">antal: {storeItem.amount} st</li>
                 {!storeItem.promotionType ? (
                   <li></li>
                 ) : (
