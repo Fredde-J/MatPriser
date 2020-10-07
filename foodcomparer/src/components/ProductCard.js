@@ -20,11 +20,11 @@ const ProductCard = (props) => {
   let productUnit;
   let promotionPrice;
   let ecoText;
-  let productTest;
   var pricePerItem = props.product.pricePerItem;
   var pricePerUnit = props.product.pricePerUnit;
   let productsToLs = []
   let shoppingListFromLocalStore;
+  let products;
 
   if(pricePerItem){
     pricePerItem = pricePerItem.toString();
@@ -74,35 +74,37 @@ const ProductCard = (props) => {
 
 
   const addToList = async ()=>{
-   let products = await productContext.getSimilarProducts(props.product.id);
+   console.log(props.product.id)
+   products = await productContext.getSimilarProducts(props.product.id);
    products.unshift(props.product)
+   products.forEach((product)=>{
+    product.amount = 1;
+  })
 
     if(localStorage.getItem('shoppingList')===null){
-      products.forEach((product)=>{
-        product.amount = 1;
-      })
       productsToLs.push(products)
-      localStorage.setItem('shoppingList',JSON.stringify(productsToLs))
-      
+      localStorage.setItem('shoppingList',JSON.stringify(productsToLs)) 
     }else{
       shoppingListFromLocalStore = localStorage.getItem("shoppingList")
       shoppingListFromLocalStore = JSON.parse(shoppingListFromLocalStore)
       shoppingListFromLocalStore.forEach((items)=>{
-       for (let i = items.length - 1; i <= 0 ; i--) {
-         if(items[i].id===products[i].id){
-          items[i].amount++ 
+       for (let i = items.length - 1; i >= 0 ; i--) {
+         if(products[i]===undefined){
+           console.log("product has been removed")
+         }
+         else if(items[i].id===products[i].id){
+          console.log("same")
+          items[i].amount++;
           products.splice(i,1)
          }
 
        }
       })
-      //console.log(productsToLs[0])
       if(products[0]!==null&&products[0]!==undefined){
-      shoppingListFromLocalStore.push(productsToLs)
+      shoppingListFromLocalStore.push(products)
       }
       localStorage.setItem('shoppingList', JSON.stringify(shoppingListFromLocalStore))
 
-      console.log(productsToLs) 
     }
      //Remove when product card is done
      let result = localStorage.getItem('shoppingList')
@@ -165,7 +167,6 @@ const ProductCard = (props) => {
         </span>
       </Card>
   );
-
-}
+};
 
 export default ProductCard;

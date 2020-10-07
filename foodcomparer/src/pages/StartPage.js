@@ -9,32 +9,33 @@ import {
   Col,
 } from "reactstrap";
 import CatagoryCard from "../components/CatagoryCard";
+import SearchBar from "../components/Searchbar";
 //import searchIcon from "/images/searchIcon.svg";
 import { CategoryContext } from "../ContextProviders/CategoryContextProvider";
 
 const StartPage = (props) => {
-  const searchIcon ="/images/searchIcon.svg"
+  const searchIcon = "/images/searchIcon.svg";
   const [showAllCatagorys, setShowAllCatagorys] = useState(false);
   const categories = useContext(CategoryContext);
 
   useEffect(() =>{
      
-    },[showAllCatagorys])
+  }, [showAllCatagorys])
+  const clearLocalStorageBtn = () => {
+    localStorage.clear();
+    console.log("localstorage has been cleared")
+    //REMOVE ALL REFERENCES OF ME BEFORE REVIEW, row 24-28 and 38
+  }
 
   return (
     <>
-      <br></br>
       <Row>
         <Col>
-          <InputGroup className="d-flex justify-content-center">
-            <InputGroupAddon addonType="append">
-              <Input placeholder="sök" />
-            </InputGroupAddon>
-            <Button>
-              <img src={searchIcon} alt="searchIcon"></img>
-            </Button>
-          </InputGroup>
+          <SearchBar />
         </Col>
+      </Row>
+      <Row>
+        <button onClick={clearLocalStorageBtn}>Clear Localstorage (Do after pulling dev)</button> {/*REMOVE BEFORE REVIEW*/}
       </Row>
 
       <Row className="d-flex justify-content-center mt-5">
