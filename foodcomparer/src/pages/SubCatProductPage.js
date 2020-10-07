@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
-import { Form, Input, Label } from "reactstrap";
+import { Col, Form, Input, Label } from "reactstrap";
 import ProductCard from "../components/ProductCard";
 import { ProductContext } from "../ContextProviders/ProductContextProvider";
 
@@ -16,12 +16,25 @@ const SubCatProductPage = (props) => {
   useEffect(() => {
     setMainCatProducts(props.history.location.state.products);
   });
+
+  useEffect(()=> {
+    checkIsMore();
+  }, [mainCatProducts])
   
    const toggleEco = () => {
      setOnlyEco(!onlyEco);
      setstart(0);
      setFinish(perPage);
    };
+
+   const checkIsMore = () => {
+     if(mainCatProducts
+            .filter(
+              (product) => product.subCategoryId == props.match.params.subCatId
+            ) < perPage){
+              setMore(false);
+            }
+   }
 
    const nextPage = () => {
      setLess(true);
@@ -89,16 +102,18 @@ const SubCatProductPage = (props) => {
                 product={product}
               />
             ))}
-      {less && (
-        <button className="switch-page-btn" onClick={() => previousPage()}>
-          Föregående
-        </button>
-      )}
-      {more && (
-        <button className="switch-page-btn" onClick={() => nextPage()}>
-          Nästa
-        </button>
-      )}
+      <div className="col-12">
+        {less && (
+          <button className="switch-page-btn" onClick={() => previousPage()}>
+            Föregående
+          </button>
+        )}
+        {more && (
+          <button className="switch-page-btn" onClick={() => nextPage()}>
+            Nästa
+          </button>
+        )}
+      </div>
     </div>
   );
 };
