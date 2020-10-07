@@ -53,7 +53,7 @@ const ShoppingListCard = (props) => {
         <ul style={{ listStyleType: "none" }}>
           {storeItems.map((storeItem, index) => {
             return (
-              <div className="row">
+              <div className="row" key={`${storeItem.name}${storeItem.id}+${index}`}>
                 <li key={index} className="col-4">
                   {storeItem.name}:
                 </li>
