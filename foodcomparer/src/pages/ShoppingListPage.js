@@ -130,7 +130,7 @@ const ShoppingListPage = () => {
         ) : (
           <div className="row justify-content-md-center ">
             <h4 className="col-12 text-center">
-              Vill du verkligen ta bort inköps listan?
+              Vill du verkligen rensa inköpslistan?
             </h4>
             <Button color="danger" className="mr-3" onClick={clearLocalStore}>
               Ja
