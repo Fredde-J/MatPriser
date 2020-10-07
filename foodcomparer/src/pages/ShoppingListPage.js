@@ -9,6 +9,7 @@ const ShoppingListPage = () => {
   const [list, setList] = useState([]);
   const [load, setLoad] = useState(false);
   const productContext = useContext(ProductContext);
+  const [toggle, setToggle] = useState(false);
 
   const populateList = () => {
     if (
@@ -84,6 +85,7 @@ const ShoppingListPage = () => {
   const clearLocalStore = () => {
     localStorage.clear();
     setLoad(false);
+    setToggle(false);
   };
 
   useEffect(() => {
@@ -114,7 +116,36 @@ const ShoppingListPage = () => {
       <br />
       {load && <PrintProducts />}
       <br />
-      <Button onClick={clearLocalStore}>Rensa inköps lista</Button>
+      <div className="row justify-content-md-center ">
+        {!toggle ? (
+          <Button
+            color="danger"
+            className="col-3"
+            onClick={() => {
+              setToggle(true);
+            }}
+          >
+            Rensa inköps lista
+          </Button>
+        ) : (
+          <div className="row justify-content-md-center ">
+            <h4 className="col-12 text-center">
+              Vill du verkligen ta bort inköps listan?
+            </h4>
+            <Button color="danger" className="mr-3" onClick={clearLocalStore}>
+              Ja
+            </Button>
+            <Button
+              color="danger"
+              onClick={() => {
+                setToggle(false);
+              }}
+            >
+              Nej
+            </Button>
+          </div>
+        )}
+      </div>
       <br />
     </>
   );
