@@ -81,7 +81,7 @@ module.exports = class APIManager {
         "where product.mainCategoryId = maincategory.id " +
         " and BINARY UPPER(product.name) like ? " +
         " and product.isActive = 1 " +
-        " order by CASE " +
+        " order by maincategory.priority, CASE " +
         " WHEN product.name LIKE ? THEN 1 " +
         " WHEN product.name LIKE ? THEN 3 " +
         " ELSE 2 " +

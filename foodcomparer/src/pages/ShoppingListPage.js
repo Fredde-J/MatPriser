@@ -3,6 +3,7 @@ import { withRouter } from "react-router-dom";
 import ShoppingListCard from "../components/ShoppingListCard";
 import ShoppingListProductCard from "../components/ShoppingListProductCard";
 import { ProductContext } from "../ContextProviders/ProductContextProvider";
+import {Button} from "reactstrap"
 
 const ShoppingListPage = () => {
   const [list, setList] = useState([]);
@@ -25,9 +26,6 @@ const ShoppingListPage = () => {
   const onAddClick = async (product) => {
     let products = await productContext.getSimilarProducts(product.id);
     products.unshift(product);
-    products.forEach((_product) => {
-      _product.amount = 1;
-    });
 
     let shoppingListFromLocalStore = JSON.parse(
       localStorage.getItem("shoppingList")
@@ -37,13 +35,10 @@ const ShoppingListPage = () => {
         if (products[i] === undefined) {
         } else if (items[i].id === products[i].id) {
           items[i].amount++;
-          products.splice(i, 1);
         }
       }
     });
-    if (products[0] !== null && products[0] !== undefined) {
-      shoppingListFromLocalStore.push(products);
-    }
+  
     localStorage.setItem(
       "shoppingList",
       JSON.stringify(shoppingListFromLocalStore)
@@ -54,9 +49,6 @@ const ShoppingListPage = () => {
   const onRemoveClick = async (product) => {
     let products = await productContext.getSimilarProducts(product.id);
     products.unshift(product);
-    products.forEach((_product) => {
-      _product.amount = 1;
-    });
 
     let shoppingListFromLocalStore = JSON.parse(
       localStorage.getItem("shoppingList")
@@ -66,13 +58,10 @@ const ShoppingListPage = () => {
         if (products[i] === undefined) {
         } else if (items[i].id === products[i].id) {
           items[i].amount--;
-          products.splice(i, 1);
         }
       }
     });
-    if (products[0] !== null && products[0] !== undefined) {
-      shoppingListFromLocalStore.push(products);
-    }
+   
     let filteredShoppingList = shoppingListFromLocalStore.filter(items => {
       if (items.every(item => item.amount > 0)) {
         return items
@@ -84,6 +73,11 @@ const ShoppingListPage = () => {
     );
     setLoad(false);
   };
+
+  const clearLocalStore = ()=>{
+    localStorage.clear();
+    setLoad(false)
+  }
 
   useEffect(() => {
     populateList();
@@ -112,6 +106,9 @@ const ShoppingListPage = () => {
       <ShoppingListCard refresh={load} />
       <br />
       {load && <PrintProducts />}
+      <br />
+      <Button onClick={clearLocalStore}>Rensa inköps lista</Button>
+      <br />
     </>
   );
 };
