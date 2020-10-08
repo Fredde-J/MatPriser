@@ -89,14 +89,17 @@ const ProductCard = (props) => {
       shoppingListFromLocalStore = JSON.parse(shoppingListFromLocalStore)
       shoppingListFromLocalStore.forEach((items)=>{
        for (let i = items.length - 1; i >= 0 ; i--) {
-         if(products[i]===undefined){
-           console.log("product has been removed")
+         for(let j = products.length - 1; j >= 0 ; j--){
+          if(products[i]===undefined){
+            console.log("product has been removed")
+          }
+          else if(items[i].id===products[j].id){
+           console.log("same", products[j].id, items[i].id)
+           items[i].amount++;
+           products.splice(j,1)
+          }
          }
-         else if(items[i].id===products[i].id){
-          console.log("same")
-          items[i].amount++;
-          products.splice(i,1)
-         }
+         
 
        }
       })
@@ -167,7 +170,6 @@ const ProductCard = (props) => {
         </span>
       </Card>
   );
-
-}
+};
 
 export default ProductCard;

@@ -81,7 +81,7 @@ module.exports = class APIManager {
         "where product.mainCategoryId = maincategory.id " +
         " and BINARY UPPER(product.name) like ? " +
         " and product.isActive = 1 " +
-        " order by CASE " +
+        " order by maincategory.priority, CASE " +
         " WHEN product.name LIKE ? THEN 1 " +
         " WHEN product.name LIKE ? THEN 3 " +
         " ELSE 2 " +
@@ -175,6 +175,24 @@ module.exports = class APIManager {
       }
     );
   }
+
+  static getSubCategoryName(subCategoryId, res) {
+    con.query(
+      "SELECT maincategory.name mainCategoryName, subcategory.name subCategoryName "+
+      " FROM subcategory, "+
+      "      maincategory "+
+      " WHERE maincategory.id = subcategory.mainCategoryId "+
+      " AND subcategory.id =" + subCategoryId,
+      (err, rows, fields) => {
+        if (!err) {
+          res.send(rows);
+        } else {
+          console.log(err);
+        }
+      }
+    );
+  }
+  
 
   static getAllSubCategoriesByMainCategoryId(maincategoryId, res) {
     con.query(

@@ -4,7 +4,7 @@ import willys from "../images/willys.jpg";
 import coop from "../images/coop4.png";
 import hemkop from "../images/hemkop.jpg";
 
-const ShoppingListCard = () => {
+const ShoppingListCard = (props) => {
   const [coopTotalPrice, setcoopTotalPrice] = useState(0);
   const [willysTotalPrice, setwillysTotalPrice] = useState(0);
   const [hemkopTotalPrice, sethemkopTotalPrice] = useState(0);
@@ -23,19 +23,19 @@ const ShoppingListCard = () => {
       items.forEach((item) => {
         if (item.promotionPrice !== null) {
           if (item.storeId === 1) {
-            coopPrices += item.promotionPrice;
+            coopPrices += (item.promotionPrice * item.amount);
           } else if (item.storeId === 2) {
-            hemkopPrices += item.promotionPrice;
+            hemkopPrices += item.promotionPrice * item.amount;
           } else if (item.storeId === 3) {
-            willysPrices += item.promotionPrice;
+            willysPrices += item.promotionPrice * item.amount;
           }
         } else {
           if (item.storeId === 1) {
-            coopPrices += item.pricePerItem;
+            coopPrices += item.pricePerItem * item.amount;
           } else if (item.storeId === 2) {
-            hemkopPrices += item.pricePerItem;
+            hemkopPrices += item.pricePerItem * item.amount;
           } else if (item.storeId === 3) {
-            willysPrices += item.pricePerItem;
+            willysPrices += item.pricePerItem * item.amount;
           }
         }
       });
@@ -53,33 +53,33 @@ const ShoppingListCard = () => {
         <ul style={{ listStyleType: "none" }}>
           {storeItems.map((storeItem, index) => {
             return (
-              <div class="row">
-                <li key={index} class="col-3">
+              <div className="row" key={`${storeItem.name}${storeItem.id}+${index}`}>
+                <li key={index} className="col-4">
                   {storeItem.name}:
                 </li>
-                <li class="col-3 text-center">antal: {storeItem.amount} st</li>
+                <li className="col-2 text-center">antal: {storeItem.amount} st</li>
                 {!storeItem.promotionType ? (
                   <li></li>
                 ) : (
-                  <li class="col-2 text-center text-danger">
+                  <li className="col-2 text-center text-danger">
                     {storeItem.promotionType}
                   </li>
                 )}
                 {!storeItem.promotionConditionLabel ? (
                   <li></li>
                 ) : (
-                  <li class="col-2 text-center text-danger">
+                  <li className="col-2 text-center text-danger">
                     {storeItem.promotionConditionLabel}
                   </li>
                 )}
                 {!storeItem.promotionPrice ? (
-                  <li class="col text-right">
+                  <li className="col text-right">
                     {storeItem.pricePerItem}
                     {storeItem.unit} {storeItem.pricePerUnit}{" "}
                     {storeItem.compareUnit}
                   </li>
                 ) : (
-                  <li class="col text-right text-danger">
+                  <li className="col text-right text-danger">
                     {storeItem.promotionPrice}
                     {storeItem.unit} {storeItem.pricePerUnit}{" "}
                     {storeItem.compareUnit}
@@ -117,8 +117,13 @@ const ShoppingListCard = () => {
   useEffect(() => {
     if (localStorage.getItem("shoppingList") !== null) {
       getTotalPrice();
+    }else{
+      setStoreItems([])
+      setcoopTotalPrice(0)
+      sethemkopTotalPrice(0)
+      setwillysTotalPrice(0)
     }
-  }, []);
+  }, [props.refresh]);
 
   return (
     <>
@@ -173,7 +178,7 @@ const ShoppingListCard = () => {
       <div>
         <Modal isOpen={modal} toggle={toggle} size="xl">
           <ModalHeader toggle={toggle}>Inköpslista</ModalHeader>
-          <ModalBody class="container">{getStoreItems()}</ModalBody>
+          <ModalBody className="container">{getStoreItems()}</ModalBody>
         </Modal>
       </div>
     </>
