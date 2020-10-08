@@ -176,6 +176,24 @@ module.exports = class APIManager {
     );
   }
 
+  static getSubCategoryName(subCategoryId, res) {
+    con.query(
+      "SELECT maincategory.name mainCategoryName, subcategory.name subCategoryName "+
+      " FROM subcategory, "+
+      "      maincategory "+
+      " WHERE maincategory.id = subcategory.mainCategoryId "+
+      " AND subcategory.id =" + subCategoryId,
+      (err, rows, fields) => {
+        if (!err) {
+          res.send(rows);
+        } else {
+          console.log(err);
+        }
+      }
+    );
+  }
+  
+
   static getAllSubCategoriesByMainCategoryId(maincategoryId, res) {
     con.query(
       "SELECT * FROM subcategory where mainCategoryId = " +
