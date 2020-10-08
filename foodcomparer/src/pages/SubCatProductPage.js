@@ -3,6 +3,7 @@ import { withRouter } from "react-router-dom";
 import { Card, Row, Button, Col, Form, Input, Label } from "reactstrap";
 import ProductCard from "../components/ProductCard";
 import "../css/ProductPageStyling.css";
+import axios from "axios";
 
 const SubCatProductPage = (props) => {
   const [mainCatProducts, setMainCatProducts] = useState([]);
@@ -14,9 +15,14 @@ const SubCatProductPage = (props) => {
   const [finish, setFinish] = useState(perPage);
   const [productLength, setProductLength] = useState();
   const [ecoProductLength, setEcoProductLength] = useState();
+  const [subCategoryName, setSubCategoryName] = useState([]);
 
   useEffect(() => {
     setMainCatProducts(props.history.location.state.products);
+  }, []);
+
+  useEffect(() => {
+    setSubCategoryName(getSubCategoryName());
   }, []);
 
   useEffect(() => {
@@ -35,6 +41,28 @@ const SubCatProductPage = (props) => {
     );
   }, [mainCatProducts]);
 
+  const getSubCategoryName = async () => {
+    let error;
+    let result = await axios
+      .get(
+        "http://localhost:4000/rest/subcategoryname/" +
+          props.match.params.subCatId
+      )
+      .then((response) => {
+        return response.data;
+      })
+      .then((result) => {
+        setSubCategoryName(result);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
+  const values = {
+    subCategoryName,
+  };
+
   const toggleEco = () => {
     setOnlyEco(!onlyEco);
     setstart(0);
@@ -51,7 +79,7 @@ const SubCatProductPage = (props) => {
       (!onlyEco && perPage >= productLength) ||
       (onlyEco && perPage >= ecoProductLength)
     ) {
-      console.log("hej");
+      //console.log("hej");
       setMore(false);
     } else {
       setMore(true);
@@ -90,7 +118,15 @@ const SubCatProductPage = (props) => {
   return (
     <div>
       <Card className="row">
-        <div className="card-header col-sm-12 d-flex flex-wrap justify-content-left mb-1"></div>
+        <div className="card-header col-sm-12 d-flex flex-wrap justify-content-left mb-1">
+          {subCategoryName[0] ? (
+            <h4>
+              {subCategoryName[0].mainCategoryName +
+                " / " +
+                subCategoryName[0].subCategoryName}
+            </h4>
+          ) : null}
+        </div>
         <div className="d-flex flex-wrap justify-content-left mb-1 ml-5">
           <Form id="eco-checkbox-form">
             <Input type="checkbox" id="ecocheck" onClick={toggleEco} />
