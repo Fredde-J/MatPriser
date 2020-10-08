@@ -4,10 +4,10 @@ import React, {
   useState,
 } from "react";
 import { Link, withRouter } from "react-router-dom";
-import { Card, Form, Input, Label } from "reactstrap";
+import { Button, Card, Form, Input, Label, Row } from "reactstrap";
 import ProductCard from "../components/ProductCard";
 import { ProductContext } from "../ContextProviders/ProductContextProvider";
-import { Row, Col } from "reactstrap";
+import "../css/ProductPageStyling.css";
 
 const ProductPage = (props) => {
   let productContext = useContext(ProductContext);
@@ -25,6 +25,22 @@ const ProductPage = (props) => {
     getProducts();
   }, []);
 
+   useEffect(() => {
+     checkIsMore();
+   }, [onlyEco, initData]);
+
+   const checkIsMore = () => {
+     if (
+       (!onlyEco && perPage > initData.length) ||
+       (onlyEco &&
+         perPage > initData.filter((product) => product.isEco === 1).length)
+     ) {
+       setMore(false);
+     } else {
+       setMore(true);
+     }
+   };
+
   const getProducts = async () => {
     setInitData(
       await productContext.getProductsByName(props.match.params.text)
@@ -32,38 +48,42 @@ const ProductPage = (props) => {
   };
    
   const toggleEco = () => {
-    setOnlyEco(!onlyEco);
-    setstart(0);
-    setFinish(perPage);
+     setOnlyEco(!onlyEco);
+     setstart(0);
+     setFinish(perPage);
+     setLess(false);
   };
 
   const nextPage = () => {
-    setLess(true);
-    setstart(finish);
-    if (!onlyEco && finish + perPage > initData.length ){
-      setFinish(initData.length)
-      setMore(false);
-    }else if(onlyEco && finish + perPage > initData.filter((product) => product.isEco === 1).length){
-      setFinish(initData.filter((product) => product.isEco === 1).length);
-      setMore(false);
-    }
-    else{
-      setFinish(finish+perPage)
-    }
-    window.scrollTo(0, 0);
+     setLess(true);
+     setstart(finish);
+     if (!onlyEco && finish + perPage > initData.length) {
+       setFinish(initData.length);
+       setMore(false);
+     } else if (
+       onlyEco &&
+       finish + perPage >
+         initData.filter((product) => product.isEco === 1).length
+     ) {
+       setFinish(initData.filter((product) => product.isEco === 1).length);
+       setMore(false);
+     } else {
+       setFinish(finish + perPage);
+     }
+     window.scrollTo(0, 0);
   };
 
   const previousPage = () => {
-     if (finish-perPage <= perPage) {
+     if (finish - perPage <= perPage) {
        setFinish(perPage);
        setstart(0);
-       setLess(false)
+       setLess(false);
      } else {
-       setFinish(finish - perPage);
-    setstart(start - (finish - start));
+       setFinish(start);
+       setstart(start - perPage);
      }
-    setMore(true);
-    window.scrollTo(0, 0);
+     setMore(true);
+     window.scrollTo(0, 0);
   }
 
   return (
@@ -101,17 +121,26 @@ const ProductPage = (props) => {
                 />
               ))}
       </Row>
-      {less && (
-        <button className="switch-page-btn" onClick={() => previousPage()}>
-          Föregående
-        </button>
-      )}
-      {more && (
-        <button className="switch-page-btn" onClick={() => nextPage()}>
-          Nästa
-        </button>
-      )}
-      {/* )} */}
+      <div className="page-btn-div">
+        {less && (
+          <Button
+            className="switch-page-btn"
+            id="prev-btn"
+            onClick={() => previousPage()}
+          >
+            Föregående
+          </Button>
+        )}
+        {more && (
+          <Button
+            className="switch-page-btn"
+            id="next-btn"
+            onClick={() => nextPage()}
+          >
+            Nästa
+          </Button>
+        )}
+      </div>
     </div>
   );
 };
