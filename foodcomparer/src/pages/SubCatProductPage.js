@@ -90,6 +90,7 @@ const SubCatProductPage = (props) => {
   return (
     <div>
       <Card className="row">
+        <div className="card-header col-sm-12 d-flex flex-wrap justify-content-left mb-1"></div>
         <div className="d-flex flex-wrap justify-content-left mb-1 ml-5">
           <Form id="eco-checkbox-form">
             <Input type="checkbox" id="ecocheck" onClick={toggleEco} />
