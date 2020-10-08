@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
-import { Button, Col, Form, Input, Label } from "reactstrap";
+import { Card, Row, Button, Col, Form, Input, Label } from "reactstrap";
 import ProductCard from "../components/ProductCard";
 import "../css/ProductPageStyling.css";
 
@@ -17,10 +17,9 @@ const SubCatProductPage = (props) => {
 
   useEffect(() => {
     setMainCatProducts(props.history.location.state.products);
-  },[]);
+  }, []);
 
   useEffect(() => {
-
     setProductLength(
       mainCatProducts.filter(
         (product) => product.subCategoryId == props.match.params.subCatId
@@ -28,114 +27,122 @@ const SubCatProductPage = (props) => {
     );
 
     setEcoProductLength(
-      mainCatProducts.filter(
-        (product) => product.subCategoryId == props.match.params.subCatId
-      ).filter((product) => product.isEco === 1).length
+      mainCatProducts
+        .filter(
+          (product) => product.subCategoryId == props.match.params.subCatId
+        )
+        .filter((product) => product.isEco === 1).length
     );
+  }, [mainCatProducts]);
 
-  }, [mainCatProducts])
-  
-   const toggleEco = () => {
-     setOnlyEco(!onlyEco);
-     setstart(0);
-     setFinish(perPage);
-     setLess(false);
-     
-   };
-   useEffect(()=> {
-     checkIsMore();
-   },[onlyEco, productLength, ecoProductLength])
+  const toggleEco = () => {
+    setOnlyEco(!onlyEco);
+    setstart(0);
+    setFinish(perPage);
+    setLess(false);
+  };
+  useEffect(() => {
+    checkIsMore();
+  }, [onlyEco, productLength, ecoProductLength]);
 
- 
-   const checkIsMore = () => {
-     console.log(finish + perPage, productLength, more)
-      if (!onlyEco && perPage>= productLength || onlyEco && perPage >= ecoProductLength) {
-        console.log("hej")
-        setMore(false);
-      }else{
-        setMore(true);
-      }
-   }
-
-   const nextPage = () => {
-     setLess(true);
-     setstart(finish);
-     if (
-       !onlyEco &&
-       finish + perPage > productLength
-     ) 
-     {
-       setFinish(productLength);
-       setMore(false);
-     } 
-     else if 
-     (
-       onlyEco &&
-       finish + perPage > ecoProductLength
-     ) 
-     {
-       setFinish(ecoProductLength);
-       setMore(false);
-     } else {
-       setFinish(finish + perPage);
-     }
-     window.scrollTo(0, 0);
-   };
-
-   const previousPage = () => {
+  const checkIsMore = () => {
+    console.log(finish + perPage, productLength, more);
+    if (
+      (!onlyEco && perPage >= productLength) ||
+      (onlyEco && perPage >= ecoProductLength)
+    ) {
+      console.log("hej");
+      setMore(false);
+    } else {
       setMore(true);
-     console.log(start, finish)
-     if (finish - perPage <= perPage) {
-       setFinish(perPage);
-       setstart(0);
-       setLess(false);
-     } else {
-       setFinish(start);
-       setstart(start - perPage);
-     }
-     window.scrollTo(0, 0);
-   };
+    }
+  };
+
+  const nextPage = () => {
+    setLess(true);
+    setstart(finish);
+    if (!onlyEco && finish + perPage > productLength) {
+      setFinish(productLength);
+      setMore(false);
+    } else if (onlyEco && finish + perPage > ecoProductLength) {
+      setFinish(ecoProductLength);
+      setMore(false);
+    } else {
+      setFinish(finish + perPage);
+    }
+    window.scrollTo(0, 0);
+  };
+
+  const previousPage = () => {
+    setMore(true);
+    console.log(start, finish);
+    if (finish - perPage <= perPage) {
+      setFinish(perPage);
+      setstart(0);
+      setLess(false);
+    } else {
+      setFinish(start);
+      setstart(start - perPage);
+    }
+    window.scrollTo(0, 0);
+  };
 
   return (
     <div>
-      <Form id="eco-checkbox-form">
-        <Input type="checkbox" id="ecocheck" onClick={toggleEco} />
-        <Label for="ecocheck" check>
-          Visa endast ekoprodukter
-        </Label>
-      </Form>
-      {!onlyEco
-        ? mainCatProducts
-            .filter(
-              (product) => product.subCategoryId == props.match.params.subCatId
-            )
-            .slice(start, finish)
-            .map((product, i) => (
-              <ProductCard
-                key={String.valueOf(product.id) + i}
-                product={product}
-              />
-            ))
-        : mainCatProducts
-            .filter(
-              (product) => product.subCategoryId == props.match.params.subCatId
-            )
-            .filter((product) => product.isEco == 1)
-            .slice(start, finish)
-            .map((product, i) => (
-              <ProductCard
-                key={String.valueOf(product.id) + i}
-                product={product}
-              />
-            ))}
+      <Card className="row">
+        <div className="d-flex flex-wrap justify-content-left mb-1 ml-5">
+          <Form id="eco-checkbox-form">
+            <Input type="checkbox" id="ecocheck" onClick={toggleEco} />
+            <Label for="ecocheck" check>
+              Visa endast ekoprodukter
+            </Label>
+          </Form>
+        </div>
+      </Card>
+      <Row className="d-flex justify-content-center mt-3">
+        {!onlyEco
+          ? mainCatProducts
+              .filter(
+                (product) =>
+                  product.subCategoryId == props.match.params.subCatId
+              )
+              .slice(start, finish)
+              .map((product, i) => (
+                <ProductCard
+                  key={String.valueOf(product.id) + i}
+                  product={product}
+                />
+              ))
+          : mainCatProducts
+              .filter(
+                (product) =>
+                  product.subCategoryId == props.match.params.subCatId
+              )
+              .filter((product) => product.isEco == 1)
+              .slice(start, finish)
+              .map((product, i) => (
+                <ProductCard
+                  key={String.valueOf(product.id) + i}
+                  product={product}
+                />
+              ))}
+      </Row>
       <div className="page-btn-div">
         {less && (
-          <Button className="switch-page-btn" id="prev-btn" onClick={() => previousPage()}>
+          <Button
+            className="switch-page-btn"
+            id="prev-btn"
+            onClick={() => previousPage()}
+          >
             Föregående
           </Button>
         )}
         {more && (
-          <Button className="switch-page-btn" id="next-btn" onClick={() => nextPage()}>
+          <Button
+            className="switch-page-btn"
+            id="next-btn"
+            onClick={() => nextPage()}
+          >
             Nästa
           </Button>
         )}
