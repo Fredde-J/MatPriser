@@ -21,6 +21,16 @@ const ShoppingListProductCard = (props) => {
     props.handleRemoveClick(props.product);
   };
 
+  const priceToString = (price) => {
+    let stringPrice = price.toString();
+    if (stringPrice.includes(".")) {
+      if (stringPrice.substr(stringPrice.length - 3, 1) !== ".") {
+        stringPrice = stringPrice + "0";
+      }
+    }
+    return stringPrice.replace(".", ",");
+  };
+
   return (
     <>
       <Card body>
@@ -64,7 +74,7 @@ const ShoppingListProductCard = (props) => {
             xs="2"
             className="d-flex align-items-center"
           >
-            {props.product.pricePerItem} {props.product.unit}
+            {priceToString(props.product.pricePerItem)} {props.product.unit}
           </Col>
           }
         </Row>
