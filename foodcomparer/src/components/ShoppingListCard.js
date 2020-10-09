@@ -75,14 +75,14 @@ const ShoppingListCard = (props) => {
                 {!storeItem.promotionPrice ? (
                   <li className="col text-right">
                     {priceToString(storeItem.pricePerItem) } {" "}
-                    {storeItem.unit} {priceToString(storeItem.pricePerUnit)}{" "}
-                    {storeItem.compareUnit}
+                    {storeItem.unit} {storeItem.pricePerUnit ? priceToString(storeItem.pricePerUnit) : null}{" "}
+                    {storeItem.pricePerUnit ? storeItem.compareUnit : null}
                   </li>
                 ) : (
                   <li className="col text-right text-danger">
                     {storeItem.promotionPrice}{" "}
-                    {storeItem.unit} {priceToString(storeItem.pricePerUnit)}{" "}
-                    {storeItem.compareUnit}
+                    {storeItem.unit} {storeItem.pricePerUnit ? priceToString(storeItem.pricePerUnit) : null}{" "}
+                    {storeItem.pricePerUnit ? storeItem.compareUnit : null}
                   </li>
                 )}
               </div>

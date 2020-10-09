@@ -142,7 +142,7 @@ const ProductCard = (props) => {
           <CardText className="card-text">
             <span className="flex spaceB price-div priceBox">
                 <span className="flex spaceB dirCol">{pricePerItem} {props.product.unit}<br />
-                <span className="littleText">Jmf-pris {pricePerUnit} {props.product.compareUnit}</span>
+                <span className="littleText">{pricePerUnit ? 'Jmf-pris' : null} {pricePerUnit} {pricePerUnit ? props.product.compareUnit : null}</span>
                 </span>
                 {
                 props.product.promotionPrice || props.product.promotionConditionLabel ? 
