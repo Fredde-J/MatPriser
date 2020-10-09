@@ -1,0 +1,166 @@
+*{
+  box-sizing: border-box;
+}
+#productsContainer{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+.cardTop{
+  display: flex;
+  justify-content: space-between;
+}
+.storeLogo{
+  margin: 5px 3px 0px 0px;
+}
+.product-card{
+  position: relative;
+  display: flex;
+  float: left;
+  height: 379px;
+  width: 31%;
+  margin-bottom: 5px;
+}
+.list-icon{
+  margin-top: 5px;
+  width: 40px;
+  
+}
+.list-icon:hover,
+.list-icon:focus {
+  filter: invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%) contrast(97%);
+  cursor: pointer;
+}
+.card-title{
+  font-family: "OCR A Std", monospace;
+  margin-bottom: 0px; 
+  font-size: 15px;
+  font-weight: bold;
+  padding-left: 5px;
+  text-align: center;
+}
+
+.product-desc .card-title{  
+  background-color: #f7f0f0;
+}
+
+.card-text{
+  display: inline;
+  font-family: "OCR A Std", monospace;
+  font-size: 15px;
+  font-weight: bold;
+}
+.product-desc{
+  margin-bottom: 5px;
+  width: 100%;
+}
+.ecoBox{
+  background-color: green;
+  padding: 0 3px;
+  margin: 0px 5px 0px 3px;
+  border-radius: 5px;
+  max-height: 20px;
+  display: inline;
+}
+.eco{
+  color: #FFF;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+#Coop{
+  color: green;
+}
+#Hemköp{
+  color:red;
+
+}
+
+.mediaBox{
+  justify-content: center;
+  align-items: stretch
+}
+
+.cardMedia{
+  display: flex;
+  max-height: 180px;
+}
+
+#product-img{
+  display: block;
+  max-width:300px;
+  max-height:200px;
+  width: auto;
+  height: auto;
+}
+.store-div{
+  width: 50px;
+}
+
+.flex{
+  display: flex;
+}
+.spaceB{  
+  justify-content: space-between;
+}
+
+.dirCol{
+  flex-direction: column
+}
+
+.price-div{
+  color: gray;
+  right: 0px;
+  float: right;
+  text-align: right;
+  display: flex;
+}
+
+
+@media screen and (max-width: 600px) {
+  .product-card{
+  display: inline-block;
+  
+}
+
+}
+
+.discountPrice{
+  background-color: #f51630;
+  color: #fff;
+  border-color: transparent;
+  margin-left: 10px;
+  margin-right: 5px;
+  padding: 0px 1px;
+  display: flex;
+  justify-content: center;
+}
+
+.priceBoc{
+  padding: 3px 0px;
+}
+
+.littleText{
+  font-size: 12px;
+}
+
+.whiteBox{
+  background-color: #fff;
+  color: #000;
+  margin-top: 1px;
+  padding: 0px 2px;
+}
+
+.flag{
+  margin: 0px 5px 0px 5px;
+}
+
+.countrylabel{
+  display: flex;
+  flex-direction: row;
+  height: 15px;
+  font-size: 12px;
+  color: gray;
+  right: 0px;
+  margin: 0px 0px 5px 5px;
+}
