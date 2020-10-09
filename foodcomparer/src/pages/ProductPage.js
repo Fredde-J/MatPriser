@@ -26,7 +26,7 @@ const ProductPage = (props) => {
     getProducts();
     getSubCategories();
     getMainCategoryName();
-  });
+  },[]);
 
    useEffect(() => {
      checkIsMore();

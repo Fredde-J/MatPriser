@@ -24,8 +24,7 @@ const SubCatProductPage = (props) => {
 
   useEffect(() => {
     setSubCategoryNames()
-   // setSubCategoryName(subCategoryNameContext.getSubCategoryName(props.match.params.subCatId));
-  });
+  },[]);
 
   useEffect(() => {
     setProductLength(

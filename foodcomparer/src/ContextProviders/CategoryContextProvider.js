@@ -31,7 +31,7 @@ const CategoryContextProvider = (props) => {
 
   useEffect(() => {
     getCategories();
-  });
+  },[]);
 
   const values = {
     categories,

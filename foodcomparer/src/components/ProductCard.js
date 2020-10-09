@@ -104,8 +104,8 @@ const ProductCard = (props) => {
      productsToLs=[];
   }
   useEffect(() =>{
-  getStoreName()
-  })
+    getStoreName()
+  },[])
  
   
   return (
