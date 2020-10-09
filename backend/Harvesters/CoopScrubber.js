@@ -32,20 +32,23 @@ module.exports = class CoopScrubber extends Scrubber {
         else if(promotionComparisonPrice.includes("kr/lit"))
         { return 'kr/l'; }
       }
-      else if (comparisonPriceUnit == "/g" || comparisonPriceUnit == "/G" 
-                  || comparisonPriceUnit == "/g"  ||comparisonPriceUnit == "/GRM" 
-                  || comparisonPriceUnit == "gram ungefärlig vikt"){
+      if (comparisonPriceUnit.includes("/g") || comparisonPriceUnit.includes("/G") 
+                  || comparisonPriceUnit.includes("/g")  ||comparisonPriceUnit.includes("/GRM") 
+                  || comparisonPriceUnit.includes("gram ungefärlig vikt")){
         return 'kr/gr';
-      }else if (comparisonPriceUnit == "/kg" || comparisonPriceUnit == "/KG" || comparisonPriceUnit == "kg"){
+      }else if (comparisonPriceUnit.includes("/kg") || comparisonPriceUnit.includes("/KG") 
+        || comparisonPriceUnit.includes("kg")){
         return 'kr/kg';
-      }else if (comparisonPriceUnit == "/l" || comparisonPriceUnit == "/L" || comparisonPriceUnit == "LTR"){
+      }else if (comparisonPriceUnit.includes("/l") || comparisonPriceUnit.includes("/L") 
+        || comparisonPriceUnit.includes("LTR")){
         return 'kr/l';
-      }else if (comparisonPriceUnit == "/ml" || comparisonPriceUnit == "/ML" || comparisonPriceUnit == "MLT"){
+      }else if (comparisonPriceUnit.includes("/ml") || comparisonPriceUnit.includes("/ML") 
+        || comparisonPriceUnit.includes("MLT")){
         return 'kr/ml';
-      }else if (comparisonPriceUnit == "H87" || comparisonPriceUnit == "ST"){
+      }else if (comparisonPriceUnit.includes("/H87") || comparisonPriceUnit.includes("/ST")){
         return 'kr/st';
       }
-      else if (comparisonPriceUnit == 'undefined' || comparisonPriceUnit == null) {
+      else if (comparisonPriceUnit.includes('undefined') || comparisonPriceUnit == null) {
         return 'kr';
       }
       else{
