@@ -74,14 +74,14 @@ const ShoppingListCard = (props) => {
                 )}
                 {!storeItem.promotionPrice ? (
                   <li className="col text-right">
-                    {storeItem.pricePerItem}
-                    {storeItem.unit} {storeItem.pricePerUnit}{" "}
+                    {priceToString(storeItem.pricePerItem) } {" "}
+                    {storeItem.unit} {priceToString(storeItem.pricePerUnit)}{" "}
                     {storeItem.compareUnit}
                   </li>
                 ) : (
                   <li className="col text-right text-danger">
-                    {storeItem.promotionPrice}
-                    {storeItem.unit} {storeItem.pricePerUnit}{" "}
+                    {storeItem.promotionPrice}{" "}
+                    {storeItem.unit} {priceToString(storeItem.pricePerUnit)}{" "}
                     {storeItem.compareUnit}
                   </li>
                 )}
@@ -114,6 +114,18 @@ const ShoppingListCard = (props) => {
     }
   };
 
+  const priceToString = (price) =>{
+    
+     let newPrice = price.toString();
+      if(newPrice.includes('.')){
+        if( newPrice.substr(newPrice.length-3, 1) !== '.'){
+          newPrice = newPrice+"0";
+        }
+      }
+      return newPrice.replace(".",",")
+  
+  }
+
   useEffect(() => {
     if (localStorage.getItem("shoppingList") !== null) {
       getTotalPrice();
@@ -138,7 +150,7 @@ const ShoppingListCard = (props) => {
             <img src={willys} height="100vh" width="150vw" alt="affär"></img>
           </Col>
           <Col xs="6">
-            <h2 className="text-right mt-4">{willysTotalPrice} kr</h2>
+            <h2 className="text-right mt-4">{priceToString(willysTotalPrice)} kr</h2>
           </Col>
         </Row>
       </Card>
@@ -154,7 +166,7 @@ const ShoppingListCard = (props) => {
             <img src={coop} height="100vh" width="150vw" alt="affär"></img>
           </Col>
           <Col xs="6">
-            <h2 className="text-right mt-3">{coopTotalPrice} kr</h2>
+            <h2 className="text-right mt-3">{priceToString(coopTotalPrice)} kr</h2>
           </Col>
         </Row>
       </Card>
@@ -170,7 +182,7 @@ const ShoppingListCard = (props) => {
             <img src={hemkop} height="100 vh" width="150vw" alt="affär"></img>
           </Col>
           <Col xs="6">
-            <h2 className="text-right mt-3">{hemkopTotalPrice} kr</h2>
+            <h2 className="text-right mt-3">{priceToString(hemkopTotalPrice)} kr</h2>
           </Col>
         </Row>
       </Card>
