@@ -114,14 +114,15 @@ const ShoppingListCard = (props) => {
     }
   };
 
-  const priceToString = (price) =>{
-    
-     let newPrice = price.toString();
-      if(newPrice.includes('.')){
-        if( newPrice.substr(newPrice.length-3, 1) !== '.'){
+  const priceToString = (price) => {
+    price = parseFloat(price).toLocaleString("sv");
+    let newPrice = price.toString();
+      if(newPrice.includes(',')){
+        if( newPrice.substr(newPrice.length-3, 1) !== ','){
           newPrice = newPrice+"0";
         }
-      }
+    }
+    
       return newPrice.replace(".",",")
   
   }
