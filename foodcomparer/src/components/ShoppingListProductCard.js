@@ -74,7 +74,7 @@ const ShoppingListProductCard = (props) => {
             xs="2"
             className="d-flex align-items-center"
           >
-            {priceToString(props.product.pricePerItem)} {props.product.unit}
+            {props.product.pricePerItem ? priceToString(props.product.pricePerItem) : null} {props.product.unit}
           </Col>
           }
         </Row>
