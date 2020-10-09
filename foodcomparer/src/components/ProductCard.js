@@ -33,6 +33,7 @@ const ProductCard = (props) => {
         pricePerItem = pricePerItem+"0";
       }
     }
+    pricePerItem = pricePerItem.replace('.',',');
   }
   if(pricePerUnit){
     pricePerUnit = pricePerUnit.toString();
@@ -41,6 +42,7 @@ const ProductCard = (props) => {
         pricePerUnit = pricePerUnit+"0";
       }
     }
+    pricePerUnit = pricePerUnit.replace('.',',');
   }
 
   if (props.product.unit){
