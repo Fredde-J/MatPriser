@@ -1,27 +1,16 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, {  useContext} from "react";
 import { withRouter } from "react-router-dom";
 import {
-  InputGroup,
-  InputGroupAddon,
-  Button,
-  Input,
   Row,
   Col,
 } from "reactstrap";
-import CatagoryCard from "../components/CatagoryCard";
+import CatagoryCard from "../components/CategoryCard";
 import SearchBar from "../components/Searchbar";
 //import searchIcon from "/images/searchIcon.svg";
 import { CategoryContext } from "../ContextProviders/CategoryContextProvider";
 
-const StartPage = (props) => {
-  const searchIcon = "/images/searchIcon.svg";
-  const [showAllCatagorys, setShowAllCatagorys] = useState(false);
+const StartPage = () => {
   const categories = useContext(CategoryContext);
-
-  useEffect(() =>{
-     
-  }, [showAllCatagorys])
-
   return (
     <>
       <Row>

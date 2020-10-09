@@ -35,9 +35,7 @@ const ShoppingListPage = () => {
       for (let i = items.length - 1; i >= 0; i--) {
         for (let j = products.length - 1; j >= 0; j--) {
           if (products[i] === undefined) {
-            console.log("product has been removed");
           } else if (items[i].id === products[j].id) {
-            console.log("same", products[j].id, items[i].id);
             items[i].amount++;
             products.splice(j, 1);
           }
@@ -63,9 +61,7 @@ const ShoppingListPage = () => {
       for (let i = items.length - 1; i >= 0; i--) {
         for (let j = products.length - 1; j >= 0; j--) {
           if (products[i] === undefined) {
-            console.log("product has been removed");
           } else if (items[i].id === products[j].id) {
-            console.log("same", products[j].id, items[i].id);
             items[i].amount--;
             products.splice(j, 1);
           }

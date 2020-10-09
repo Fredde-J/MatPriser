@@ -1,9 +1,7 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
-//import listIcon from "/images/listIcon.svg";
 import {Nav, NavItem, Navbar, NavbarText } from "reactstrap";
-
-import { pointer } from "../css/Header.css";
+import "../css/Header.css";
 const Header = (props) => {
   const goTohomepage = () => {
     props.history.push("/");

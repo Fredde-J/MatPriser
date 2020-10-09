@@ -7,7 +7,7 @@ import {
 } from "reactstrap";
 
 
-const CatagoryCard = (props) => {
+const CategoryCard = (props) => {
   const history = useHistory();
 
   const goToProducts = () => {
@@ -26,4 +26,4 @@ const CatagoryCard = (props) => {
     </>
   );
 };
-export default CatagoryCard;
+export default CategoryCard;

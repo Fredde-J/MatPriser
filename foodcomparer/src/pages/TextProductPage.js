@@ -3,7 +3,7 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { Button, Card, Form, Input, Label, Row } from "reactstrap";
 import ProductCard from "../components/ProductCard";
 import { ProductContext } from "../ContextProviders/ProductContextProvider";
@@ -18,8 +18,7 @@ const ProductPage = (props) => {
   const [less, setLess] = useState(false);
   const [start, setstart] = useState(0);
   const [finish, setFinish] = useState(perPage)
-  const [subcategories, setSubcategories] = useState([]);
-  const [mainCategoryName, setMainCategoryName] = useState([]);
+
 
   useEffect(() => {
     getProducts();

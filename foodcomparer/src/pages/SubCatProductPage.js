@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { withRouter } from "react-router-dom";
-import { Card, Row, Button, Col, Form, Input, Label } from "reactstrap";
+import { Card, Row, Button, Form, Input, Label } from "reactstrap";
 import ProductCard from "../components/ProductCard";
 import "../css/ProductPageStyling.css";
-import axios from "axios";
+import {CategoryContext} from "../ContextProviders/CategoryContextProvider"
 
 const SubCatProductPage = (props) => {
   const [mainCatProducts, setMainCatProducts] = useState([]);
@@ -16,52 +16,39 @@ const SubCatProductPage = (props) => {
   const [productLength, setProductLength] = useState();
   const [ecoProductLength, setEcoProductLength] = useState();
   const [subCategoryName, setSubCategoryName] = useState([]);
+  let subCategoryNameContext = useContext(CategoryContext);
 
   useEffect(() => {
     setMainCatProducts(props.history.location.state.products);
-  }, []);
+  },[props.history.location.state.products]);
 
   useEffect(() => {
-    setSubCategoryName(getSubCategoryName());
-  }, []);
+    setSubCategoryNames()
+   // setSubCategoryName(subCategoryNameContext.getSubCategoryName(props.match.params.subCatId));
+  });
 
   useEffect(() => {
     setProductLength(
       mainCatProducts.filter(
-        (product) => product.subCategoryId == props.match.params.subCatId
+        (product) => product.subCategoryId === props.match.params.subCatId
       ).length
     );
+
 
     setEcoProductLength(
       mainCatProducts
         .filter(
-          (product) => product.subCategoryId == props.match.params.subCatId
+          (product) => product.subCategoryId === props.match.params.subCatId
         )
         .filter((product) => product.isEco === 1).length
     );
   }, [mainCatProducts]);
 
-  const getSubCategoryName = async () => {
-    let error;
-    let result = await axios
-      .get(
-        "http://localhost:4000/rest/subcategoryname/" +
-          props.match.params.subCatId
-      )
-      .then((response) => {
-        return response.data;
-      })
-      .then((result) => {
-        setSubCategoryName(result);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  };
-
-  const values = {
-    subCategoryName,
-  };
+ const setSubCategoryNames= async ()=>{
+  let names = await subCategoryNameContext.getSubCategoryName(props.match.params.subCatId)
+  setSubCategoryName(names);
+  
+ }
 
   const toggleEco = () => {
     setOnlyEco(!onlyEco);
@@ -74,12 +61,11 @@ const SubCatProductPage = (props) => {
   }, [onlyEco, productLength, ecoProductLength]);
 
   const checkIsMore = () => {
-    console.log(finish + perPage, productLength, more);
     if (
       (!onlyEco && perPage >= productLength) ||
       (onlyEco && perPage >= ecoProductLength)
     ) {
-      //console.log("hej");
+
       setMore(false);
     } else {
       setMore(true);
@@ -103,7 +89,6 @@ const SubCatProductPage = (props) => {
 
   const previousPage = () => {
     setMore(true);
-    console.log(start, finish);
     if (finish - perPage <= perPage) {
       setFinish(perPage);
       setstart(0);

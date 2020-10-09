@@ -255,7 +255,7 @@ module.exports = class APIManager {
         return console.error(err.message);
       } else {
         console.log(
-          "storeId: " + storeId + " categoryId: " + mainCategoryId + " storeCategoryUrlId: " + storeCategoryUrlId + " succes!"
+          "storeId: " + storeId + " categoryId: " + mainCategoryId + " storeCategoryUrlId: " + storeCategoryUrlId + " success!"
         );
         this.deleteProductsByMainCategoryId(
           storeId,
@@ -387,7 +387,6 @@ module.exports = class APIManager {
               }
             );
           }
-          //console.log('null');
         } else {
           console.log(err);
         }
@@ -509,7 +508,6 @@ module.exports = class APIManager {
               "",
             function (err, result) {
               if (err) throw err;
-              //console.log(result.affectedRows + " record(s) updated");
             }
           );
         }

@@ -9,15 +9,12 @@ import {
 import willysLogo from "../images/willys.jpg";
 import coopLogo from "../images/coop4.png";
 import hemkopLogo from "../images/hemkop.jpg";
-import { setGlobalCssModule } from "reactstrap/lib/utils";
 
 const ProductCard = (props) => {
   const listIcon = "/images/listIcon.svg"
-  const [storeName, setStoreName] = useState([]);
   const [storeLogo, setStoreLogo] = useState([]);
   const productContext = useContext(ProductContext)
   let imgSrc = props.product.photoUrl.replace("tiff", "png");
-  let productUnit;
   let promotionPrice;
   let ecoText;
   var pricePerItem = props.product.pricePerItem;
@@ -45,9 +42,7 @@ const ProductCard = (props) => {
     pricePerUnit = pricePerUnit.replace('.',',');
   }
 
-  if (props.product.unit){
-    productUnit = "/"+props.product.unit;
-  }
+
 
   if(props.product.promotionPrice){
     promotionPrice = props.product.promotionPrice +" kr";
@@ -60,15 +55,12 @@ const ProductCard = (props) => {
   const getStoreName = () => {
     let storeId = props.product.storeId;
     if(storeId === 1){
-      setStoreName("Coop");
       setStoreLogo(coopLogo);
     }
     else if(storeId === 2){
-      setStoreName("Hemköp");
       setStoreLogo(hemkopLogo);
     }    
     else if(storeId === 3){
-      setStoreName("Willys");
       setStoreLogo(willysLogo);
     }
 
@@ -76,7 +68,6 @@ const ProductCard = (props) => {
 
 
   const addToList = async ()=>{
-   console.log(props.product.id)
    products = await productContext.getSimilarProducts(props.product.id);
    products.unshift(props.product)
    products.forEach((product)=>{
@@ -96,7 +87,6 @@ const ProductCard = (props) => {
             console.log("product has been removed")
           }
           else if(items[i].id===products[j].id){
-           console.log("same", products[j].id, items[i].id)
            items[i].amount++;
            products.splice(j,1)
           }
@@ -111,15 +101,11 @@ const ProductCard = (props) => {
       localStorage.setItem('shoppingList', JSON.stringify(shoppingListFromLocalStore))
 
     }
-     //Remove when product card is done
-     let result = localStorage.getItem('shoppingList')
-     console.log(JSON.parse(result))
-     //
      productsToLs=[];
   }
   useEffect(() =>{
   getStoreName()
-  },[])
+  })
  
   
   return (
@@ -131,11 +117,11 @@ const ProductCard = (props) => {
             alt="listIcon"
             onClick={addToList}
           ></img>
-          <img className="storeLogo" src={storeLogo} height="50vh"></img>
+          <img className="storeLogo" alt="Logo" src={storeLogo} height="50vh"></img>
         </span>
         <span className="flex mediaBox">
           <span className="cardMedia">
-            <img id="product-img" src={imgSrc} alt="Card image cap" />
+            <img id="product-img" alt={props.product.name} src={imgSrc} />
           </span>
         </span>
         <span className="product-desc">
@@ -150,7 +136,7 @@ const ProductCard = (props) => {
               }
               {
                 props.product.country === 'Sverige' ?
-                <span><img src="../images/SWE.png" className="flag" height="15vh"></img></span>
+                <span><img src="../images/SWE.png" alt="Swedish flag" className="flag" height="15vh"></img></span>
                 : ''
               }</span></CardText>
           <CardText className="card-text">

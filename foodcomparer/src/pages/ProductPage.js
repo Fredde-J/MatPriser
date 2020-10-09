@@ -26,17 +26,17 @@ const ProductPage = (props) => {
     getProducts();
     getSubCategories();
     getMainCategoryName();
-  }, []);
+  });
 
    useEffect(() => {
      checkIsMore();
    }, [onlyEco, initData]);
 
     const checkIsMore = () => {
-      if (!onlyEco && perPage > initData.length ||
-        onlyEco &&
+      if ((!onlyEco && perPage > initData.length)  ||
+        (onlyEco &&
         perPage >
-          initData.filter((product) => product.isEco === 1).length
+          initData.filter((product) => product.isEco === 1).length)
       ) {
         setMore(false);
       }else{

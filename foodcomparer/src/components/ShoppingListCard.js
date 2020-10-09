@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, Row, Col, Modal, ModalHeader, ModalBody } from "reactstrap";
 import willys from "../images/willys.jpg";
 import coop from "../images/coop4.png";
@@ -108,8 +108,6 @@ const ShoppingListCard = (props) => {
             }
           });
         });
-      } else {
-        console.log("localstore is empty");
       }
     }
   };
